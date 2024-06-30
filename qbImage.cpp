@@ -36,3 +36,68 @@ void qbImage::SetPixel(const int x, const int y, const double red, const double 
     m_gChannel[x][y] = green;
     m_bChannel[x][y] = blue;
 }
+
+void qbImage::Display()
+{
+    auto *tempPixels = new Uint32[m_xSize * m_ySize];
+    memset(tempPixels, 0, m_xSize * m_ySize * sizeof(Uint32));
+
+    for (int i = 0; i < m_xSize; ++i)
+    {
+        for (int j = 0; j < m_ySize; ++j)
+        {
+            tempPixels[j * m_xSize + i] = ConvertColor(m_rChannel[i][j], m_gChannel[i][j], m_bChannel[i][j]);
+        }
+    }
+
+    SDL_UpdateTexture(m_texture, NULL, tempPixels, m_xSize * sizeof(Uint32));
+
+    delete[] tempPixels;
+
+    SDL_Rect srcRect, bounds;
+    srcRect.x = 0;
+    srcRect.y = 0;
+    srcRect.w = m_xSize;
+    srcRect.h = m_ySize;
+    bounds = srcRect;
+
+    SDL_RenderCopy(m_renderer, m_texture, &srcRect, &bounds);
+}
+
+void qbImage::InitTexture()
+{
+    Uint32 rmask, gmask, bmask, amask;
+    #if SDL_BYTEORDER == SDL_BIG_ENDIAN
+        int shift = 8;
+        rmask = 0xff000000;
+        gmask = 0x00ff0000;
+        bmask = 0x0000ff00;
+        amask = 0x000000ff;
+    #else
+        rmask = 0x000000ff;
+        gmask = 0x0000ff00;
+        bmask = 0x00ff0000;
+        amask = 0xff000000;
+    #endif
+
+    if(m_texture != nullptr) SDL_DestroyTexture(m_texture);
+    SDL_Surface *tempSurface = SDL_CreateRGBSurface(0, m_xSize, m_ySize, 32, rmask, gmask, bmask, amask);
+    m_texture = SDL_CreateTextureFromSurface(m_renderer, tempSurface);
+    SDL_FreeSurface(tempSurface);
+}
+
+Uint32 qbImage::ConvertColor(const double red, const double green, const double blue)
+{
+    auto r = static_cast<unsigned char>(red);
+    auto g = static_cast<unsigned char>(green);
+    auto b = static_cast<unsigned char>(blue);
+
+    #if SDL_BYTEORDER == SDL_BIG_ENDIAN
+        Uint32 pixelColor = (r << 24) + (g << 16) + (b << 8) + 255;
+    #else
+        Uint32 pixelColor = (255 << 24) + (r << 16) + (g << 8) + b;
+    #endif
+
+    return pixelColor;
+}
+

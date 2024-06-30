@@ -20,7 +20,7 @@ class qbImage
         void Display();
 
     private:
-        Uint32 ConvertColor(double red, double green, double blue);
+        static Uint32 ConvertColor(double red, double green, double blue);
 
         void InitTexture();
 

@@ -6,6 +6,7 @@
 #define CAPP_H
 
 #include <SDL.h>
+#include "qbImage.h"
 
 class CApp
 {
@@ -18,6 +19,7 @@ class CApp
         void OnRender();
         void OnExit();
     private:
+        qbImage image;
         bool running;
         SDL_Window* window;
         SDL_Renderer* renderer;
