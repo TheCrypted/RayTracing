@@ -37,6 +37,9 @@ void qbImage::SetPixel(const int x, const int y, const double red, const double 
     m_bChannel[x][y] = blue;
 }
 
+int qbImage::GetXSize() const {return m_xSize;}
+int qbImage::GetYSize() const {return m_ySize;}
+
 void qbImage::Display()
 {
     auto *tempPixels = new Uint32[m_xSize * m_ySize];

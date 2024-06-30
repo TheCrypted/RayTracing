@@ -15,6 +15,9 @@ class qbImage
         qbImage();
         ~qbImage();
 
+        [[nodiscard]] int GetXSize() const;
+        [[nodiscard]] int GetYSize() const;
+
         void Initialize(int xSize, int ySize, SDL_Renderer *renderer);
         void SetPixel(int x, int y, double red, double green, double blue);
         void Display();

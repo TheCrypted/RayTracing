@@ -13,6 +13,12 @@ add_executable(RayTracing main.cpp
         CApp.cpp
         include/CApp.h
         include/qbImage.h
-        qbImage.cpp)
+        qbImage.cpp
+        scene.cpp
+        include/scene.h
+        ray.cpp
+        include/ray.h
+        camera.cpp
+        include/camera.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})

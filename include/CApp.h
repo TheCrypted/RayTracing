@@ -7,6 +7,7 @@
 
 #include <SDL.h>
 #include "qbImage.h"
+#include "scene.h"
 
 class CApp
 {
@@ -20,6 +21,7 @@ class CApp
         void OnExit();
     private:
         qbImage image;
+        qbRT::Scene scene;
         bool running;
         SDL_Window* window;
         SDL_Renderer* renderer;

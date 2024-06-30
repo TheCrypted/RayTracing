@@ -19,17 +19,7 @@ bool CApp::OnInit()
 
     if(window != NULL){
         renderer = SDL_CreateRenderer(window, -1, 0);
-
         image.Initialize(1280, 720, renderer);
-        for (int i = 0; i < 1280; ++i)
-        {
-            for (int j = 0; j < 720; ++j)
-            {
-                auto red = (static_cast<double>(i) / 1280.0) * 255.0;
-                auto green = (static_cast<double>(j) / 720.0) * 255.0;
-                image.SetPixel(i, j, red, green, 0.0);
-            }
-        }
     } else return false;
 
     return true;
@@ -66,6 +56,7 @@ void CApp::OnRender()
 {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
     SDL_RenderClear(renderer);
+    scene.Render(image);
     image.Display();
     SDL_RenderPresent(renderer);
 }
