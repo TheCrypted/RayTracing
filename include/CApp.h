@@ -8,6 +8,7 @@
 #include <SDL.h>
 #include "qbImage.h"
 #include "scene.h"
+#include "camera.h"
 
 class CApp
 {
@@ -19,6 +20,9 @@ class CApp
         void OnLoop();
         void OnRender();
         void OnExit();
+    private:
+        static void printVec(const qbVector<double> &vector);
+
     private:
         qbImage image;
         qbRT::Scene scene;

@@ -8,6 +8,8 @@
 #include <vector>
 #include <SDL.h>
 #include "qbImage.h"
+#include "camera.h"
+#include "objSphere.h"
 
 namespace qbRT
 {
@@ -20,6 +22,8 @@ namespace qbRT
         private:
 
         private:
+            Camera m_camera;
+            ObjSphere m_sphere;
     };
 }
 

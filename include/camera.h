@@ -100,7 +100,7 @@ namespace qbRT
         }
 
         //Function to generate ray from camera
-        Ray GenerateRay(float x, float y);
+        bool GenerateRay(float x, float y, Ray &ray);
 
         // Update camera params
         void UpdateCameraGeometry();

@@ -3,6 +3,7 @@
 //
 
 #include "include/CApp.h"
+#include "include/qbLinAlg/qbVector.h"
 
 CApp::CApp() {
     running = true;
@@ -20,6 +21,13 @@ bool CApp::OnInit()
     if(window != NULL){
         renderer = SDL_CreateRenderer(window, -1, 0);
         image.Initialize(1280, 720, renderer);
+
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderClear(renderer);
+        scene.Render(image);
+        image.Display();
+        SDL_RenderPresent(renderer);
+
     } else return false;
 
     return true;
@@ -54,11 +62,11 @@ void CApp::OnLoop()
 
 void CApp::OnRender()
 {
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
-    SDL_RenderClear(renderer);
-    scene.Render(image);
-    image.Display();
-    SDL_RenderPresent(renderer);
+    // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
+    // SDL_RenderClear(renderer);
+    // scene.Render(image);
+    // image.Display();
+    // SDL_RenderPresent(renderer);
 }
 
 void CApp::OnExit()
@@ -67,4 +75,13 @@ void CApp::OnExit()
     SDL_DestroyWindow(window);
     window = NULL;
     SDL_Quit();
+}
+
+void CApp::printVec(const qbVector<double> &vector)
+{
+    for (int i = 0; i < vector.GetNumDims(); i++)
+    {
+        std::cout << std::fixed << std::setprecision(3) << vector.GetElement(i) << " ";
+    }
+    std::cout << std::endl;
 }
