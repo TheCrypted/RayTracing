@@ -17,7 +17,7 @@ namespace qbRT {
         objList.push_back(std::make_shared<ObjSphere>(ObjSphere()));
 
         lightList.push_back(std::make_shared<PointLight>(PointLight()));
-        lightList.at(0) -> m_position = qbVector<double>{std::vector<double>{5.0, -10.0, 5.0}};
+        lightList.at(0) -> m_position = qbVector<double>{std::vector<double>{5.0, -10.0, -5.0}};
         lightList.at(0) -> m_color = qbVector<double>{std::vector<double>{255.0, 255.0, 255.0}};
     }
 

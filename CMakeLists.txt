@@ -31,6 +31,8 @@ add_executable(RayTracing main.cpp
         light.cpp
         include/light.h
         pointLight.cpp
-        include/pointLight.h)
+        include/pointLight.h
+        gtfm.cpp
+        include/gtfm.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})
