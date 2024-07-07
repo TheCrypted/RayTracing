@@ -21,12 +21,12 @@ namespace qbRT
             ~GTform();
             GTform(const qbMatrix2<double> &fwd, const qbMatrix2<double> &bck);
 
-            void SetTransform(qbVector<double> &translate, qbVector<double> &scale, qbVector<double> &rotate);
+            void SetTransform(const qbVector<double> &translate, const qbVector<double> &rotate, const qbVector<double> &scale);
 
-            Ray Apply(Ray &ray, bool fwd);
-            qbVector<double> Apply(qbVector<double> &vec, bool fwd);
+            Ray Apply(const Ray &ray, bool fwd);
+            qbVector<double> Apply(const qbVector<double> &vec, bool fwd);
 
-            friend GTform operator*(const GTform &lhs, const GTform &rhs);
+            friend GTform operator*(const qbRT::GTform &lhs, const qbRT::GTform &rhs);
             GTform operator=(const GTform &rhs);
 
             void PrintMatrix(bool dir);

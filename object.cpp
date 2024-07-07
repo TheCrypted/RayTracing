@@ -15,7 +15,12 @@ namespace qbRT
     Object::~Object()
     = default;
 
-    bool Object::TestIntersections(const Ray &ray, qbVector<double> &intPoint, qbVector<double> &normal, qbVector<double> color)
+    void Object::SetTransform(const qbRT::GTform &transform)
+    {
+        m_transform = transform;
+    }
+
+    bool Object::TestIntersections(const Ray &ray, qbVector<double> &intPoint, qbVector<double> &normal, qbVector<double> &color)
     {
         return false;
     }

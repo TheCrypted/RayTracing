@@ -4,7 +4,9 @@
 
 #ifndef OBJSPHERE_H
 #define OBJSPHERE_H
+
 #include "object.h"
+#include "gtfm.h"
 
 namespace qbRT
 {
@@ -12,10 +14,10 @@ namespace qbRT
     {
         public:
             ObjSphere();
-            ObjSphere(qbVector<double> center, double radius, qbVector<double> color);
+            // ObjSphere(qbVector<double> center, double radius, qbVector<double> color);
             ~ObjSphere() override;
 
-            bool TestIntersections(const Ray &ray, qbVector<double> &intPoint, qbVector<double> &normal, qbVector<double> color) override;
+            bool TestIntersections(const Ray &rayOrig, qbVector<double> &intPoint, qbVector<double> &normal, qbVector<double> &color) override;
         private:
 
     };

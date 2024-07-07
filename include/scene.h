@@ -25,7 +25,6 @@ namespace qbRT
 
         private:
             Camera m_camera;
-
             std::vector<std::shared_ptr<Object>> objList;
             std::vector<std::shared_ptr<PointLight>> lightList;
     };

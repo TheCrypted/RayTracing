@@ -12,8 +12,9 @@ namespace qbRT
     ObjSphere::~ObjSphere()
     = default;
 
-    bool ObjSphere::TestIntersections(const Ray &ray, qbVector<double> &intPoint, qbVector<double> &normal, qbVector<double> color)
+    bool ObjSphere::TestIntersections(const Ray &rayOrig, qbVector<double> &intPoint, qbVector<double> &normal, qbVector<double> &color)
     {
+        Ray ray = m_transform.Apply(rayOrig, BCKTFORM);
         qbVector<double> vhat = ray.m_lab;
         vhat.Normalize();
 
@@ -29,13 +30,18 @@ namespace qbRT
         double numRT = sqrtf(intTest);
         double t1 = (-b + numRT) / (2.0 * a);
         double t2 = (-b - numRT) / (2.0 * a);
-        if (t1 < 0 || t2 < 0) return false;
+        if (t1 < 0 || t2 < 0) {return false;}
         double t = (t1 < t2) ? t1 : t2;
-        intPoint = ray.m_point1 + (vhat * t);
+        qbVector<double> intTemp = ray.m_point1 + (vhat * t);
+        intPoint = m_transform.Apply(intTemp, FWDTFORM);
 
-        normal  = intPoint;
+        qbVector<double> objOrigin = qbVector{std::vector{0.0, 0.0, 0.0}};
+        qbVector<double> newObjOrigin = m_transform.Apply(objOrigin, FWDTFORM);
+
+        normal = intPoint - newObjOrigin;
         normal.Normalize();
 
+        color = baseColor;
         return true;
     }
 
