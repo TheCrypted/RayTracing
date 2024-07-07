@@ -13,6 +13,12 @@ namespace qbRT {
         m_camera.set_camera_hor_len(0.25);
         m_camera.set_camera_asp_ratio(16.0/9.0);
         m_camera.UpdateCameraGeometry();
+
+        objList.push_back(std::make_shared<ObjSphere>(ObjSphere()));
+
+        lightList.push_back(std::make_shared<PointLight>(PointLight()));
+        lightList.at(0) -> m_position = qbVector<double>{std::vector<double>{5.0, -10.0, 5.0}};
+        lightList.at(0) -> m_color = qbVector<double>{std::vector<double>{255.0, 255.0, 255.0}};
     }
 
     bool Scene::Render(qbImage &outputImage)
@@ -36,14 +42,33 @@ namespace qbRT {
                 double yNorm = (static_cast<double>(y) * yFact) - 1.0;
                 m_camera.GenerateRay(xNorm, yNorm, cameraRay);
 
-                bool validInt = m_sphere.TestIntersections(cameraRay, intPoint, localNormal, localColor);
-                if(validInt)
+                for (auto object : objList)
                 {
-                    const auto dist = (intPoint - cameraRay.m_point1).norm();
-                    outputImage.SetPixel(x, y, 255.0 - ((dist-9.0)/0.94605) * 255.0, 0.0, 0.0);
-                } else
-                {
-                    outputImage.SetPixel(x, y, 0.0, 0.0, 0.0);
+                    if(object->TestIntersections(cameraRay, intPoint, localNormal, localColor))
+                    {
+                        qbVector<double> color{3};
+                        double intensity;
+                        bool validIllum = false;
+
+                        for (auto light : lightList)
+                        {
+                            validIllum = light->CalculateLighting(intPoint, localNormal, objList, object, color, intensity);
+                        }
+
+                        if (validIllum)
+                        {
+                            outputImage.SetPixel(x, y, 255.0 * intensity, 0.0, 0.0);
+                        }
+                        else
+                        {
+                            outputImage.SetPixel(x, y, 0.0, 0.0, 0.0);
+                        }
+
+                    } else
+                    {
+                        outputImage.SetPixel(x, y, 0.0, 0.0, 0.0);
+                    }
+
                 }
             }
         }

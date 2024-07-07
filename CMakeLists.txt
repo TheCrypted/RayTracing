@@ -27,6 +27,10 @@ add_executable(RayTracing main.cpp
         object.cpp
         include/object.h
         objSphere.cpp
-        include/objSphere.h)
+        include/objSphere.h
+        light.cpp
+        include/light.h
+        pointLight.cpp
+        include/pointLight.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})

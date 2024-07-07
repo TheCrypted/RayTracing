@@ -32,6 +32,10 @@ namespace qbRT
         if (t1 < 0 || t2 < 0) return false;
         double t = (t1 < t2) ? t1 : t2;
         intPoint = ray.m_point1 + (vhat * t);
+
+        normal  = intPoint;
+        normal.Normalize();
+
         return true;
     }
 
