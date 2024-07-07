@@ -5,11 +5,9 @@
 #include "include/gtfm.h"
 #include "include/ray.h"
 
-// Constructor / destructor.
 qbRT::GTform::GTform()
 {
-	/* Set forward and backward transforms to
-	identity matrices. */
+
 	m_fwd.SetToIdentity();
 	m_bck.SetToIdentity();
 }
@@ -19,10 +17,8 @@ qbRT::GTform::~GTform()
 
 }
 
-// Construct from a pair of matrices.
 qbRT::GTform::GTform(const qbMatrix2<double> &fwd, const qbMatrix2<double> &bck)
 {
-	// Verify that the inputs are 4x4.
 	if (	(fwd.GetNumRows() != 4) || (fwd.GetNumCols() != 4) ||
 		(bck.GetNumRows() != 4) || (bck.GetNumCols() != 4))
 	{
@@ -33,32 +29,26 @@ qbRT::GTform::GTform(const qbMatrix2<double> &fwd, const qbMatrix2<double> &bck)
 	m_bck = bck;
 }
 
-// Function to set the transform.
 void qbRT::GTform::SetTransform(const qbVector<double> &translation,
 				const qbVector<double> &rotation,
 				const qbVector<double> &scale)
 {
-	// Define a matrix for each component of the transform.
 	qbMatrix2<double> translationMatrix	{4, 4};
 	qbMatrix2<double> rotationMatrixX	{4, 4};
 	qbMatrix2<double>	rotationMatrixY	{4, 4};
 	qbMatrix2<double> rotationMatrixZ	{4, 4};
 	qbMatrix2<double>	scaleMatrix	{4, 4};
 
-	// Set these to identity.
 	translationMatrix.SetToIdentity();
 	rotationMatrixX.SetToIdentity();
 	rotationMatrixY.SetToIdentity();
 	rotationMatrixZ.SetToIdentity();
 	scaleMatrix.SetToIdentity();
 
-	// Populate these with the appropriate values.
-	// First the translation matrix.
 	translationMatrix.SetElement(0, 3, translation.GetElement(0));
 	translationMatrix.SetElement(1, 3, translation.GetElement(1));
 	translationMatrix.SetElement(2, 3, translation.GetElement(2));
 
-	// Rotation matrices.
 	rotationMatrixZ.SetElement(0, 0, cos(rotation.GetElement(2)));
 	rotationMatrixZ.SetElement(0, 1, -sin(rotation.GetElement(2)));
 	rotationMatrixZ.SetElement(1, 0, sin(rotation.GetElement(2)));
@@ -74,25 +64,21 @@ void qbRT::GTform::SetTransform(const qbVector<double> &translation,
 	rotationMatrixX.SetElement(2, 1, sin(rotation.GetElement(0)));
 	rotationMatrixX.SetElement(2, 2, cos(rotation.GetElement(0)));
 
-	// And the scale matrix.
 	scaleMatrix.SetElement(0, 0, scale.GetElement(0));
 	scaleMatrix.SetElement(1, 1, scale.GetElement(1));
 	scaleMatrix.SetElement(2, 2, scale.GetElement(2));
 
-	// Combine to give the final forward transform matrix.
 	m_fwd =	translationMatrix *
 			scaleMatrix *
 			rotationMatrixX *
 			rotationMatrixY *
 			rotationMatrixZ;
 
-	// Compute the backwards transform.
 	m_bck = m_fwd;
 	m_bck.Inverse();
 
 }
 
-// Functions to return the transform matrices.
 qbMatrix2<double> qbRT::GTform::GetMatrix(bool dir)
 {
 	if(dir)
@@ -105,15 +91,12 @@ qbMatrix2<double> qbRT::GTform::GetMatrix(bool dir)
 }
 
 
-// Function to apply the transform.
 qbRT::Ray qbRT::GTform::Apply(const qbRT::Ray &inputRay, bool dirFlag)
 {
-	// Create an output object.
 	qbRT::Ray outputRay;
 
 	if (dirFlag)
 	{
-		// Apply the forward transform.
 		outputRay.m_point1 = this -> Apply(inputRay.m_point1, qbRT::FWDTFORM);
 		outputRay.m_point2 = this -> Apply(inputRay.m_point2, qbRT::FWDTFORM);
 		outputRay.m_lab = outputRay.m_point2 - outputRay.m_point1;

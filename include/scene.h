@@ -11,6 +11,7 @@
 #include "qbImage.h"
 #include "camera.h"
 #include "objSphere.h"
+#include "objectPlane.h"
 #include "pointLight.h"
 
 namespace qbRT

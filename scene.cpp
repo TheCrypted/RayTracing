@@ -7,7 +7,7 @@
 namespace qbRT {
     Scene::Scene()
     {
-        m_camera.set_camera_position(qbVector<double>{std::vector<double>{0.0, -10.0, 0.0}});
+        m_camera.set_camera_position(qbVector<double>{std::vector<double>{0.0, -10.0, -2.0}});
         m_camera.set_camera_look_at(qbVector<double>{std::vector<double>{0.0, 0.0, 0.0}});
         m_camera.set_camera_up(qbVector<double>{std::vector<double>{0.0, 0.0, 1.0}});
         m_camera.set_camera_hor_len(0.25);
@@ -17,6 +17,7 @@ namespace qbRT {
         objList.push_back(std::make_shared<ObjSphere>(ObjSphere()));
         objList.push_back(std::make_shared<ObjSphere>(ObjSphere()));
         objList.push_back(std::make_shared<ObjSphere>(ObjSphere()));
+        objList.push_back(std::make_shared<ObjPlane>(ObjPlane()));
 
         GTform obj1Trans, obj2Trans, obj3Trans;
         obj1Trans.SetTransform(	qbVector<double>{std::vector<double>{-1.5, 0.0, 0.0}},
@@ -37,6 +38,7 @@ namespace qbRT {
         objList.at(0) -> baseColor = qbVector{std::vector{255.0, 0.0, 0.0}};
         objList.at(1) -> baseColor = qbVector{std::vector{0.0, 255.0, 0.0}};
         objList.at(2) -> baseColor = qbVector{std::vector{0.0, 0.0, 255.0}};
+        objList.at(3) -> baseColor = qbVector{std::vector{128.0, 128.0, 255.0}};
 
         lightList.push_back(std::make_shared<PointLight>(PointLight()));
         lightList.at(0) -> m_position = qbVector{std::vector{5.0, -10.0, -5.0}};
