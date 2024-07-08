@@ -22,18 +22,45 @@ namespace qbRT
                 qbVector<double> &color, double &lightIntensity)
     {
         const qbVector<double> lightDir = (m_position - intPoint).Normalized();
-        const double angle = std::acos(qbVector<double>::dot(lightDir, normal));
+
+        qbVector<double> interPoint{3};
+        qbVector<double> interNormal{3};
+        qbVector<double> interColor{3};
+        bool validInt = false;
+        Ray lightRay{intPoint, intPoint + lightDir};
+
+        for(auto obj : objList)
+        {
+            if(obj != currObj)
+            {
+                validInt = obj->TestIntersections(lightRay, interPoint, interNormal, interColor);
+            }
+            if(validInt)
+            {
+                break;
+            }
+        }
+
         color = m_color;
 
-        if(angle > 1.5708)
+        if(!validInt)
+        {
+            const double angle = std::acos(qbVector<double>::dot(lightDir, normal));
+
+            if(angle > 1.5708)
+            {
+                lightIntensity = 0.0;
+                return false;
+            }
+            else
+            {
+                lightIntensity = m_intensity * (1.0 - (angle / 1.5708));
+                return true;
+            }
+        } else
         {
             lightIntensity = 0.0;
             return false;
-        }
-        else
-        {
-            lightIntensity = m_intensity * (1.0 - (angle / 1.5708));
-            return true;
         }
 
         return true;
