@@ -42,6 +42,8 @@ int qbImage::GetYSize() const {return m_ySize;}
 
 void qbImage::Display()
 {
+    ComputeMaxValues();
+
     auto *tempPixels = new Uint32[m_xSize * m_ySize];
     memset(tempPixels, 0, m_xSize * m_ySize * sizeof(Uint32));
 
@@ -89,11 +91,33 @@ void qbImage::InitTexture()
     SDL_FreeSurface(tempSurface);
 }
 
+void qbImage::ComputeMaxValues()
+{
+    max_red = 0.0;
+    max_green = 0.0;
+    max_blue = 0.0;
+    max_net = 0.0;
+    for(int x = 0; x < m_xSize; ++x)
+    {
+        for(int y = 0; y < m_ySize; ++y)
+        {
+            if(m_rChannel[x][y] > max_red) max_red = m_rChannel[x][y];
+            if(m_gChannel[x][y] > max_green) max_green = m_gChannel[x][y];
+            if(m_bChannel[x][y] > max_blue) max_blue = m_bChannel[x][y];
+
+            max_net = std::max(max_net, max_red);
+            max_net = std::max(max_net, max_green);
+            max_net = std::max(max_net, max_blue);
+        }
+    }
+}
+
+
 Uint32 qbImage::ConvertColor(const double red, const double green, const double blue)
 {
-    auto r = static_cast<unsigned char>(red);
-    auto g = static_cast<unsigned char>(green);
-    auto b = static_cast<unsigned char>(blue);
+    auto r = static_cast<unsigned char>((red / max_net) * 255.0);
+    auto g = static_cast<unsigned char>((green / max_net) * 255.0);
+    auto b = static_cast<unsigned char>((blue / max_net) * 255.0);
 
     #if SDL_BYTEORDER == SDL_BIG_ENDIAN
         Uint32 pixelColor = (r << 24) + (g << 16) + (b << 8) + 255;

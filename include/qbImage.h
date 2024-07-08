@@ -23,14 +23,17 @@ class qbImage
         void Display();
 
     private:
-        static Uint32 ConvertColor(double red, double green, double blue);
+        Uint32 ConvertColor(double red, double green, double blue);
 
         void InitTexture();
+        void ComputeMaxValues();
 
     private:
         std::vector<std::vector<double>> m_rChannel;
         std::vector<std::vector<double>> m_gChannel;
         std::vector<std::vector<double>> m_bChannel;
+
+        double max_red, max_green, max_blue, max_net;
 
         int m_xSize, m_ySize;
         SDL_Renderer *m_renderer;
