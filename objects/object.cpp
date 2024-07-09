@@ -2,7 +2,7 @@
 // Created by Aman's Laptop on 30-06-2024.
 //
 
-#include "include/object.h"
+#include "../include/object.h"
 #include <cmath>
 
 #define EPSILON 1e-21f;

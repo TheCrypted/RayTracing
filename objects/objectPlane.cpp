@@ -2,7 +2,7 @@
 // Created by Aman's Laptop on 07-07-2024.
 //
 
-#include "include/objectPlane.h"
+#include "../include/objectPlane.h"
 #include <cmath>
 
 namespace qbRT

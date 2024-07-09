@@ -2,7 +2,7 @@
 // Created by Aman's Laptop on 06-07-2024.
 //
 
-#include "include/objSphere.h"
+#include "../include/objSphere.h"
 
 namespace qbRT
 {

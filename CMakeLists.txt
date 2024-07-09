@@ -20,17 +20,17 @@ add_executable(RayTracing main.cpp
         include/ray.h
         camera.cpp
         include/camera.h
-        object.cpp
+        objects/object.cpp
         include/object.h
-        objSphere.cpp
+        objects/objSphere.cpp
         include/objSphere.h
-        light.cpp
+        lights/light.cpp
         include/light.h
-        pointLight.cpp
+        lights/pointLight.cpp
         include/pointLight.h
         gtfm.cpp
         include/gtfm.h
-        objectPlane.cpp
+        objects/objectPlane.cpp
         include/objectPlane.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})

@@ -42,14 +42,22 @@ namespace qbRT {
         objList.at(2) -> SetTransform(obj3Trans);
         objList.at(3) -> SetTransform(planeTrans);
 
-        objList.at(0) -> baseColor = qbVector{std::vector{1.0, 0.0, 0.0}};
-        objList.at(1) -> baseColor = qbVector{std::vector{0.0, 1.0, 0.0}};
-        objList.at(2) -> baseColor = qbVector{std::vector{0.0, 0.0, 1.0}};
+        objList.at(0) -> baseColor = qbVector{std::vector{1.0, 0.5, 0.0}};
+        objList.at(1) -> baseColor = qbVector{std::vector{0.0, 1.0, 0.5}};
+        objList.at(2) -> baseColor = qbVector{std::vector{0.5, 0.0, 1.0}};
         objList.at(3) -> baseColor = qbVector{std::vector{0.5, 0.5, 0.5}};
 
         lightList.push_back(std::make_shared<PointLight>(PointLight()));
         lightList.at(0) -> m_position = qbVector{std::vector{5.0, -10.0, -5.0}};
         lightList.at(0) -> m_color = qbVector{std::vector{1.0, 1.0, 1.0}};
+
+        lightList.push_back(std::make_shared<PointLight> (PointLight()));
+        lightList.at(1) -> m_position = qbVector {std::vector {-5.0, -10.0, -5.0}};
+        lightList.at(1) -> m_color = qbVector {std::vector {1.0, 0.0, 0.0}};
+
+        lightList.push_back(std::make_shared<PointLight> (PointLight()));
+        lightList.at(2) -> m_position = qbVector {std::vector {0.0, -10.0, -5.0}};
+        lightList.at(2) -> m_color = qbVector {std::vector {0.0, 1.0, 0.0}};
     }
 
     bool Scene::Render(qbImage &outputImage)
