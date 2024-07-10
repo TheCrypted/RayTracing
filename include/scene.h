@@ -21,6 +21,9 @@ namespace qbRT
             Scene();
 
             bool Render(qbImage &outputImage);
+            bool CastRay(Ray &castRay, std::shared_ptr<Object> &closestObject,
+                qbVector<double> &closestIntPoint, qbVector<double> &closestLocalNormal,
+                qbVector<double> &closestLocalColor);
 
         private:
 

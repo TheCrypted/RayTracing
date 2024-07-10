@@ -17,8 +17,8 @@ namespace qbRT
     PointLight::~PointLight()
     = default;
 
-    bool PointLight::CalculateLighting(qbVector<double> &intPoint, qbVector<double> &normal,
-                std::vector<std::shared_ptr<Object>> &objList, std::shared_ptr<Object> &currObj,
+    bool PointLight::CalculateLighting(const qbVector<double> &intPoint, const qbVector<double> &normal,
+                const std::vector<std::shared_ptr<Object>> &objList, const std::shared_ptr<Object> &currObj,
                 qbVector<double> &color, double &lightIntensity)
     {
         const qbVector<double> lightDir = (m_position - intPoint).Normalized();

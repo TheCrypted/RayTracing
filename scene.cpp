@@ -3,6 +3,7 @@
 //
 
 #include "include/scene.h"
+#include "include/material.h"
 
 namespace qbRT {
     Scene::Scene()
@@ -80,6 +81,30 @@ namespace qbRT {
                 double yNorm = (static_cast<double>(y) * yFact) - 1.0;
                 m_camera.GenerateRay(xNorm, yNorm, cameraRay);
 
+                // std::shared_ptr<qbRT::Object> closestObject;
+                // qbVector<double> closestIntPoint		{3};
+                // qbVector<double> closestLocalNormal	{3};
+                // qbVector<double> closestLocalColor	{3};
+                // bool intersectionFound = CastRay(cameraRay, closestObject, closestIntPoint, closestLocalNormal, closestLocalColor);
+                //
+                // if (intersectionFound)
+                // {
+                //     if (closestObject -> m_hasMaterial)
+                //     {
+                //         qbVector<double> color = closestObject -> m_pMaterial -> ComputeColor(	objList, lightList,
+                //             closestObject, closestIntPoint,
+                //             closestLocalNormal, cameraRay);
+                //         outputImage.SetPixel(x, y, color.GetElement(0), color.GetElement(1), color.GetElement(2));
+                //     }
+                //     else
+                //     {
+                //         qbVector<double> matColor = Material::ComputeDiffuseColor(objList, lightList,
+                //             closestObject, closestIntPoint,
+                //             closestLocalNormal, closestObject->baseColor);
+                //         outputImage.SetPixel(x, y, matColor.GetElement(0), matColor.GetElement(1), matColor.GetElement(2));
+                //     }
+                // }
+
                 std::shared_ptr<Object> closestObj;
                 qbVector<double> closestIntPoint{3};
                 qbVector<double> closestNormal{3};
@@ -102,11 +127,7 @@ namespace qbRT {
                             closestColor = localColor;
                         }
 
-                    } else
-                    {
-                        // outputImage.SetPixel(x, y, 0.0, 0.0, 0.0);
                     }
-
                 }
 
                 qbVector<double> color;
@@ -142,5 +163,38 @@ namespace qbRT {
             }
         }
         return true;
+    }
+
+    bool Scene::CastRay(Ray &castRay, std::shared_ptr<Object> &closestObject,
+        qbVector<double> &closestIntPoint, qbVector<double> &closestLocalNormal,
+        qbVector<double> &closestLocalColor)
+    {
+        qbVector<double> intPoint			{3};
+        qbVector<double> localNormal	{3};
+        qbVector<double> localColor		{3};
+        double minDist = 1e6;
+        bool intersectionFound = false;
+        for (auto currentObject : objList)
+        {
+            bool validInt = currentObject -> TestIntersections(castRay, intPoint, localNormal, localColor);
+
+            if (validInt)
+            {
+
+                intersectionFound = true;
+
+                double dist = (intPoint - castRay.m_point1).norm();
+
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    closestObject = currentObject;
+                    closestIntPoint = intPoint;
+                    closestLocalNormal = localNormal;
+                    closestLocalColor = localColor;
+                }
+            }
+        }
+        return intersectionFound;
     }
 }

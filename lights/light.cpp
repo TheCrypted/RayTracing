@@ -12,9 +12,10 @@ namespace qbRT
     Light::~Light()
     = default;
 
-    bool Light::CalculateLighting(qbVector<double> &intPoint, qbVector<double> &normal,
-                std::vector<std::shared_ptr<Object>> &objList, std::shared_ptr<Object> &currObj,
-                qbVector<double> &color, double &lightIntensity)
+    bool Light::CalculateLighting(const qbVector<double> &intPoint, const qbVector<double> &localNormal,
+        const std::vector<std::shared_ptr<Object>> &objectList,
+        const std::shared_ptr<Object> &currentObject,
+        qbVector<double> &color, double &intensity)
     {
         return false;
     }

@@ -11,6 +11,8 @@
 
 namespace qbRT
 {
+    class Material;
+
     class Object {
         public:
             Object();
@@ -19,10 +21,14 @@ namespace qbRT
             void SetTransform(const qbRT::GTform &transform);
             virtual bool TestIntersections(const Ray &ray, qbVector<double> &intPoint, qbVector<double> &normal, qbVector<double> &color);
             static bool closeEnough(double a, double b);
+            bool AssignMaterial(const std::shared_ptr<Material> &objectMaterial);
 
         public:
             qbVector<double> baseColor {3};
             GTform m_transform;
+
+            std::shared_ptr<Material> m_pMaterial;
+            bool m_hasMaterial = false;
     };
 }
 

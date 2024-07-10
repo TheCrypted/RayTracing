@@ -29,4 +29,11 @@ namespace qbRT
     {
         return std::abs(a - b) < EPSILON;
     }
+
+    bool Object::AssignMaterial(const std::shared_ptr<Material> &objectMaterial)
+    {
+        m_pMaterial = objectMaterial;
+        m_hasMaterial = true;
+        return m_hasMaterial;
+    }
 }
