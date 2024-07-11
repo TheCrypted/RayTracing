@@ -3,7 +3,7 @@
 //
 
 #include "include/scene.h"
-#include "include/material.h"
+#include "include/simpleMaterial.h"
 
 namespace qbRT {
     Scene::Scene()
@@ -14,6 +14,11 @@ namespace qbRT {
         m_camera.set_camera_hor_len(0.25);
         m_camera.set_camera_asp_ratio(16.0/9.0);
         m_camera.UpdateCameraGeometry();
+
+        auto testMaterial = std::make_shared<SimpleMaterial>(SimpleMaterial());
+        testMaterial -> baseColor = qbVector{std::vector{0.25, 0.5, 0.0}};
+        testMaterial -> reflectivity = 0.5;
+        testMaterial -> shine = 10.0;
 
         objList.push_back(std::make_shared<ObjSphere>(ObjSphere()));
         objList.push_back(std::make_shared<ObjSphere>(ObjSphere()));
@@ -28,15 +33,15 @@ namespace qbRT {
         GTform obj1Trans, obj2Trans, obj3Trans;
         obj1Trans.SetTransform(	qbVector<double>{std::vector<double>{-1.5, 0.0, 0.0}},
             qbVector<double>{std::vector<double>{0.0, 0.0, 0.0}},
-            qbVector<double>{std::vector<double>{0.5, 0.5, 0.75}});
+            qbVector<double>{std::vector<double>{0.5, 0.5, 0.5}});
 
         obj2Trans.SetTransform(	qbVector<double>{std::vector<double>{0.0, 0.0, 0.0}},
             qbVector<double>{std::vector<double>{0.0, 0.0, 0.0}},
-            qbVector<double>{std::vector<double>{0.75, 0.5, 0.5}});
+            qbVector<double>{std::vector<double>{0.5, 0.5, 0.5}});
 
         obj3Trans.SetTransform(	qbVector<double>{std::vector<double>{1.5, 0.0, 0.0}},
             qbVector<double>{std::vector<double>{0.0, 0.0, 0.0}},
-            qbVector<double>{std::vector<double>{0.75, 0.75, 0.75}});
+            qbVector<double>{std::vector<double>{0.5, 0.5, 0.5}});
 
         objList.at(0) -> SetTransform(obj1Trans);
         objList.at(1) -> SetTransform(obj2Trans);
@@ -47,6 +52,8 @@ namespace qbRT {
         objList.at(1) -> baseColor = qbVector{std::vector{0.0, 1.0, 0.5}};
         objList.at(2) -> baseColor = qbVector{std::vector{0.5, 0.0, 1.0}};
         objList.at(3) -> baseColor = qbVector{std::vector{0.5, 0.5, 0.5}};
+
+        objList.at(0) -> AssignMaterial(testMaterial);
 
         lightList.push_back(std::make_shared<PointLight>(PointLight()));
         lightList.at(0) -> m_position = qbVector{std::vector{5.0, -10.0, -5.0}};

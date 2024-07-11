@@ -32,7 +32,7 @@ namespace qbRT
 				const qbVector<double> &intPoint, const qbVector<double> &localNormal,
 				const qbVector<double> &baseColor);
 
-			bool CastRay(	const Ray &castRay, const std::vector<std::shared_ptr<Object>> &objectList,
+			bool CastRay(const Ray &castRay, const std::vector<std::shared_ptr<Object>> &objectList,
 				const std::shared_ptr<Object> &thisObject,
 				std::shared_ptr<Object> &closestObject,
 				qbVector<double> &closestIntPoint, qbVector<double> &closestLocalNormal,
