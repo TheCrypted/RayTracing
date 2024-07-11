@@ -12,6 +12,7 @@
 #include "camera.h"
 #include "objSphere.h"
 #include "objectPlane.h"
+#include "light.h"
 #include "pointLight.h"
 
 namespace qbRT
@@ -30,7 +31,7 @@ namespace qbRT
         private:
             Camera m_camera;
             std::vector<std::shared_ptr<Object>> objList;
-            std::vector<std::shared_ptr<PointLight>> lightList;
+            std::vector<std::shared_ptr<Light>> lightList;
     };
 }
 
