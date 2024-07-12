@@ -35,6 +35,8 @@ add_executable(RayTracing main.cpp
         materials/material.cpp
         include/material.h
         materials/simpleMaterial.cpp
-        include/simpleMaterial.h)
+        include/simpleMaterial.h
+        objects/objectCylinder.cpp
+        include/objectCylinder.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})

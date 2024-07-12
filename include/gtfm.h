@@ -20,6 +20,7 @@ namespace qbRT
             GTform();
             ~GTform();
             GTform(const qbMatrix2<double> &fwd, const qbMatrix2<double> &bck);
+            GTform(const qbVector<double> &translate, const qbVector<double> &rotate, const qbVector<double> &scale);
 
             void SetTransform(const qbVector<double> &translate, const qbVector<double> &rotate, const qbVector<double> &scale);
 

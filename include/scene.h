@@ -12,6 +12,8 @@
 #include "camera.h"
 #include "objSphere.h"
 #include "objectPlane.h"
+#include "objectCylinder.h"
+#include "simpleMaterial.h"
 #include "light.h"
 #include "pointLight.h"
 

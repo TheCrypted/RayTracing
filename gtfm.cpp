@@ -7,7 +7,6 @@
 
 qbRT::GTform::GTform()
 {
-
 	m_fwd.SetToIdentity();
 	m_bck.SetToIdentity();
 }
@@ -16,6 +15,12 @@ qbRT::GTform::~GTform()
 {
 
 }
+
+qbRT::GTform::GTform(const qbVector<double> &translate, const qbVector<double> &rotate, const qbVector<double> &scale)
+{
+	SetTransform(translate, rotate, scale);
+}
+
 
 qbRT::GTform::GTform(const qbMatrix2<double> &fwd, const qbMatrix2<double> &bck)
 {
@@ -29,9 +34,8 @@ qbRT::GTform::GTform(const qbMatrix2<double> &fwd, const qbMatrix2<double> &bck)
 	m_bck = bck;
 }
 
-void qbRT::GTform::SetTransform(const qbVector<double> &translation,
-				const qbVector<double> &rotation,
-				const qbVector<double> &scale)
+void qbRT::GTform::SetTransform(const qbVector<double> &translation, const qbVector<double> &rotation,
+	const qbVector<double> &scale)
 {
 	qbMatrix2<double> translationMatrix	{4, 4};
 	qbMatrix2<double> rotationMatrixX	{4, 4};
@@ -69,10 +73,10 @@ void qbRT::GTform::SetTransform(const qbVector<double> &translation,
 	scaleMatrix.SetElement(2, 2, scale.GetElement(2));
 
 	m_fwd =	translationMatrix *
-			scaleMatrix *
 			rotationMatrixX *
 			rotationMatrixY *
-			rotationMatrixZ;
+			rotationMatrixZ *
+			scaleMatrix;
 
 	m_bck = m_fwd;
 	m_bck.Inverse();
@@ -103,7 +107,6 @@ qbRT::Ray qbRT::GTform::Apply(const qbRT::Ray &inputRay, bool dirFlag)
 	}
 	else
 	{
-		// Apply the backward transform.
 		outputRay.m_point1 = this -> Apply(inputRay.m_point1, qbRT::BCKTFORM);
 		outputRay.m_point2 = this -> Apply(inputRay.m_point2, qbRT::BCKTFORM);
 		outputRay.m_lab = outputRay.m_point2 - outputRay.m_point1;
@@ -114,28 +117,23 @@ qbRT::Ray qbRT::GTform::Apply(const qbRT::Ray &inputRay, bool dirFlag)
 
 qbVector<double> qbRT::GTform::Apply(const qbVector<double> &inputVector, bool dirFlag)
 {
-	// Convert inputVector to a 4-element vector.
 	std::vector<double> tempData {	inputVector.GetElement(0),
 					inputVector.GetElement(1),
 					inputVector.GetElement(2),
 					1.0 };
 	qbVector<double> tempVector {tempData};
 
-	// Create a vector for the result.
 	qbVector<double> resultVector;
 
 	if (dirFlag)
 	{
-		// Apply the forward transform.
 		resultVector = m_fwd * tempVector;
 	}
 	else
 	{
-		// Apply the backward transform.
 		resultVector = m_bck * tempVector;
 	}
 
-	// Reform the output as a 3-element vector.
 	qbVector<double> outputVector {std::vector<double> {	resultVector.GetElement(0),
 								resultVector.GetElement(1),
 								resultVector.GetElement(2) }};
@@ -148,24 +146,19 @@ namespace qbRT
 {
 	qbRT::GTform operator* (const qbRT::GTform &lhs, const qbRT::GTform &rhs)
 	{
-		// Form the product of the two forward transforms.
 		qbMatrix2<double> fwdResult = lhs.m_fwd * rhs.m_fwd;
 
-		// Compute the backward transform as the inverse of the forward transform.
 		qbMatrix2<double> bckResult = fwdResult;
 		bckResult.Inverse();
 
-		// Form the final result.
 		qbRT::GTform finalResult (fwdResult, bckResult);
 
 		return finalResult;
 	}
 }
 
-// Overload the assignment operator.
 qbRT::GTform qbRT::GTform::operator= (const qbRT::GTform &rhs)
 {
-	// Make sure that we're not assigning to ourself.
 	if (this != &rhs)
 	{
 		m_fwd = rhs.m_fwd;
@@ -175,7 +168,6 @@ qbRT::GTform qbRT::GTform::operator= (const qbRT::GTform &rhs)
 	return *this;
 }
 
-// Function to print the transform matrix to STDOUT.
 void qbRT::GTform::PrintMatrix(bool dirFlag)
 {
 	if (dirFlag)
@@ -202,7 +194,6 @@ void qbRT::GTform::Print(const qbMatrix2<double> &matrix)
 	}
 }
 
-// Function to print vectors.
 void qbRT::GTform::PrintVector(const qbVector<double> &inputVector)
 {
 	int nRows = inputVector.GetNumDims();

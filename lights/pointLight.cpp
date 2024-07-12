@@ -22,6 +22,7 @@ namespace qbRT
                 qbVector<double> &color, double &lightIntensity)
     {
         const qbVector<double> lightDir = (m_position - intPoint).Normalized();
+        double lightDist = (m_position - intPoint).norm();
 
         qbVector<double> interPoint{3};
         qbVector<double> interNormal{3};
@@ -37,8 +38,10 @@ namespace qbRT
             }
             if(validInt)
             {
-                break;
+                double dist = (interPoint - intPoint).norm();
+                if(dist < lightDist) validInt = false;
             }
+            if(validInt) break;
         }
 
         color = m_color;
