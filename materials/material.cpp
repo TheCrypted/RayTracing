@@ -109,16 +109,19 @@ namespace qbRT
         {
             if(object != thisObject)
             {
-                intersectionFound = object -> TestIntersections(castRay, intPoint, localNormal, localColor);
-
-                double dist = (intPoint - castRay.m_point1).norm();
-                if(dist < minDist)
+                bool validInt = object -> TestIntersections(castRay, intPoint, localNormal, localColor);
+                if(validInt)
                 {
-                    minDist = dist;
-                    closestObject = object;
-                    closestIntPoint = intPoint;
-                    closestLocalNormal = localNormal;
-                    closestLocalColor = localColor;
+                    double dist = (intPoint - castRay.m_point1).norm();
+                    intersectionFound = true;
+                    if(dist < minDist)
+                    {
+                        minDist = dist;
+                        closestObject = object;
+                        closestIntPoint = intPoint;
+                        closestLocalNormal = localNormal;
+                        closestLocalColor = localColor;
+                    }
                 }
             }
         }

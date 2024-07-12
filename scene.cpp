@@ -122,16 +122,14 @@ namespace qbRT {
                     if (closestObject -> m_hasMaterial)
                     {
                         Material::reflectionRayCount = 0;
-                        qbVector<double> color = closestObject -> m_pMaterial -> ComputeColor(	objList, lightList,
-                            closestObject, closestIntPoint,
-                            closestLocalNormal, cameraRay);
+                        qbVector<double> color = closestObject -> m_pMaterial -> ComputeColor(objList, lightList,
+                            closestObject, closestIntPoint, closestLocalNormal, cameraRay);
                         outputImage.SetPixel(x, y, color.GetElement(0), color.GetElement(1), color.GetElement(2));
                     }
                     else
                     {
                         qbVector<double> matColor = Material::ComputeDiffuseColor(objList, lightList,
-                            closestObject, closestIntPoint,
-                            closestLocalNormal, closestObject->baseColor);
+                            closestObject, closestIntPoint, closestLocalNormal, closestObject->baseColor);
                         outputImage.SetPixel(x, y, matColor.GetElement(0), matColor.GetElement(1), matColor.GetElement(2));
                     }
                 }
