@@ -16,9 +16,26 @@ namespace qbRT {
         m_camera.UpdateCameraGeometry();
 
         auto testMaterial = std::make_shared<SimpleMaterial>(SimpleMaterial());
-        testMaterial -> baseColor = qbVector{std::vector{0.25, 0.5, 0.0}};
-        testMaterial -> reflectivity = 0.5;
+        auto testMaterial2 = std::make_shared<SimpleMaterial> (SimpleMaterial());
+        auto testMaterial3 = std::make_shared<SimpleMaterial> (SimpleMaterial());
+        auto floorMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
+
+
+        testMaterial -> baseColor = qbVector{std::vector{0.25, 0.5, 0.8}};
+        testMaterial -> reflectivity = 0.1;
         testMaterial -> shine = 10.0;
+
+        testMaterial2 -> baseColor = qbVector{std::vector{1.0, 0.5, 0.0}};
+        testMaterial2 -> reflectivity = 0.75;
+        testMaterial2 -> shine = 10.0;
+
+        testMaterial3 -> baseColor = qbVector{std::vector{1.0, 0.8, 0.0}};
+        testMaterial3 -> reflectivity = 0.25;
+        testMaterial3 -> shine = 10.0;
+
+        floorMaterial -> baseColor = qbVector{std::vector{1.0, 1.0, 1.0}};
+        floorMaterial -> reflectivity = 0.5;
+        floorMaterial -> shine = 0.0;
 
         objList.push_back(std::make_shared<ObjSphere>(ObjSphere()));
         objList.push_back(std::make_shared<ObjSphere>(ObjSphere()));
@@ -54,6 +71,9 @@ namespace qbRT {
         objList.at(3) -> baseColor = qbVector{std::vector{0.5, 0.5, 0.5}};
 
         objList.at(0) -> AssignMaterial(testMaterial);
+        objList.at(1) -> AssignMaterial(testMaterial2);
+        objList.at(2) -> AssignMaterial(testMaterial3);
+        objList.at(3) -> AssignMaterial(floorMaterial);
 
         lightList.push_back(std::make_shared<PointLight>(PointLight()));
         lightList.at(0) -> m_position = qbVector{std::vector{5.0, -10.0, -5.0}};
@@ -82,13 +102,16 @@ namespace qbRT {
 
         for(int x = 0; x < xSize; ++x)
         {
+            setbuf(stdout, NULL);
+            printf("check");
+            std::cout << "Rendering: " << x << " / " << xSize << std::endl;
             for(int y = 0; y < ySize; ++y)
             {
                 double xNorm = (static_cast<double>(x) * xFact) - 1.0;
                 double yNorm = (static_cast<double>(y) * yFact) - 1.0;
                 m_camera.GenerateRay(xNorm, yNorm, cameraRay);
 
-                std::shared_ptr<qbRT::Object> closestObject;
+                std::shared_ptr<Object> closestObject;
                 qbVector<double> closestIntPoint		{3};
                 qbVector<double> closestLocalNormal	{3};
                 qbVector<double> closestLocalColor	{3};
@@ -98,6 +121,7 @@ namespace qbRT {
                 {
                     if (closestObject -> m_hasMaterial)
                     {
+                        Material::reflectionRayCount = 0;
                         qbVector<double> color = closestObject -> m_pMaterial -> ComputeColor(	objList, lightList,
                             closestObject, closestIntPoint,
                             closestLocalNormal, cameraRay);

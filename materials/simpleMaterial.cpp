@@ -18,15 +18,23 @@ namespace qbRT
         const qbVector<double> &intPoint, const qbVector<double> &localNormal,
         const Ray &cameraRay)
     {
-        qbVector<double> refColor;
+        qbVector<double> matColor{3};
+        qbVector<double> refColor{3};
         qbVector<double> specColor{3};
 
         qbVector<double> difColor = ComputeDiffuseColor(objectList, lightList, currentObject, intPoint, localNormal, baseColor);
 
+        if(reflectivity > 0.0)
+            refColor = ComputeReflectionColor(objectList, lightList, currentObject, intPoint, localNormal, cameraRay);
+
+        matColor = (refColor * reflectivity) + (difColor * (1.0 - reflectivity));
+
         if(shine > 0.0)
             specColor = ComputeSpecular(objectList, lightList, intPoint, localNormal, cameraRay);
 
-        return difColor + specColor;
+        matColor = matColor + specColor;
+
+        return matColor;
     }
 
     qbVector<double> SimpleMaterial::ComputeSpecular(	const std::vector<std::shared_ptr<Object>> &objectList,

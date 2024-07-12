@@ -20,17 +20,23 @@ namespace qbRT
 			Material();
 			virtual ~Material();
 
-			virtual qbVector<double> ComputeColor(	const std::vector<std::shared_ptr<Object>> &objectList,
+			virtual qbVector<double> ComputeColor(const std::vector<std::shared_ptr<Object>> &objectList,
 				const std::vector<std::shared_ptr<Light>> &lightList,
 				const std::shared_ptr<Object> &currentObject,
 				const qbVector<double> &intPoint, const qbVector<double> &localNormal,
 				const Ray &cameraRay);
 
-			static qbVector<double> ComputeDiffuseColor(	const std::vector<std::shared_ptr<Object>> &objectList,
+			static qbVector<double> ComputeDiffuseColor(const std::vector<std::shared_ptr<Object>> &objectList,
 				const std::vector<std::shared_ptr<Light>> &lightList,
 				const std::shared_ptr<Object> &currentObject,
 				const qbVector<double> &intPoint, const qbVector<double> &localNormal,
 				const qbVector<double> &baseColor);
+
+			qbVector<double> ComputeReflectionColor(const std::vector<std::shared_ptr<Object>> &objectList,
+				const std::vector<std::shared_ptr<Light>> &lightList,
+				const std::shared_ptr<Object> &currentObject,
+				const qbVector<double> &intPoint, const qbVector<double> &localNormal,
+				const Ray &cameraRay);
 
 			bool CastRay(const Ray &castRay, const std::vector<std::shared_ptr<Object>> &objectList,
 				const std::shared_ptr<Object> &thisObject,
@@ -39,6 +45,9 @@ namespace qbRT
 				qbVector<double> &closestLocalColor);
 
 		public:
+			inline static int maxReflectionDepth;
+			inline static int reflectionRayCount;
+
 		private:
 
     };
