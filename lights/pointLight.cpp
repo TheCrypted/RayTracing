@@ -35,13 +35,21 @@ namespace qbRT
             if(obj != currObj)
             {
                 validInt = obj->TestIntersections(lightRay, interPoint, interNormal, interColor);
+
+                if(validInt)
+                {
+                    // break;
+                    double dist = (interPoint - intPoint).norm();
+                    if(dist > lightDist)
+                    {
+                        validInt = false;
+                    }
+                }
             }
             if(validInt)
             {
-                double dist = (interPoint - intPoint).norm();
-                if(dist < lightDist) validInt = false;
+                break;
             }
-            if(validInt) break;
         }
 
         color = m_color;

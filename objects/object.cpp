@@ -27,7 +27,7 @@ namespace qbRT
 
     bool Object::closeEnough(const double a, const double b)
     {
-        return std::abs(a - b) < EPSILON;
+        return std::fabs(a - b) < EPSILON;
     }
 
     bool Object::AssignMaterial(const std::shared_ptr<Material> &objectMaterial)

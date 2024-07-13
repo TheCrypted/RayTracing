@@ -15,6 +15,7 @@
 #include "objectCylinder.h"
 #include "simpleMaterial.h"
 #include "light.h"
+#include "objCone.h"
 #include "pointLight.h"
 
 namespace qbRT
