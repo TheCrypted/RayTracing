@@ -15,9 +15,11 @@ namespace qbRT {
         m_camera.set_camera_asp_ratio(16.0/9.0);
         m_camera.UpdateCameraGeometry();
 
-        // auto testMaterial = std::make_shared<SimpleMaterial>(SimpleMaterial());
-        // auto testMaterial2 = std::make_shared<SimpleMaterial> (SimpleMaterial());
-        // auto testMaterial3 = std::make_shared<SimpleMaterial> (SimpleMaterial());
+        auto floorTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
+
+        floorTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
+            qbVector{std::vector{16.0, 16.0}});
+
         auto floorMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
         auto cylMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
         auto coneMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
@@ -35,25 +37,11 @@ namespace qbRT {
         wallMaterial -> reflectivity = 0.75;
         wallMaterial -> shine = 0.0;
 
-        // testMaterial -> baseColor = qbVector{std::vector{0.25, 0.5, 0.8}};
-        // testMaterial -> reflectivity = 0.1;
-        // testMaterial -> shine = 10.0;
-        //
-        // testMaterial2 -> baseColor = qbVector{std::vector{1.0, 0.5, 0.0}};
-        // testMaterial2 -> reflectivity = 0.75;
-        // testMaterial2 -> shine = 10.0;
-        //
-        // testMaterial3 -> baseColor = qbVector{std::vector{1.0, 0.8, 0.0}};
-        // testMaterial3 -> reflectivity = 0.25;
-        // testMaterial3 -> shine = 10.0;
-
         floorMaterial -> baseColor = qbVector{std::vector{1.0, 1.0, 1.0}};
         floorMaterial -> reflectivity = 0.5;
         floorMaterial -> shine = 0.0;
-        //
-        // objList.push_back(std::make_shared<ObjSphere>(ObjSphere()));
-        // objList.push_back(std::make_shared<ObjSphere>(ObjSphere()));
-        // objList.push_back(std::make_shared<ObjSphere>(ObjSphere()));
+        floorMaterial -> AssignTexture(floorTexture);
+
         objList.push_back(std::make_shared<ObjCylinder>(ObjCylinder()));
         objList.push_back(std::make_shared<ObjPlane>(ObjPlane()));
         objList.push_back(std::make_shared<ObjCone>(ObjCone()));
@@ -73,34 +61,12 @@ namespace qbRT {
             qbVector{std::vector{0.0, 0.0, 0.0}},
             qbVector{std::vector{0.5, 0.5, 1.0}});
 
-        // GTform obj1Trans, obj2Trans, obj3Trans;
-        // obj1Trans.SetTransform(	qbVector<double>{std::vector<double>{-1.5, 0.0, 0.0}},
-        //     qbVector<double>{std::vector<double>{0.0, 0.0, 0.0}},
-        //     qbVector<double>{std::vector<double>{0.5, 0.5, 0.5}});
-        //
-        // obj2Trans.SetTransform(	qbVector<double>{std::vector<double>{0.0, 0.0, 0.0}},
-        //     qbVector<double>{std::vector<double>{0.0, 0.0, 0.0}},
-        //     qbVector<double>{std::vector<double>{0.5, 0.5, 0.5}});
-        //
-        // obj3Trans.SetTransform(	qbVector<double>{std::vector<double>{1.5, 0.0, 0.0}},
-        //     qbVector<double>{std::vector<double>{0.0, 0.0, 0.0}},
-        //     qbVector<double>{std::vector<double>{0.5, 0.5, 0.5}});
-
-        // objList.at(0) -> SetTransform(obj1Trans);
-        // objList.at(1) -> SetTransform(obj2Trans);
-        // objList.at(2) -> SetTransform(obj3Trans);
         objList.at(0) -> SetTransform(cylTrans);
         objList.at(1) -> SetTransform(planeTrans);
         objList.at(2) -> SetTransform(coneTrans);
 
-        // objList.at(0) -> baseColor = qbVector{std::vector{1.0, 0.5, 0.0}};
-        // objList.at(1) -> baseColor = qbVector{std::vector{0.0, 1.0, 0.5}};
-        // objList.at(2) -> baseColor = qbVector{std::vector{0.5, 0.0, 1.0}};
         objList.at(1) -> baseColor = qbVector{std::vector{0.5, 0.5, 0.5}};
 
-        // objList.at(0) -> AssignMaterial(testMaterial);
-        // objList.at(1) -> AssignMaterial(testMaterial2);
-        // objList.at(2) -> AssignMaterial(testMaterial3);
         objList.at(0) -> AssignMaterial(cylMaterial);
         objList.at(1) -> AssignMaterial(floorMaterial);
         objList.at(2) -> AssignMaterial(coneMaterial);

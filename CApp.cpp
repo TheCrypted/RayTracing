@@ -16,15 +16,20 @@ bool CApp::OnInit()
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
         return false;
     }
-    window = SDL_CreateWindow("Testing Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_SHOWN);
+
+    int xSize = 1280;
+    int ySize = 720;
+
+    window = SDL_CreateWindow("Testing Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, xSize, ySize, SDL_WINDOW_SHOWN);
 
     if(window != NULL){
         renderer = SDL_CreateRenderer(window, -1, 0);
-        image.Initialize(1280, 720, renderer);
+        image.Initialize(xSize, ySize, renderer);
 
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderClear(renderer);
         scene.Render(image);
+
         image.Display();
         SDL_RenderPresent(renderer);
 

@@ -43,6 +43,8 @@ add_executable(RayTracing main.cpp
         textures/texture.cpp
         include/texture.h
         textures/flatText.cpp
-        include/flatText.h)
+        include/flatText.h
+        textures/checkerText.cpp
+        include/checkerText.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})
