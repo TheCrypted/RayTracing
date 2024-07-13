@@ -128,6 +128,11 @@ namespace qbRT
         return intersectionFound;
     }
 
+    void Material::AssignTexture(const std::shared_ptr<TextureBase::Texture>& texture)
+    {
+        textureList.push_back(texture);
+        hasTexture = true;
+    }
 
 
 }

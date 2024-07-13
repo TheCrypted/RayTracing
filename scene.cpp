@@ -21,6 +21,7 @@ namespace qbRT {
         auto floorMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
         auto cylMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
         auto coneMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
+        auto wallMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
 
         cylMaterial -> baseColor = qbVector{std::vector{0.2, 0.3, 0.8}};
         cylMaterial -> reflectivity = 0.05;
@@ -29,6 +30,10 @@ namespace qbRT {
         coneMaterial -> baseColor = qbVector{std::vector{0.8, 0.3, 0.4}};
         coneMaterial -> reflectivity = 0.05;
         coneMaterial -> shine = 5.0;
+
+        wallMaterial -> baseColor = qbVector{std::vector{1.0, 0.125, 0.125}};
+        wallMaterial -> reflectivity = 0.75;
+        wallMaterial -> shine = 0.0;
 
         // testMaterial -> baseColor = qbVector{std::vector{0.25, 0.5, 0.8}};
         // testMaterial -> reflectivity = 0.1;

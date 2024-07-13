@@ -41,6 +41,10 @@ namespace qbRT
                     normal.Normalize();
 
                     color = baseColor;
+
+                    uvCoords.SetElement(0, u);
+                    uvCoords.SetElement(1, v);
+
                     return true;
                 } else
                 {

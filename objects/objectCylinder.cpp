@@ -127,6 +127,15 @@ namespace qbRT
             normal = resNormal;
             color = baseColor;
 
+            double x = intPoint.GetElement(0);
+            double y = intPoint.GetElement(1);
+
+            double u = atan(y/x) / M_PI;
+            double v1 = intPoint.GetElement(2);
+
+            uvCoords.SetElement(0, u);
+            uvCoords.SetElement(1, v1);
+
             return true;
         } else
         {
@@ -142,6 +151,9 @@ namespace qbRT
 
                     normal.Normalize();
                     color = baseColor;
+
+                    uvCoords.SetElement(0, intPoint.GetElement(0));
+                    uvCoords.SetElement(1, intPoint.GetElement(1));
 
                     return true;
                 } else

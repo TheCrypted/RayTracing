@@ -42,6 +42,22 @@ namespace qbRT
         normal.Normalize();
 
         color = baseColor;
+
+        double x = intPoint.GetElement(0);
+        double y = intPoint.GetElement(1);
+        double z = intPoint.GetElement(2);
+
+        double u = atan(sqrtf(pow(x, 2.0) + pow(y, 2.0)));
+        double v = atan(y/x);
+
+        if(x < 0) v += M_PI;
+
+        u /= M_PI;
+        v /= M_PI;
+
+        uvCoords.SetElement(0, u);
+        uvCoords.SetElement(1, v);
+
         return true;
     }
 

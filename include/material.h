@@ -11,6 +11,7 @@
 #include "light.h"
 #include "qbLinAlg/qbVector.h"
 #include "ray.h"
+#include "texture.h"
 
 
 namespace qbRT
@@ -44,9 +45,13 @@ namespace qbRT
 				qbVector<double> &closestIntPoint, qbVector<double> &closestLocalNormal,
 				qbVector<double> &closestLocalColor);
 
+		void AssignTexture(const std::shared_ptr<TextureBase::Texture> &texture);
+
 		public:
 			inline static int maxReflectionDepth;
 			inline static int reflectionRayCount;
+			std::vector<std::shared_ptr<TextureBase::Texture>> textureList;
+			bool hasTexture = false;
 
 		private:
 

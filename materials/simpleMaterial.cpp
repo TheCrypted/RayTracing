@@ -18,11 +18,19 @@ namespace qbRT
         const qbVector<double> &intPoint, const qbVector<double> &localNormal,
         const Ray &cameraRay)
     {
+        qbVector<double> difColor{3};
         qbVector<double> matColor{3};
         qbVector<double> refColor{3};
         qbVector<double> specColor{3};
 
-        qbVector<double> difColor = ComputeDiffuseColor(objectList, lightList, currentObject, intPoint, localNormal, baseColor);
+        if(!hasTexture)
+        {
+            difColor = ComputeDiffuseColor(objectList, lightList, currentObject, intPoint, localNormal, baseColor);
+        } else
+        {
+            difColor = ComputeDiffuseColor(objectList, lightList, currentObject, intPoint, localNormal,
+                textureList[0]->GetColor(currentObject -> uvCoords));
+        }
 
         if(reflectivity > 0.0)
             refColor = ComputeReflectionColor(objectList, lightList, currentObject, intPoint, localNormal, cameraRay);

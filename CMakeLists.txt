@@ -39,6 +39,10 @@ add_executable(RayTracing main.cpp
         objects/objectCylinder.cpp
         include/objectCylinder.h
         objects/objCone.cpp
-        include/objCone.h)
+        include/objCone.h
+        textures/texture.cpp
+        include/texture.h
+        textures/flatText.cpp
+        include/flatText.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})

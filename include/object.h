@@ -28,6 +28,8 @@ namespace qbRT
             GTform m_transform;
 
             std::shared_ptr<Material> m_pMaterial;
+            qbVector<double> uvCoords{2};
+
             bool m_hasMaterial = false;
     };
 }
