@@ -9,8 +9,7 @@
 #include "qbImage.h"
 #include "scene.h"
 #include "camera.h"
-#include "flatText.h"
-#include "checkerText.h"
+#include "imgText.h"
 
 class CApp
 {

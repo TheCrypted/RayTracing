@@ -123,11 +123,11 @@ namespace qbRT
 
 		    color = baseColor;
 
-			double x = intPoint.GetElement(0);
-			double y = intPoint.GetElement(1);
+			double x = validPOI.GetElement(0);
+			double y = validPOI.GetElement(1);
 
 			double u = atan2(y, x) / M_PI;
-			double v1 = (intPoint.GetElement(2) * 2.0) + 1.0;
+			double v1 = (validPOI.GetElement(2) * 2.0) + 1.0;
 
 			uvCoords.SetElement(0, u);
 			uvCoords.SetElement(1, v1);
