@@ -9,7 +9,7 @@
 namespace qbRT {
     Scene::Scene()
     {
-        m_camera.set_camera_position(qbVector{std::vector{2.0, -20.0, 0.45}});
+        m_camera.set_camera_position(qbVector{std::vector{6.0, -12.0, 0.0}});
         m_camera.set_camera_look_at(qbVector{std::vector{0.0, 0.0, 0.0}});
         m_camera.set_camera_up(qbVector{std::vector{0.0, 0.0, 1.0}});
         m_camera.set_camera_hor_len(0.25);
@@ -17,17 +17,19 @@ namespace qbRT {
         m_camera.UpdateCameraGeometry();
 
         auto floorTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
-        auto coneTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
+        auto imageTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
 
         floorTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
             qbVector{std::vector{16.0, 16.0}});
 
-        coneTexture -> SetColor(qbVector{std::vector{0.2, 0.2, 0.8}}, qbVector{std::vector{1.0, 0.5, 0.0}});
-        coneTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
+
+        imageTexture -> SetColor(qbVector{std::vector{0.2, 0.2, 0.8}}, qbVector{std::vector{1.0, 0.5, 0.0}});
+        imageTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
             qbVector{std::vector{8.0*(M_PI/2.0), 8.0}} );
 
 
         auto floorMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
+        auto imageMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
         auto cylMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
         auto coneMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
         auto sphereMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
@@ -40,10 +42,15 @@ namespace qbRT {
         cylMaterial -> reflectivity = 0.05;
         cylMaterial -> shine = 5.0;
 
+        imageMaterial -> baseColor = qbVector{std::vector{1.0, 0.125, 0.125}};
+        imageMaterial -> reflectivity = 0.0;
+        imageMaterial -> shine = 0.0;
+        imageMaterial -> AssignTexture(imageTexture);
+
         coneMaterial -> baseColor = qbVector{std::vector{0.8, 0.3, 0.4}};
         coneMaterial -> reflectivity = 0.05;
         coneMaterial -> shine = 5.0;
-        coneMaterial -> AssignTexture(coneTexture);
+        coneMaterial -> AssignTexture(imageTexture);
 
         wallMaterial -> baseColor = qbVector{std::vector{1.0, 0.125, 0.125}};
         wallMaterial -> reflectivity = 0.75;
@@ -78,6 +85,12 @@ namespace qbRT {
             qbVector{std::vector{16.0, 16.0, 1.0}}});
         floor ->AssignMaterial(floorMaterial);
 
+        auto img = std::make_shared<ObjPlane> (ObjPlane());
+        img -> SetTransform(GTform {	qbVector{std::vector{0.0, 5.0, -0.75}},
+            qbVector{std::vector{-M_PI/2.0, 0.0, 0.0}},
+            qbVector{std::vector{1.75, 1.75, 1.0}}}	);
+        img -> AssignMaterial(imageMaterial);
+
         auto sphere = std::make_shared<ObjSphere> (ObjSphere());
         sphere -> SetTransform(GTform	{	qbVector{std::vector{-2.0, -2.0, 0.25}},
             qbVector{std::vector{0.0, 0.0, 0.0}},
@@ -103,6 +116,7 @@ namespace qbRT {
         sphere4 -> AssignMaterial(glassMaterial);
 
         objList.push_back(floor);
+        objList.push_back(img);
         objList.push_back(sphere);
         objList.push_back(sphere2);
         objList.push_back(sphere3);

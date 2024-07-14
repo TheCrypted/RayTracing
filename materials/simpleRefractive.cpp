@@ -74,7 +74,7 @@ namespace qbRT
 
         qbVector<double> refracted1 = r*p + (r*c - sqrtf(1.0-pow(r,2.0) * (1.0-pow(c,2.0)))) * tempNormal;
 
-        Ray ref1Ray{intPoint + (refracted1 * 0.0001), refracted1};
+        Ray ref1Ray{intPoint + (refracted1 * 0.0001), intPoint + refracted1};
 
         std::shared_ptr<Object> obj;
         qbVector<double> closestIntPoint{3};
@@ -104,7 +104,7 @@ namespace qbRT
 
             qbVector<double> refracted2 = r2*p2 + (r2*c2 - sqrtf(1.0-pow(r2,2.0) * (1.0-pow(c2,2.0)))) * tempNormal2;
 
-            Ray ref2Ray{intPoint + (refracted2 * 0.0001), refracted2};
+            Ray ref2Ray{newIntPoint + (refracted2 * 0.0001), newIntPoint + refracted2};
             intFound = CastRay(ref2Ray, objectList, currentObject, obj, closestIntPoint, closestNormal, closestColor);
 
             finalRay = ref2Ray;
@@ -123,7 +123,7 @@ namespace qbRT
                 matColor = obj -> m_pMaterial -> ComputeColor(objectList, lightList, obj, closestIntPoint, closestNormal, finalRay);
             } else
             {
-                matColor = Material::ComputeDiffuseColor(objectList, lightList, obj, closestIntPoint, closestNormal, obj->baseColor);
+                matColor = ComputeDiffuseColor(objectList, lightList, obj, closestIntPoint, closestNormal, obj->baseColor);
             }
         }
 
