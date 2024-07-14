@@ -62,7 +62,7 @@ namespace qbRT::TextureBase
         }
 
         filename = path;
-        imageSurface = SDL_LoadBMP(filename.c_str());
+        imageSurface = SDL_LoadBMP(path.c_str());
 
         if(!imageSurface)
         {

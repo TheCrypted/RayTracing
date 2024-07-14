@@ -47,6 +47,8 @@ add_executable(RayTracing main.cpp
         textures/checkerText.cpp
         include/checkerText.h
         textures/imgText.cpp
-        include/imgText.h)
+        include/imgText.h
+        materials/simpleRefractive.cpp
+        include/simpleRefractive.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})

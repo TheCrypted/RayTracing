@@ -50,6 +50,8 @@ namespace qbRT
 		public:
 			inline static int maxReflectionDepth;
 			inline static int reflectionRayCount;
+			inline static qbVector<double> ambientColor{std::vector{1.0, 1.0, 1.0}};
+			inline static double ambientIntensity = 0.2;
 			std::vector<std::shared_ptr<TextureBase::Texture>> textureList;
 			bool hasTexture = false;
 

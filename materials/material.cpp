@@ -56,6 +56,12 @@ namespace qbRT
             diffuseColor.SetElement(0, red * baseColor.GetElement(0));
             diffuseColor.SetElement(1, green * baseColor.GetElement(1));
             diffuseColor.SetElement(2, blue * baseColor.GetElement(2));
+        } else
+        {
+            for (int i = 0; i < 3; ++i)
+            {
+                diffuseColor.SetElement(i, baseColor.GetElement(i) * ambientColor.GetElement(i) * ambientIntensity);
+            }
         }
         return diffuseColor;
     }

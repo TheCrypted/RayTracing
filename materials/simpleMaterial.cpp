@@ -54,7 +54,6 @@ namespace qbRT
         double red = 0.0;
         double green = 0.0;
         double blue = 0.0;
-        double intensity = 0;
 
         for(auto light : lightList)
         {

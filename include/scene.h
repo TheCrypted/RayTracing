@@ -18,6 +18,7 @@
 #include "objCone.h"
 #include "pointLight.h"
 #include "checkerText.h"
+#include "simpleRefractive.h"
 
 namespace qbRT
 {

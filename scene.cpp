@@ -5,12 +5,13 @@
 #include "include/scene.h"
 
 
+
 namespace qbRT {
     Scene::Scene()
     {
-        m_camera.set_camera_position(qbVector<double>{std::vector<double>{0.0, -10.0, -2.0}});
-        m_camera.set_camera_look_at(qbVector<double>{std::vector<double>{0.0, 0.0, 0.0}});
-        m_camera.set_camera_up(qbVector<double>{std::vector<double>{0.0, 0.0, 1.0}});
+        m_camera.set_camera_position(qbVector{std::vector{2.0, -20.0, 0.45}});
+        m_camera.set_camera_look_at(qbVector{std::vector{0.0, 0.0, 0.0}});
+        m_camera.set_camera_up(qbVector{std::vector{0.0, 0.0, 1.0}});
         m_camera.set_camera_hor_len(0.25);
         m_camera.set_camera_asp_ratio(16.0/9.0);
         m_camera.UpdateCameraGeometry();
@@ -29,6 +30,10 @@ namespace qbRT {
         auto floorMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
         auto cylMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
         auto coneMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
+        auto sphereMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
+        auto sphereMaterial2 = std::make_shared<SimpleMaterial> (SimpleMaterial());
+        auto sphereMaterial3 = std::make_shared<SimpleMaterial> (SimpleMaterial());
+        auto glassMaterial = std::make_shared<SimpleRefractive> (SimpleRefractive());
         auto wallMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
 
         cylMaterial -> baseColor = qbVector{std::vector{0.2, 0.3, 0.8}};
@@ -45,38 +50,63 @@ namespace qbRT {
         wallMaterial -> shine = 0.0;
 
         floorMaterial -> baseColor = qbVector{std::vector{1.0, 1.0, 1.0}};
-        floorMaterial -> reflectivity = 0.5;
+        floorMaterial -> reflectivity = 0.25;
         floorMaterial -> shine = 0.0;
         floorMaterial -> AssignTexture(floorTexture);
 
-        objList.push_back(std::make_shared<ObjCylinder>(ObjCylinder()));
-        objList.push_back(std::make_shared<ObjPlane>(ObjPlane()));
-        objList.push_back(std::make_shared<ObjCone>(ObjCone()));
+        sphereMaterial -> baseColor = qbVector{std::vector{1.0, 0.2, 0.2}};
+        sphereMaterial -> reflectivity = 0.8;
+        sphereMaterial -> shine = 32.0;
 
-        GTform planeTrans;
-        planeTrans.SetTransform(qbVector{std::vector{0.0, 0.0, 0.75}},
+        sphereMaterial2 -> baseColor = qbVector{std::vector{0.2, 1.0, 0.2}};
+        sphereMaterial2 -> reflectivity = 0.8;
+        sphereMaterial2 -> shine = 32.0;
+
+        sphereMaterial3 -> baseColor = qbVector{std::vector{0.2, 0.2, 1.0}};
+        sphereMaterial3 -> reflectivity = 0.8;
+        sphereMaterial3 -> shine = 32.0;
+
+        glassMaterial -> baseColor = qbVector{std::vector{0.7, 0.7, 0.2}};
+        glassMaterial -> reflectivity = 0.25;
+        glassMaterial -> shine = 32.0;
+        glassMaterial -> translucency = 0.75;
+        glassMaterial -> refractiveIndex = 1.333;
+
+        auto floor = std::make_shared<ObjPlane> (ObjPlane());
+        floor -> SetTransform(GTform{qbVector{std::vector{0.0, 0.0, 1.0}},
             qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{4.0, 4.0, 1.0}});
+            qbVector{std::vector{16.0, 16.0, 1.0}}});
+        floor ->AssignMaterial(floorMaterial);
 
-        GTform cylTrans;
-        cylTrans.SetTransform(qbVector{std::vector{-1.0, 0.0, 0.0}},
+        auto sphere = std::make_shared<ObjSphere> (ObjSphere());
+        sphere -> SetTransform(GTform	{	qbVector{std::vector{-2.0, -2.0, 0.25}},
             qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{0.5, 0.5, 1.0}});
+            qbVector{std::vector{0.75, 0.75, 0.75}}}	);
+        sphere -> AssignMaterial(sphereMaterial);
 
-        GTform coneTrans;
-        coneTrans.SetTransform(qbVector{std::vector{1.0, 0.0, 0.0}},
+        auto sphere2 = std::make_shared<ObjSphere> (ObjSphere());
+        sphere2 -> SetTransform(GTform	{	qbVector{std::vector{-2.0, -0.5, 0.25}},
             qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{0.5, 0.5, 1.0}});
+            qbVector{std::vector{0.75, 0.75, 0.75}}}	);
+        sphere2 -> AssignMaterial(sphereMaterial2);
 
-        objList.at(0) -> SetTransform(cylTrans);
-        objList.at(1) -> SetTransform(planeTrans);
-        objList.at(2) -> SetTransform(coneTrans);
+        auto sphere3 = std::make_shared<ObjSphere> (ObjSphere());
+        sphere3 -> SetTransform(GTform	{	qbVector{std::vector{-2.0, -1.25, -1.0}},
+            qbVector{std::vector{0.0, 0.0, 0.0}},
+            qbVector{std::vector{0.75, 0.75, 0.75}}}	);
+        sphere3 -> AssignMaterial(sphereMaterial3);
 
-        objList.at(1) -> baseColor = qbVector{std::vector{0.5, 0.5, 0.5}};
+        auto sphere4 = std::make_shared<ObjSphere> (ObjSphere());
+        sphere4 -> SetTransform(GTform	{	qbVector{std::vector{2.0, -1.25, 0.25}},
+            qbVector{std::vector{0.0, 0.0, 0.0}},
+            qbVector{std::vector{0.75, 0.75, 0.75}}}	);
+        sphere4 -> AssignMaterial(glassMaterial);
 
-        objList.at(0) -> AssignMaterial(cylMaterial);
-        objList.at(1) -> AssignMaterial(floorMaterial);
-        objList.at(2) -> AssignMaterial(coneMaterial);
+        objList.push_back(floor);
+        objList.push_back(sphere);
+        objList.push_back(sphere2);
+        objList.push_back(sphere3);
+        objList.push_back(sphere4);
 
         lightList.push_back(std::make_shared<PointLight>(PointLight()));
         lightList.at(0) -> m_position = qbVector{std::vector{5.0, -10.0, -5.0}};

@@ -30,8 +30,25 @@ namespace qbRT
         double numRT = sqrtf(intTest);
         double t1 = (-b + numRT) / (2.0 * a);
         double t2 = (-b - numRT) / (2.0 * a);
-        if (t1 < 0 || t2 < 0) {return false;}
-        double t = (t1 < t2) ? t1 : t2;
+        if (t1 < 0.0 && t2 < 0.0)
+        {
+            return false;
+        }
+
+        double t;
+
+        if(t1 < t2)
+        {
+            if(t1 > 0.0) t = t1;
+            else if(t2 > 0.0) t = t2;
+            else return false;
+        } else
+        {
+            if(t2 > 0.0) t = t2;
+            else if(t1 > 0.0) t = t1;
+            else return false;
+        }
+
         qbVector<double> intTemp = ray.m_point1 + (vhat * t);
         intPoint = m_transform.Apply(intTemp, FWDTFORM);
 
