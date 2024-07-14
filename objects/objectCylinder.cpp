@@ -121,7 +121,8 @@ namespace qbRT
             preNorm.SetElement(0, finalPOI.GetElement(0));
             preNorm.SetElement(1, finalPOI.GetElement(1));
             preNorm.SetElement(2, 0.0);
-            resNormal = m_transform.Apply(preNorm, FWDTFORM) - globalOrigin;
+            resNormal = m_transform.ApplyNormal(preNorm);
+            // resNormal = m_transform.Apply(preNorm, FWDTFORM) - globalOrigin;
             resNormal.Normalize();
 
             normal = resNormal;
@@ -146,8 +147,9 @@ namespace qbRT
                     intPoint = m_transform.Apply(finalPOI, FWDTFORM);
 
                     qbVector preNorm{std::vector{0.0, 0.0, 0.0 + finalPOI.GetElement(2)}};
-                    qbVector globalOrigin = m_transform.Apply(qbVector{std::vector{0.0, 0.0, 0.0}}, FWDTFORM);
-                    normal = m_transform.Apply(preNorm, FWDTFORM) - globalOrigin;
+                    normal = m_transform.ApplyNormal(preNorm);
+                    // qbVector globalOrigin = m_transform.Apply(qbVector{std::vector{0.0, 0.0, 0.0}}, FWDTFORM);
+                    // normal = m_transform.Apply(preNorm, FWDTFORM) - globalOrigin;
 
                     normal.Normalize();
                     color = baseColor;

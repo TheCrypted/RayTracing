@@ -9,6 +9,7 @@ qbRT::GTform::GTform()
 {
 	m_fwd.SetToIdentity();
 	m_bck.SetToIdentity();
+	UpdateLinTfm();
 }
 
 qbRT::GTform::~GTform()
@@ -19,12 +20,13 @@ qbRT::GTform::~GTform()
 qbRT::GTform::GTform(const qbVector<double> &translate, const qbVector<double> &rotate, const qbVector<double> &scale)
 {
 	SetTransform(translate, rotate, scale);
+	UpdateLinTfm();
 }
 
 
 qbRT::GTform::GTform(const qbMatrix2<double> &fwd, const qbMatrix2<double> &bck)
 {
-	if (	(fwd.GetNumRows() != 4) || (fwd.GetNumCols() != 4) ||
+	if ((fwd.GetNumRows() != 4) || (fwd.GetNumCols() != 4) ||
 		(bck.GetNumRows() != 4) || (bck.GetNumCols() != 4))
 	{
 		throw std::invalid_argument("Cannot construct GTform, inputs are not all 4x4.");
@@ -32,6 +34,7 @@ qbRT::GTform::GTform(const qbMatrix2<double> &fwd, const qbMatrix2<double> &bck)
 
 	m_fwd = fwd;
 	m_bck = bck;
+	UpdateLinTfm();
 }
 
 void qbRT::GTform::SetTransform(const qbVector<double> &translation, const qbVector<double> &rotation,
@@ -117,11 +120,11 @@ qbRT::Ray qbRT::GTform::Apply(const qbRT::Ray &inputRay, bool dirFlag)
 
 qbVector<double> qbRT::GTform::Apply(const qbVector<double> &inputVector, bool dirFlag)
 {
-	std::vector<double> tempData {	inputVector.GetElement(0),
-					inputVector.GetElement(1),
-					inputVector.GetElement(2),
-					1.0 };
-	qbVector<double> tempVector {tempData};
+	std::vector tempData {	inputVector.GetElement(0),
+		inputVector.GetElement(1),
+		inputVector.GetElement(2),
+		1.0 };
+	qbVector tempVector {tempData};
 
 	qbVector<double> resultVector;
 
@@ -135,13 +138,38 @@ qbVector<double> qbRT::GTform::Apply(const qbVector<double> &inputVector, bool d
 	}
 
 	qbVector<double> outputVector {std::vector<double> {	resultVector.GetElement(0),
-								resultVector.GetElement(1),
-								resultVector.GetElement(2) }};
+		resultVector.GetElement(1),
+		resultVector.GetElement(2) }};
 
 	return outputVector;
 }
 
-// Overload operators.
+qbVector<double> qbRT::GTform::ApplyNormal(const qbVector<double> normal)
+{
+	return m_lintfm * normal;
+}
+
+
+void qbRT::GTform::UpdateLinTfm()
+{
+	for (int i = 0; i < 3; ++i)
+	{
+		for (int j = 0; j < 3; ++j)
+		{
+			m_lintfm.SetElement(i, j, m_fwd.GetElement(i, j));
+		}
+	}
+
+	m_lintfm.Inverse();
+	m_lintfm = m_lintfm.Transpose();
+}
+
+qbMatrix2<double> qbRT::GTform::GetNormalTrans()
+{
+	return m_lintfm;
+}
+
+
 namespace qbRT
 {
 	qbRT::GTform operator* (const qbRT::GTform &lhs, const qbRT::GTform &rhs)
@@ -163,6 +191,7 @@ qbRT::GTform qbRT::GTform::operator= (const qbRT::GTform &rhs)
 	{
 		m_fwd = rhs.m_fwd;
 		m_bck = rhs.m_bck;
+		UpdateLinTfm();
 	}
 
 	return *this;

@@ -34,10 +34,13 @@ namespace qbRT
                     qbVector<double> intTemp = backRay.m_point1 + t * cop_m_lab;
                     intPoint = m_transform.Apply(intTemp, FWDTFORM);
 
-                    qbVector localOrigin{std::vector{0.0, 0.0, 0.0}};
-                    qbVector localNormal{std::vector{0.0, 0.0, -1.0}};
-                    qbVector<double> globalOrigin = m_transform.Apply(localOrigin, FWDTFORM);
-                    normal = m_transform.Apply(localNormal, FWDTFORM) - globalOrigin;
+                    // qbVector localOrigin{std::vector{0.0, 0.0, 0.0}};
+                    // qbVector localNormal{std::vector{0.0, 0.0, -1.0}};
+                    // qbVector<double> globalOrigin = m_transform.Apply(localOrigin, FWDTFORM);
+                    // normal = m_transform.Apply(localNormal, FWDTFORM) - globalOrigin;
+
+                    qbVector locNorm{std::vector{0.0, 0.0, -1.0}};
+                    normal = m_transform.ApplyNormal(locNorm);
                     normal.Normalize();
 
                     color = baseColor;

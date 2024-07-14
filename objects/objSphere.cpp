@@ -51,11 +51,12 @@ namespace qbRT
 
         qbVector<double> intTemp = ray.m_point1 + (vhat * t);
         intPoint = m_transform.Apply(intTemp, FWDTFORM);
+        //
+        // qbVector<double> objOrigin = qbVector{std::vector{0.0, 0.0, 0.0}};
+        // qbVector<double> newObjOrigin = m_transform.Apply(objOrigin, FWDTFORM);
 
-        qbVector<double> objOrigin = qbVector{std::vector{0.0, 0.0, 0.0}};
-        qbVector<double> newObjOrigin = m_transform.Apply(objOrigin, FWDTFORM);
-
-        normal = intPoint - newObjOrigin;
+        const qbVector<double>& locNorm = intTemp;
+        normal = m_transform.ApplyNormal(locNorm);
         normal.Normalize();
 
         color = baseColor;

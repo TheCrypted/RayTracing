@@ -26,6 +26,7 @@ namespace qbRT
 
             Ray Apply(const Ray &ray, bool fwd);
             qbVector<double> Apply(const qbVector<double> &vec, bool fwd);
+            qbVector<double> ApplyNormal(const qbVector<double> normal);
 
             friend GTform operator*(const qbRT::GTform &lhs, const qbRT::GTform &rhs);
             GTform operator=(const GTform &rhs);
@@ -34,13 +35,16 @@ namespace qbRT
             static void PrintVector(const qbVector<double> &vec);
 
             qbMatrix2<double> GetMatrix(bool dir);
+            qbMatrix2<double> GetNormalTrans();
 
         private:
             static void Print(const qbMatrix2<double> &matrix);
+            void UpdateLinTfm();
 
         private:
             qbMatrix2<double> m_fwd {4, 4};
             qbMatrix2<double> m_bck {4, 4};
+            qbMatrix2<double> m_lintfm {3, 3};
     };
 }
 

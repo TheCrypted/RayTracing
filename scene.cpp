@@ -115,12 +115,19 @@ namespace qbRT {
             qbVector{std::vector{0.75, 0.75, 0.75}}}	);
         sphere4 -> AssignMaterial(glassMaterial);
 
+        auto cylinder = std::make_shared<ObjCylinder>(ObjCylinder());
+        cylinder -> SetTransform(GTform{qbVector{std::vector{0.0, 0.0, 0.0}},
+            qbVector{std::vector{0.0, 0.0, 0.0}},
+            qbVector{std::vector{0.5, 0.5, 1.0}}});
+        cylinder->AssignMaterial(glassMaterial);
+
         objList.push_back(floor);
         objList.push_back(img);
         objList.push_back(sphere);
         objList.push_back(sphere2);
         objList.push_back(sphere3);
         objList.push_back(sphere4);
+        objList.push_back(cylinder);
 
         lightList.push_back(std::make_shared<PointLight>(PointLight()));
         lightList.at(0) -> m_position = qbVector{std::vector{5.0, -10.0, -5.0}};

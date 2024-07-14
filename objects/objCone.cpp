@@ -105,23 +105,26 @@ namespace qbRT
 		qbVector<double> validPOI = poi.at(minIndex);
 		if (minIndex < 2)
 		{
-		    intPoint = m_transform.Apply(validPOI, qbRT::FWDTFORM);
+			intPoint = m_transform.Apply(validPOI, qbRT::FWDTFORM);
 
-		    qbVector<double> orgNormal {3};
-		    qbVector<double> newNormal {3};
-		    qbVector<double> localOrigin {std::vector<double> {0.0, 0.0, 0.0}};
-		    qbVector<double> globalOrigin = m_transform.Apply(localOrigin, qbRT::FWDTFORM);
-		    double tX = validPOI.GetElement(0);
-		    double tY = validPOI.GetElement(1);
-		    double tZ = -sqrtf(pow(tX, 2.0) + pow(tY, 2.0));
-		    orgNormal.SetElement(0, tX);
-		    orgNormal.SetElement(1, tY);
-		    orgNormal.SetElement(2, tZ);
-		    newNormal = m_transform.Apply(orgNormal, qbRT::FWDTFORM) - globalOrigin;
-		    newNormal.Normalize();
-		    normal = newNormal;
+			qbVector<double> orgNormal {3};
+			qbVector<double> newNormal {3};
+			qbVector localOrigin {std::vector {0.0, 0.0, 0.0}};
+			// qbVector<double> globalOrigin = m_transform.Apply(localOrigin, qbRT::FWDTFORM);
+			double tX = validPOI.GetElement(0);
+			double tY = validPOI.GetElement(1);
+			double tZ = -sqrtf(pow(tX, 2.0) + pow(tY, 2.0));
+			orgNormal.SetElement(0, tX);
+			orgNormal.SetElement(1, tY);
+			orgNormal.SetElement(2, tZ);
 
-		    color = baseColor;
+			newNormal = m_transform.ApplyNormal(orgNormal);
+			// newNormal = m_transform.Apply(orgNormal, qbRT::FWDTFORM) - globalOrigin;
+			newNormal.Normalize();
+
+			normal = newNormal;
+
+			color = baseColor;
 
 			double x = validPOI.GetElement(0);
 			double y = validPOI.GetElement(1);
@@ -142,10 +145,11 @@ namespace qbRT
 				{
 					intPoint = m_transform.Apply(validPOI, qbRT::FWDTFORM);
 
-					qbVector<double> localOrigin {std::vector<double> {0.0, 0.0, 0.0}};
-					qbVector<double> normalVector {std::vector<double> {0.0, 0.0, 1.0}};
-					qbVector<double> globalOrigin = m_transform.Apply(localOrigin, qbRT::FWDTFORM);
-					normal = m_transform.Apply(normalVector, qbRT::FWDTFORM) - globalOrigin;
+					qbVector localOrigin {std::vector {0.0, 0.0, 0.0}};
+					qbVector normalVector {std::vector {0.0, 0.0, 1.0}};
+					// qbVector<double> globalOrigin = m_transform.Apply(localOrigin, qbRT::FWDTFORM);
+					normal = m_transform.ApplyNormal(normalVector);
+					// normal = m_transform.Apply(normalVector, qbRT::FWDTFORM) - globalOrigin;
 					normal.Normalize();
 
 					color = baseColor;
