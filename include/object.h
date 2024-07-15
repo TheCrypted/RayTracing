@@ -24,6 +24,8 @@ namespace qbRT
             bool AssignMaterial(const std::shared_ptr<Material> &objectMaterial);
 
         public:
+            bool isVisible = true;
+
             qbVector<double> baseColor {3};
             GTform m_transform;
 

@@ -121,13 +121,19 @@ namespace qbRT {
             qbVector{std::vector{0.5, 0.5, 1.0}}});
         cylinder->AssignMaterial(glassMaterial);
 
+        auto cube = std::make_shared<ObjCube>(ObjCube());
+        cube -> SetTransform(GTform{qbVector{std::vector{0.0, 0.0, 0.0}},
+            qbVector{std::vector{0.0, 0.0, 0.0}},
+            qbVector{std::vector{0.5, 0.5, 1.0}}});
+        cube->AssignMaterial(sphereMaterial2);
+
         objList.push_back(floor);
         objList.push_back(img);
         objList.push_back(sphere);
         objList.push_back(sphere2);
         objList.push_back(sphere3);
         objList.push_back(sphere4);
-        objList.push_back(cylinder);
+        objList.push_back(cube);
 
         lightList.push_back(std::make_shared<PointLight>(PointLight()));
         lightList.at(0) -> m_position = qbVector{std::vector{5.0, -10.0, -5.0}};
@@ -135,11 +141,11 @@ namespace qbRT {
 
         lightList.push_back(std::make_shared<PointLight>(PointLight()));
         lightList.at(1) -> m_position = qbVector {std::vector {-5.0, -10.0, -5.0}};
-        lightList.at(1) -> m_color = qbVector {std::vector {1.0, 0.0, 0.0}};
+        lightList.at(1) -> m_color = qbVector {std::vector {1.0, 1.0, 1.0}};
 
-        lightList.push_back(std::make_shared<PointLight>(PointLight()));
-        lightList.at(2) -> m_position = qbVector {std::vector {0.0, -10.0, -5.0}};
-        lightList.at(2) -> m_color = qbVector {std::vector {0.0, 1.0, 0.0}};
+        // lightList.push_back(std::make_shared<PointLight>(PointLight()));
+        // lightList.at(2) -> m_position = qbVector {std::vector {0.0, -10.0, -5.0}};
+        // lightList.at(2) -> m_color = qbVector {std::vector {0.0, 1.0, 0.0}};
     }
 
     bool Scene::Render(qbImage &outputImage)

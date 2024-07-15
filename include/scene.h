@@ -16,6 +16,7 @@
 #include "simpleMaterial.h"
 #include "light.h"
 #include "objCone.h"
+#include "objCube.h"
 #include "pointLight.h"
 #include "checkerText.h"
 #include "simpleRefractive.h"
