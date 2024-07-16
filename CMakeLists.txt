@@ -54,7 +54,11 @@ add_executable(RayTracing main.cpp
         include/objCube.h
         raymarch/distFunc.cpp
         include/distFunc.h
-        rayMarchBase.cpp
-        include/rayMarchBase.h)
+        raymarch/rayMarchBase.cpp
+        include/rayMarchBase.h
+        raymarch/marchSphere.cpp
+        include/marchSphere.h
+        raymarch/marchTorus.cpp
+        include/marchTorus.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})

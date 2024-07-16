@@ -8,6 +8,7 @@
 #include <functional>
 #include "object.h"
 #include "objCube.h"
+#include "distFunc.h"
 
 
 namespace qbRT::RM
