@@ -51,6 +51,10 @@ add_executable(RayTracing main.cpp
         materials/simpleRefractive.cpp
         include/simpleRefractive.h
         objects/objCube.cpp
-        include/objCube.h)
+        include/objCube.h
+        raymarch/distFunc.cpp
+        include/distFunc.h
+        rayMarchBase.cpp
+        include/rayMarchBase.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})
