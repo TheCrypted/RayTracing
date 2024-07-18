@@ -18,10 +18,16 @@ namespace qbRT {
 
         auto floorTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
         auto imageTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
+        auto gradientTexture = std::make_shared<TextureBase::Gradient> (TextureBase::Gradient());
 
         floorTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
             qbVector{std::vector{16.0, 16.0}});
 
+        gradientTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
+            qbVector{std::vector{1.0, 1.0}});
+        gradientTexture -> SetStop(0.0, qbVector{std::vector{1.0, 0.0, 0.0, 1.0}});
+        gradientTexture -> SetStop(0.5, qbVector{std::vector{0.0, 1.0, 0.0, 1.0}});
+        gradientTexture -> SetStop(1.0, qbVector{std::vector{0.0, 0.0, 1.0, 1.0}});
 
         imageTexture -> SetColor(qbVector{std::vector{0.2, 0.2, 0.8}}, qbVector{std::vector{1.0, 0.5, 0.0}});
         imageTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
@@ -45,7 +51,7 @@ namespace qbRT {
         imageMaterial -> baseColor = qbVector{std::vector{1.0, 0.125, 0.125}};
         imageMaterial -> reflectivity = 0.0;
         imageMaterial -> shine = 0.0;
-        imageMaterial -> AssignTexture(imageTexture);
+        imageMaterial -> AssignTexture(gradientTexture);
 
         coneMaterial -> baseColor = qbVector{std::vector{0.8, 0.3, 0.4}};
         coneMaterial -> reflectivity = 0.05;

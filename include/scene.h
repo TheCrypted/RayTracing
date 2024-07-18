@@ -20,6 +20,7 @@
 #include "pointLight.h"
 #include "checkerText.h"
 #include "simpleRefractive.h"
+#include "gradient.h"
 
 namespace qbRT
 {

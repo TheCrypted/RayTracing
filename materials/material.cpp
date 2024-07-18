@@ -147,9 +147,9 @@ namespace qbRT
         if(textureList.size() > 1)
         {
             res = textureList[0] -> GetColor(coords);
-            for (const auto& texture : textureList)
+            for (int i = 1; i < textureList.size(); ++i)
             {
-                BlendColors(res, texture -> GetColor(coords));
+                BlendColors(res, textureList[i] -> GetColor(coords));
             }
         } else
         {

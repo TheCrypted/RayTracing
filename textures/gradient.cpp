@@ -14,7 +14,8 @@ namespace qbRT::TextureBase
 
     qbVector<double> Gradient::GetColor(const qbVector<double>& coords)
     {
-        qbVector<double> newInput = ApplyTransform(coords);
+        qbVector<double> input = coords;
+        qbVector<double> newInput = ApplyTransform(input);
         double uScaled = std::min((newInput.GetElement(1) + 1.0) / 2.0, 1.0);
         return colormap.GetColor(uScaled);
     }

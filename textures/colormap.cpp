@@ -4,7 +4,7 @@
 
 #include "../include/colormap.h"
 
-namespace qbRT::Textures
+namespace qbRT::TextureBase
 {
     Colormap::Colormap()
     = default;
@@ -23,14 +23,15 @@ namespace qbRT::Textures
         int numStops = stops.size();
         int preStop = 0;
         int postStop = 0;
-        double diff = 0.0;
+        double diff = 2.0;
 
         for (int i = 0; i < numStops; ++i)
         {
             double locDiff = stops[i] - stop;
             if(fabs(locDiff) < diff)
             {
-                diff = locDiff;
+                diff = fabs(locDiff);
+                preStop = i;
                 if(locDiff < 0)
                 {
                     postStop = std::min(numStops, i+1);
