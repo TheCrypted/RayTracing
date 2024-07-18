@@ -59,6 +59,10 @@ add_executable(RayTracing main.cpp
         raymarch/marchSphere.cpp
         include/marchSphere.h
         raymarch/marchTorus.cpp
-        include/marchTorus.h)
+        include/marchTorus.h
+        textures/colormap.cpp
+        include/colormap.h
+        gradient.cpp
+        gradient.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})
