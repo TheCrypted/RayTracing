@@ -1,0 +1,26 @@
+//
+// Created by Aman's Laptop on 18-07-2024.
+//
+
+#include "../include/gradient.h"
+
+namespace qbRT::TextureBase
+{
+    Gradient::Gradient()
+    = default;
+
+    Gradient::~Gradient()
+    = default;
+
+    qbVector<double> Gradient::GetColor(const qbVector<double>& coords)
+    {
+        qbVector<double> newInput = ApplyTransform(coords);
+        double uScaled = std::min((newInput.GetElement(1) + 1.0) / 2.0, 1.0);
+        return colormap.GetColor(uScaled);
+    }
+
+    void Gradient::SetStop(double stop, const qbVector<double>& color)
+    {
+        colormap.SetStop(stop, color);
+    }
+}

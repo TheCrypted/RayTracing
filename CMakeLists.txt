@@ -62,7 +62,7 @@ add_executable(RayTracing main.cpp
         include/marchTorus.h
         textures/colormap.cpp
         include/colormap.h
-        gradient.cpp
-        gradient.h)
+        textures/gradient.cpp
+        include/gradient.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})

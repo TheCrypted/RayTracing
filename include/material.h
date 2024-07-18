@@ -45,7 +45,11 @@ namespace qbRT
 				qbVector<double> &closestIntPoint, qbVector<double> &closestLocalNormal,
 				qbVector<double> &closestLocalColor);
 
-		void AssignTexture(const std::shared_ptr<TextureBase::Texture> &texture);
+			void AssignTexture(const std::shared_ptr<TextureBase::Texture> &texture);
+
+			qbVector<double> GetTextureColor(const qbVector<double> &coords);
+
+			void BlendColors(qbVector<double>& color1, const qbVector<double>& color2);
 
 		public:
 			inline static int maxReflectionDepth;

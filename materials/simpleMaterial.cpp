@@ -29,7 +29,7 @@ namespace qbRT
         } else
         {
             difColor = ComputeDiffuseColor(objectList, lightList, currentObject, intPoint, localNormal,
-                textureList[0]->GetColor(currentObject -> uvCoords));
+                GetTextureColor(currentObject -> uvCoords));
         }
 
         if(reflectivity > 0.0)

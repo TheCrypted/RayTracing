@@ -140,5 +140,30 @@ namespace qbRT
         hasTexture = true;
     }
 
+    qbVector<double> Material::GetTextureColor(const qbVector<double>& coords)
+    {
+        qbVector<double> res{4};
+
+        if(textureList.size() > 1)
+        {
+            res = textureList[0] -> GetColor(coords);
+            for (const auto& texture : textureList)
+            {
+                BlendColors(res, texture -> GetColor(coords));
+            }
+        } else
+        {
+            res = textureList[0] -> GetColor(coords);
+        }
+
+        return res;
+    }
+
+    void Material::BlendColors(qbVector<double>& color1, const qbVector<double>& color2)
+    {
+        color1 = (color2 * color2.GetElement(3)) + (color1 * (1.0 - color2.GetElement(3)));
+    }
+
+
 
 }

@@ -7,7 +7,7 @@
 #include "qbLinAlg/qbVector.h"
 
 
-namespace qbRT::Textures
+namespace qbRT::TextureBase
 {
     class Colormap {
         public:
