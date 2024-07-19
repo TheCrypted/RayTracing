@@ -19,6 +19,9 @@ namespace qbRT {
         auto floorTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
         auto imageTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
         auto gradientTexture = std::make_shared<TextureBase::Gradient> (TextureBase::Gradient());
+        auto check1Texture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
+        auto check2Texture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
+        auto layeredTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
 
         floorTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
             qbVector{std::vector{16.0, 16.0}});
@@ -28,6 +31,18 @@ namespace qbRT {
         gradientTexture -> SetStop(0.0, qbVector{std::vector{1.0, 0.0, 0.0, 1.0}});
         gradientTexture -> SetStop(0.5, qbVector{std::vector{0.0, 1.0, 0.0, 1.0}});
         gradientTexture -> SetStop(1.0, qbVector{std::vector{0.0, 0.0, 1.0, 1.0}});
+
+        check1Texture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
+            qbVector{std::vector{8.0, 8.0}});
+        check1Texture -> SetColor(qbVector{std::vector{1.0, 1.0, 1.0, 1.0}}, qbVector{std::vector{0.2, 0.2, 0.8, 1.0}});
+
+        check2Texture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, -M_PI/4.0,
+            qbVector{std::vector{8.0, 8.0}});
+        check2Texture -> SetColor(qbVector{std::vector{0.0, 0.0, 0.0, 1.0}}, qbVector{std::vector{1.0, 0.2, 0.1, 1.0}});
+
+        layeredTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
+            qbVector{std::vector{4.0, 4.0}});
+        layeredTexture -> SetColor(check1Texture, check2Texture);
 
         imageTexture -> SetColor(qbVector{std::vector{0.2, 0.2, 0.8}}, qbVector{std::vector{1.0, 0.5, 0.0}});
         imageTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
@@ -51,7 +66,7 @@ namespace qbRT {
         imageMaterial -> baseColor = qbVector{std::vector{1.0, 0.125, 0.125}};
         imageMaterial -> reflectivity = 0.0;
         imageMaterial -> shine = 0.0;
-        imageMaterial -> AssignTexture(gradientTexture);
+        imageMaterial -> AssignTexture(layeredTexture);
 
         coneMaterial -> baseColor = qbVector{std::vector{0.8, 0.3, 0.4}};
         coneMaterial -> reflectivity = 0.05;
