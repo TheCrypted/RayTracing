@@ -21,6 +21,7 @@
 #include "checkerText.h"
 #include "simpleRefractive.h"
 #include "gradient.h"
+#include "basicNoiseText.h"
 
 namespace qbRT
 {

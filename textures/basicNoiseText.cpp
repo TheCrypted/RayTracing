@@ -4,7 +4,7 @@
 
 #include "../include/basicNoiseText.h"
 
-#include <bits/stl_algo.h>
+#include <algorithm>
 
 namespace qbRT::TextureBase
 {

@@ -4,7 +4,6 @@
 
 #include "../include/valNoise.h"
 
-#include <bits/random.h>
 
 namespace qbRT::Noise
 {

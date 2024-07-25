@@ -6,6 +6,7 @@
 #define VALNOISE_H
 
 #include <vector>
+#include <random>
 #include "noise.h"
 
 
