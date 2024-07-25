@@ -63,6 +63,10 @@ add_executable(RayTracing main.cpp
         textures/colormap.cpp
         include/colormap.h
         textures/gradient.cpp
-        include/gradient.h)
+        include/gradient.h
+        noise/noise.cpp
+        include/noise.h
+        noise/valNoise.cpp
+        include/valNoise.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})
