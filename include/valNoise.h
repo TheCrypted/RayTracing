@@ -5,11 +5,27 @@
 #ifndef VALNOISE_H
 #define VALNOISE_H
 
+#include <vector>
+#include "noise.h"
 
 
-class valNoise {
+namespace qbRT::Noise
+{
+    class ValNoise : public NoiseBase {
 
-};
+        public:
+            ValNoise();
+            ~ValNoise() override;
+
+            double GetValue(double u, double v) override;
+            void SetGrid(int scale) override;
+
+        public:
+            std::vector<std::vector<double>> valGrid;
+            bool wrap = false;
+
+    };
+}
 
 
 
