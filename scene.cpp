@@ -22,7 +22,7 @@ namespace qbRT {
         auto check1Texture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
         auto check2Texture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
         auto layeredTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
-        auto noiseTexture = std::make_shared<TextureBase::BasicNoise> (TextureBase::BasicNoise());
+        auto noiseTexture = std::make_shared<TextureBase::MarbleText> (TextureBase::MarbleText());
 
         floorTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
             qbVector{std::vector{16.0, 16.0}});
@@ -50,13 +50,18 @@ namespace qbRT {
             qbVector{std::vector{8.0*(M_PI/2.0), 8.0}} );
 
         auto noiseMap = std::make_shared<TextureBase::Colormap> (TextureBase::Colormap());
-        noiseMap -> SetStop(0.0, qbVector{std::vector{1.0, 0.4, 0.0, 1.0}});
-        noiseMap -> SetStop(0.5, qbVector{std::vector{0.2, 0.4, 0.8, 1.0}});
-        noiseMap -> SetStop(1.0, qbVector{std::vector{1.0, 0.8, 0.0, 1.0}});
+        noiseMap -> SetStop(0.0, qbVector{std::vector{1.0, 1.0, 1.0, 1.0}});
+        noiseMap -> SetStop(0.2, qbVector{std::vector{1.0, 1.0, 1.0, 1.0}});
+        noiseMap -> SetStop(0.5, qbVector{std::vector{1.0, 0.4, 0.0, 1.0}});
+        noiseMap -> SetStop(0.8, qbVector{std::vector{1.0, 1.0, 1.0, 1.0}});
+        noiseMap -> SetStop(1.0, qbVector{std::vector{1.0, 1.0, 1.0, 1.0}});
 
         noiseTexture -> SetColor(noiseMap);
-        noiseTexture -> SetAmplitude(1.0);
-        noiseTexture -> SetScale(4.0);
+        noiseTexture -> SetAmplitude(4.0, 2.0);
+        noiseTexture -> SetScale(6.0, 40.0);
+        noiseTexture -> SetMinMax(-1.0, 1.0);
+        noiseTexture -> SetSin(1.0, 4.0);
+
 
         auto floorMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
         auto imageMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
@@ -167,7 +172,7 @@ namespace qbRT {
 
         lightList.push_back(std::make_shared<PointLight>(PointLight()));
         lightList.at(0) -> m_position = qbVector{std::vector{5.0, -10.0, -5.0}};
-        lightList.at(0) -> m_color = qbVector{std::vector{0.0, 0.0, 1.0}};
+        lightList.at(0) -> m_color = qbVector{std::vector{1.0, 1.0, 1.0}};
 
         lightList.push_back(std::make_shared<PointLight>(PointLight()));
         lightList.at(1) -> m_position = qbVector {std::vector {-5.0, -10.0, -5.0}};

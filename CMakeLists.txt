@@ -69,6 +69,10 @@ add_executable(RayTracing main.cpp
         noise/valNoise.cpp
         include/valNoise.h
         textures/basicNoiseText.cpp
-        include/basicNoiseText.h)
+        include/basicNoiseText.h
+        noise/gradNoise.cpp
+        include/gradNoise.h
+        textures/marbleText.cpp
+        include/marbleText.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})

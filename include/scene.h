@@ -22,6 +22,7 @@
 #include "simpleRefractive.h"
 #include "gradient.h"
 #include "basicNoiseText.h"
+#include "marbleText.h"
 
 namespace qbRT
 {
