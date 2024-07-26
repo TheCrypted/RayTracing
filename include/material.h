@@ -7,6 +7,8 @@
 
 
 #include <memory>
+
+#include "normal.h"
 #include "object.h"
 #include "light.h"
 #include "qbLinAlg/qbVector.h"
@@ -47,7 +49,11 @@ namespace qbRT
 
 			void AssignTexture(const std::shared_ptr<TextureBase::Texture> &texture);
 
+			void AssignNormalMap(const std::shared_ptr<Normal::NormalBase>& normMap);
+
 			qbVector<double> GetTextureColor(const qbVector<double> &coords);
+
+			qbVector<double> PerturbNormal(const qbVector<double> &normal, const qbVector<double> &uvCoords);
 
 			void BlendColors(qbVector<double>& color1, const qbVector<double>& color2);
 
@@ -57,7 +63,10 @@ namespace qbRT
 			inline static qbVector<double> ambientColor{std::vector{1.0, 1.0, 1.0}};
 			inline static double ambientIntensity = 0.2;
 			std::vector<std::shared_ptr<TextureBase::Texture>> textureList;
+			std::vector<std::shared_ptr<Normal::NormalBase>> normMapList;
 			bool hasTexture = false;
+			bool hasNormMap = false;
+			qbVector<double> locNorm;
 
 		private:
 

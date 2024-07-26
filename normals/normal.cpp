@@ -7,9 +7,7 @@
 namespace qbRT::Normal
 {
     NormalBase::NormalBase()
-    {
-
-    }
+    = default;
 
     NormalBase::~NormalBase()
     = default;
@@ -22,8 +20,7 @@ namespace qbRT::Normal
     qbVector<double> NormalBase::PerturbNormal(const qbVector<double>& normal, const qbVector<double>& perturbation)
     {
         qbVector upVec = std::vector{0.0, 0.0, -1.0};
-        if(normal.GetElement(2) > 0.99 || normal.GetElement(2) < -0.99)
-            upVec = std::vector{1.0, 0.0, 0.0};
+        if(normal.GetElement(2) > 0.99 || normal.GetElement(2) < -0.99) upVec = std::vector{1.0, 0.0, 0.0};
 
         qbVector<double> v = qbVector<double>::cross(upVec, normal);
         v.Normalize();

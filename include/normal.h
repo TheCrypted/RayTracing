@@ -4,6 +4,10 @@
 
 #ifndef NORMAL_H
 #define NORMAL_H
+
+#include <memory>
+#include "ray.h"
+#include "texture.h"
 #include "qbLinAlg/qbMatrix.h"
 #include "qbLinAlg/qbVector.h"
 

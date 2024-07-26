@@ -23,22 +23,31 @@ namespace qbRT
         qbVector<double> refColor{3};
         qbVector<double> specColor{3};
 
+        qbVector<double> normCopy = localNormal;
+
+        if(hasNormMap)
+        {
+            normCopy = PerturbNormal(normCopy, currentObject -> uvCoords);
+        }
+
+        locNorm = normCopy;
+
         if(!hasTexture)
         {
-            difColor = ComputeDiffuseColor(objectList, lightList, currentObject, intPoint, localNormal, baseColor);
+            difColor = ComputeDiffuseColor(objectList, lightList, currentObject, intPoint, normCopy, baseColor);
         } else
         {
-            difColor = ComputeDiffuseColor(objectList, lightList, currentObject, intPoint, localNormal,
+            difColor = ComputeDiffuseColor(objectList, lightList, currentObject, intPoint, normCopy,
                 GetTextureColor(currentObject -> uvCoords));
         }
 
         if(reflectivity > 0.0)
-            refColor = ComputeReflectionColor(objectList, lightList, currentObject, intPoint, localNormal, cameraRay);
+            refColor = ComputeReflectionColor(objectList, lightList, currentObject, intPoint, normCopy, cameraRay);
 
         matColor = (refColor * reflectivity) + (difColor * (1.0 - reflectivity));
 
         if(shine > 0.0)
-            specColor = ComputeSpecular(objectList, lightList, intPoint, localNormal, cameraRay);
+            specColor = ComputeSpecular(objectList, lightList, intPoint, normCopy, cameraRay);
 
         matColor = matColor + specColor;
 

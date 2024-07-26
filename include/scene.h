@@ -23,6 +23,7 @@
 #include "gradient.h"
 #include "basicNoiseText.h"
 #include "marbleText.h"
+#include "BasicRoughNorm.h"
 
 namespace qbRT
 {

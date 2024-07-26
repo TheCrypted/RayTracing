@@ -16,6 +16,9 @@ namespace qbRT {
         m_camera.set_camera_asp_ratio(16.0/9.0);
         m_camera.UpdateCameraGeometry();
 
+        auto normMap = std::make_shared<Normal::BasicRough>(Normal::BasicRough());
+        normMap -> amplitude = 0.125;
+
         auto floorTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
         auto imageTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
         auto gradientTexture = std::make_shared<TextureBase::Gradient> (TextureBase::Gradient());
@@ -95,6 +98,7 @@ namespace qbRT {
         floorMaterial -> reflectivity = 0.25;
         floorMaterial -> shine = 0.0;
         floorMaterial -> AssignTexture(floorTexture);
+        floorMaterial -> AssignNormalMap(normMap);
 
         sphereMaterial -> baseColor = qbVector{std::vector{1.0, 0.2, 0.2}};
         sphereMaterial -> reflectivity = 0.8;

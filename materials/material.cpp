@@ -140,6 +140,12 @@ namespace qbRT
         hasTexture = true;
     }
 
+    void Material::AssignNormalMap(const std::shared_ptr<Normal::NormalBase>& normMap)
+    {
+        normMapList.push_back(normMap);
+        hasNormMap = true;
+    }
+
     qbVector<double> Material::GetTextureColor(const qbVector<double>& coords)
     {
         qbVector<double> res{4};
@@ -158,6 +164,19 @@ namespace qbRT
 
         return res;
     }
+
+    qbVector<double> Material::PerturbNormal(const qbVector<double>& normal, const qbVector<double>& uvCoords)
+    {
+        qbVector<double> newNorm = normal;
+
+        for (auto & i : normMapList)
+        {
+            newNorm = i -> CompPerturbation(newNorm, uvCoords);
+        }
+
+        return newNorm;
+    }
+
 
     void Material::BlendColors(qbVector<double>& color1, const qbVector<double>& color2)
     {
