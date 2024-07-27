@@ -20,6 +20,13 @@ namespace qbRT::TextureBase
         return colormap.GetColor(uScaled);
     }
 
+    double Gradient::GetValue(const qbVector<double>& coords)
+    {
+        qbVector<double> input = coords;
+        qbVector<double> newInput = ApplyTransform(input);
+        return std::min((newInput.GetElement(1) + 1.0) / 2.0, 1.0);
+    }
+
     void Gradient::SetStop(double stop, const qbVector<double>& color)
     {
         colormap.SetStop(stop, color);

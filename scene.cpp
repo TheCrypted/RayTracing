@@ -16,9 +16,6 @@ namespace qbRT {
         m_camera.set_camera_asp_ratio(16.0/9.0);
         m_camera.UpdateCameraGeometry();
 
-        auto normMap = std::make_shared<Normal::BasicRough>(Normal::BasicRough());
-        normMap -> amplitude = 0.125;
-
         auto floorTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
         auto imageTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
         auto gradientTexture = std::make_shared<TextureBase::Gradient> (TextureBase::Gradient());
@@ -26,6 +23,7 @@ namespace qbRT {
         auto check2Texture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
         auto layeredTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
         auto noiseTexture = std::make_shared<TextureBase::MarbleText> (TextureBase::MarbleText());
+        auto stoneTexture = std::make_shared<TextureBase::Stone> (TextureBase::Stone());
 
         floorTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
             qbVector{std::vector{16.0, 16.0}});
@@ -52,6 +50,13 @@ namespace qbRT {
         imageTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
             qbVector{std::vector{8.0*(M_PI/2.0), 8.0}} );
 
+        stoneTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
+            qbVector{std::vector{16.0, 16.0}});
+
+        auto normMap = std::make_shared<Normal::TextureNormal>(Normal::TextureNormal());
+        normMap -> AssignTexture(stoneTexture);
+        normMap -> scale = 0.015;
+
         auto noiseMap = std::make_shared<TextureBase::Colormap> (TextureBase::Colormap());
         noiseMap -> SetStop(0.0, qbVector{std::vector{1.0, 1.0, 1.0, 1.0}});
         noiseMap -> SetStop(0.2, qbVector{std::vector{1.0, 1.0, 1.0, 1.0}});
@@ -75,6 +80,7 @@ namespace qbRT {
         auto sphereMaterial3 = std::make_shared<SimpleMaterial> (SimpleMaterial());
         auto glassMaterial = std::make_shared<SimpleRefractive> (SimpleRefractive());
         auto wallMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
+        auto stoneMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
 
         cylMaterial -> baseColor = qbVector{std::vector{0.2, 0.3, 0.8}};
         cylMaterial -> reflectivity = 0.05;
@@ -100,6 +106,12 @@ namespace qbRT {
         floorMaterial -> AssignTexture(floorTexture);
         floorMaterial -> AssignNormalMap(normMap);
 
+        stoneMaterial -> baseColor = qbVector{std::vector{1.0, 1.0, 1.0}};
+        stoneMaterial -> reflectivity = 0.25;
+        stoneMaterial -> shine = 32.0;
+        stoneMaterial -> AssignTexture(stoneTexture);
+        stoneMaterial -> AssignNormalMap(normMap);
+
         sphereMaterial -> baseColor = qbVector{std::vector{1.0, 0.2, 0.2}};
         sphereMaterial -> reflectivity = 0.8;
         sphereMaterial -> shine = 32.0;
@@ -122,7 +134,7 @@ namespace qbRT {
         floor -> SetTransform(GTform{qbVector{std::vector{0.0, 0.0, 1.0}},
             qbVector{std::vector{0.0, 0.0, 0.0}},
             qbVector{std::vector{16.0, 16.0, 1.0}}});
-        floor ->AssignMaterial(floorMaterial);
+        floor ->AssignMaterial(stoneMaterial);
 
         auto img = std::make_shared<ObjPlane> (ObjPlane());
         img -> SetTransform(GTform {	qbVector{std::vector{0.0, 5.0, -0.75}},

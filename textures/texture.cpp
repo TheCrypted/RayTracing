@@ -18,6 +18,11 @@ namespace qbRT::TextureBase
         return res;
     }
 
+    double Texture::GetValue(const qbVector<double>& coords)
+    {
+        return 0.0;
+    }
+
     void Texture::SetTransform(const qbVector<double>& translation, const double &rotation, const qbVector<double>& scale)
     {
         qbMatrix2 transMat{3, 3, std::vector{1.0, 0.0, translation.GetElement(0),

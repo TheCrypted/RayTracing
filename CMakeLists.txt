@@ -79,6 +79,10 @@ add_executable(RayTracing main.cpp
         normals/constantNorm.cpp
         include/constantNorm.h
         normals/BasicRoughNorm.cpp
-        include/BasicRoughNorm.h)
+        include/BasicRoughNorm.h
+        normals/textNorm.cpp
+        include/textNorm.h
+        textures/stone.cpp
+        include/stone.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})

@@ -21,6 +21,7 @@ namespace qbRT::Normal
 
             virtual qbVector<double> CompPerturbation(const qbVector<double>& normal, const qbVector<double>& uvCoords);
             qbVector<double> PerturbNormal(const qbVector<double>& normal, const qbVector<double>& perturbation);
+            qbVector<double> TextureDiff(const std::shared_ptr<TextureBase::Texture>& inputTexture, const qbVector<double>& uvCoords);
 
             void SetAmplitude(double in_amp);
             void SetTransform(const qbVector<double>& translation, const double rotation, const qbVector<double>& scale);

@@ -24,6 +24,8 @@
 #include "basicNoiseText.h"
 #include "marbleText.h"
 #include "BasicRoughNorm.h"
+#include "stone.h"
+#include "textNorm.h"
 
 namespace qbRT
 {

@@ -19,7 +19,7 @@ namespace qbRT::TextureBase
             virtual ~Texture();
 
             virtual qbVector<double> GetColor(const qbVector<double> &coords);
-
+            virtual double GetValue(const qbVector<double> &coords);
             void SetTransform(const qbVector<double> &translation, const double &rotation,
                 const qbVector<double> &scale);
 

@@ -33,6 +33,19 @@ namespace qbRT::Normal
         return res;
     }
 
+    qbVector<double> NormalBase::TextureDiff(const std::shared_ptr<TextureBase::Texture>& inputTexture, const qbVector<double>& uvCoords)
+    {
+        double h = 0.001;
+        qbVector uDis = std::vector{h, 0.0};
+        qbVector vDis = std::vector{0.0, h};
+        double uGrad = (inputTexture->GetValue(uvCoords + uDis) - inputTexture->GetValue(uvCoords - uDis)) / (2.0 * h);
+        double vGrad = (inputTexture->GetValue(uvCoords + vDis) - inputTexture->GetValue(uvCoords - vDis)) / (2.0 * h);
+
+        qbVector output = std::vector{uGrad, vGrad};
+        return output;
+    }
+
+
     void NormalBase::SetAmplitude(double in_amp)
     {
         amplitude = in_amp;
