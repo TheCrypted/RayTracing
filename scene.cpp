@@ -24,6 +24,7 @@ namespace qbRT {
         auto layeredTexture = std::make_shared<TextureBase::Checker> (TextureBase::Checker());
         auto noiseTexture = std::make_shared<TextureBase::MarbleText> (TextureBase::MarbleText());
         auto stoneTexture = std::make_shared<TextureBase::Stone> (TextureBase::Stone());
+        auto mediaTexture = std::make_shared<TextureBase::Image> (TextureBase::Image());
 
         floorTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
             qbVector{std::vector{16.0, 16.0}});
@@ -52,6 +53,15 @@ namespace qbRT {
 
         stoneTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
             qbVector{std::vector{16.0, 16.0}});
+
+        mediaTexture -> LoadImage("assets/Voronoi.bmp");
+        mediaTexture -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
+            qbVector{std::vector{1.0, 1.0}});
+
+        auto mediaNormMap = std::make_shared<Normal::Image>(Normal::Image());
+        mediaNormMap -> LoadImage("assets/Voronoi_normal.bmp");
+        mediaNormMap -> SetTransform(qbVector{std::vector{0.0, 0.0}}, 0.0,
+            qbVector{std::vector{1.0, 1.0}});
 
         auto normMap = std::make_shared<Normal::TextureNormal>(Normal::TextureNormal());
         normMap -> AssignTexture(stoneTexture);

@@ -26,6 +26,8 @@
 #include "BasicRoughNorm.h"
 #include "stone.h"
 #include "textNorm.h"
+#include "imgText.h"
+#include "image.h"
 
 namespace qbRT
 {
