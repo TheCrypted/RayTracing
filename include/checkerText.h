@@ -23,8 +23,6 @@ namespace qbRT::TextureBase
         private:
             std::shared_ptr<Texture> color1;
             std::shared_ptr<Texture> color2;
-            // qbVector<double> color1{4};
-            // qbVector<double> color2{4};
     };
 }
 

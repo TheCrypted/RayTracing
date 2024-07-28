@@ -34,9 +34,8 @@ namespace qbRT::Normal
                 x = uvDiff.GetElement(0) * scale;
                 y = uvDiff.GetElement(1) * scale;
             }
-
-            qbVector perturbation = std::vector{x, y, z};
-            return PerturbNormal(normal, perturbation);
         }
+        qbVector perturbation = std::vector{x, y, z};
+        return PerturbNormal(normal, perturbation);
     }
 }

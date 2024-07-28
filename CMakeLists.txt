@@ -87,6 +87,8 @@ add_executable(RayTracing main.cpp
         normals/image.cpp
         include/image.h
         utils.cpp
-        include/utils.h)
+        include/utils.h
+        objects/composite.cpp
+        include/composite.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})
