@@ -15,6 +15,59 @@ namespace qbRT
     Object::~Object()
     = default;
 
+    void Object::GetExtents(qbVector<double>& x, qbVector<double>& y, qbVector<double>& z)
+    {
+        std::vector<qbVector<double>> cubeVerts = GetCube(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+
+        GTform netTransform = m_transform * boxTransform;
+
+        double xMin = 10e6;
+        double yMin = 10e6;
+        double zMin = 10e6;
+        double xMax = -10e6;
+        double yMax = -10e6;
+        double zMax = -10e6;
+
+        for (const auto & cubeVert : cubeVerts)
+        {
+            xMin = std::min(xMin, cubeVert.GetElement(0));
+            xMax = std::max(xMax, cubeVert.GetElement(0));
+            yMin = std::min(yMin, cubeVert.GetElement(1));
+            yMax = std::max(yMax, cubeVert.GetElement(1));
+            zMin = std::min(zMin, cubeVert.GetElement(2));
+            zMax = std::max(zMax, cubeVert.GetElement(2));
+        }
+
+        x.SetElement(0, xMin);
+        x.SetElement(1, xMax);
+        y.SetElement(0, yMin);
+        y.SetElement(1, yMax);
+        z.SetElement(0, zMin);
+        z.SetElement(1, zMax);
+    }
+
+    void Object::GetExtents(const GTform& transform, qbVector<double>& x, qbVector<double>& y, qbVector<double>& z)
+    {
+
+    }
+
+    std::vector<qbVector<double>> Object::GetCube(double xMax, double xMin, double yMax, double yMin, double zMax, double zMin)
+    {
+        std::vector<qbVector<double>> cubeVertices(8);
+
+        cubeVertices[0] = std::vector{xMin - boxPadding, yMin - boxPadding, zMin - boxPadding};
+        cubeVertices[1] = std::vector{xMax + boxPadding, yMin - boxPadding, zMin - boxPadding};
+        cubeVertices[2] = std::vector{xMax + boxPadding, yMax + boxPadding, zMin - boxPadding};
+        cubeVertices[3] = std::vector{xMin - boxPadding, yMax + boxPadding, zMin - boxPadding};
+        cubeVertices[4] = std::vector{xMin - boxPadding, yMin - boxPadding, zMax + boxPadding};
+        cubeVertices[5] = std::vector{xMax + boxPadding, yMin - boxPadding, zMax + boxPadding};
+        cubeVertices[6] = std::vector{xMax + boxPadding, yMax + boxPadding, zMax + boxPadding};
+        cubeVertices[7] = std::vector{xMin - boxPadding, yMax + boxPadding, zMax + boxPadding};
+
+        return cubeVertices;
+    }
+
+
     void Object::SetTransform(const qbRT::GTform &transform)
     {
         m_transform = transform;

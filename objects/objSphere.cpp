@@ -7,7 +7,12 @@
 namespace qbRT
 {
     ObjSphere::ObjSphere()
-    = default;
+    {
+        uvMapType = uvSphere;
+        boxTransform.SetTransform(qbVector{std::vector{0.0, 0.0, 0.0}},
+            qbVector{std::vector{0.0, 0.0, 0.0}},
+            qbVector{std::vector{1.0, 1.0, 1.0}});
+    }
 
     ObjSphere::~ObjSphere()
     = default;

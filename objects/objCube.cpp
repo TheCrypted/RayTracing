@@ -7,7 +7,12 @@
 namespace qbRT
 {
     ObjCube::ObjCube()
-    = default;
+    {
+        uvMapType = uvCube;
+        boxTransform.SetTransform(qbVector{std::vector{0.0, 0.0, 0.0}},
+            qbVector{std::vector{0.0, 0.0, 0.0}},
+            qbVector{std::vector{1.0, 1.0, 1.0}});
+    }
 
     ObjCube::~ObjCube()
     = default;
@@ -140,6 +145,64 @@ namespace qbRT
         {
             return false;
         }
+    }
+
+    bool ObjCube::TestIntersections(const Ray& ray)
+    {
+        if(!isVisible) return false;
+
+        Ray backRay = m_transform.Apply(ray, BCKTFORM);
+
+        double ax = backRay.m_point1.GetElement(0);
+        double ay = backRay.m_point1.GetElement(1);
+        double az = backRay.m_point1.GetElement(2);
+
+        qbVector<double> k = backRay.m_lab;
+        k.Normalize();
+
+        double kx = k.GetElement(0);
+        double ky = k.GetElement(1);
+        double kz = k.GetElement(2);
+
+        if(!closeEnough(kz, 0.0))
+        {
+            t[0] = (az - 1.0) / -kz;
+            t[1] = (az + 1.0) / -kz;
+            u[0] = ax + kx * t[0];
+            u[1] = ax + kx * t[1];
+            v[0] = ay + ky * t[0];
+            v[1] = ay + ky * t[1];
+        }
+
+        if(!closeEnough(kx, 0.0))
+        {
+            t[2] = (ax + 1.0) / -kx;
+            t[3] = (ax - 1.0) / -kx;
+            u[2] = az + kz * t[2];
+            u[3] = az + kz * t[3];
+            v[2] = ay + ky * t[2];
+            v[3] = ay + ky * t[3];
+        }
+
+        if(!closeEnough(ky, 0.0))
+        {
+            t[4] = (ay + 1.0) / -ky;
+            t[5] = (ay - 1.0) / -ky;
+            u[4] = ax + kx * t[4];
+            u[5] = ax + kx * t[5];
+            v[4] = az + kz * t[4];
+            v[5] = az + kz * t[5];
+        }
+
+        bool validIntersection = false;
+        for (int i = 0; i < 6 && !validIntersection; ++i)
+        {
+            if((t[i] < 100e6) && (t[i] > 0.0) && (abs(u[i]) <= 1.0) && (abs(v[i]) <= 1.0))
+            {
+                validIntersection = true;
+            }
+        }
+        return validIntersection;
     }
 
 

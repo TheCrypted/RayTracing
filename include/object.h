@@ -24,6 +24,10 @@ namespace qbRT
             Object();
             virtual ~Object();
 
+            virtual void GetExtents(qbVector<double>& x, qbVector<double>& y, qbVector<double>& z);
+            virtual void GetExtents(const GTform& transform, qbVector<double>& x, qbVector<double>& y, qbVector<double>& z);
+            std::vector<qbVector<double>> GetCube(double xMax, double xMin, double yMax, double yMin, double zMax, double zMin);
+
             void SetTransform(const GTform &transform);
             virtual bool TestIntersections(const Ray &ray, Data::HitData &hitData);
             static bool closeEnough(double a, double b);
@@ -41,6 +45,9 @@ namespace qbRT
 
             bool m_hasMaterial = false;
             int uvMapType = uvSphere;
+
+            GTform boxTransform;
+            double boxPadding = 0.0;
     };
 }
 

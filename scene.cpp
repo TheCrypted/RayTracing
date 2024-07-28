@@ -135,6 +135,7 @@ namespace qbRT {
             qbVector{std::vector{0.0, 0.0, 0.0}},
             qbVector{std::vector{16.0, 16.0, 1.0}}});
         floor ->AssignMaterial(stoneMaterial);
+        floor -> uvMapType = uvPlane;
 
         auto img = std::make_shared<ObjPlane> (ObjPlane());
         img -> SetTransform(GTform {	qbVector{std::vector{0.0, 5.0, -0.75}},

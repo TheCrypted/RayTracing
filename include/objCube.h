@@ -12,12 +12,13 @@
 
 namespace qbRT
 {
-    class ObjCube : public Object {
+    class ObjCube : public Object, public std::enable_shared_from_this<Object> {
         public:
             ObjCube();
             ~ObjCube() override;
 
             bool TestIntersections(const Ray& ray, Data::HitData& hitData) override;
+            bool TestIntersections(const Ray& ray);
 
         private:
             std::array<double, 6>  t;
