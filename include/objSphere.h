@@ -17,7 +17,7 @@ namespace qbRT
             // ObjSphere(qbVector<double> center, double radius, qbVector<double> color);
             ~ObjSphere() override;
 
-            bool TestIntersections(const Ray &rayOrig, qbVector<double> &intPoint, qbVector<double> &normal, qbVector<double> &color) override;
+            bool TestIntersections(const Ray &rayOrig, Data::HitData& hitData) override;
         private:
 
     };

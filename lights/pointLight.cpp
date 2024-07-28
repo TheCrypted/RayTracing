@@ -10,7 +10,7 @@ namespace qbRT
 {
     PointLight::PointLight()
     {
-        m_color = qbVector<double>{std::vector<double>{1.0, 1.0, 1.0}};
+        m_color = qbVector{std::vector{1.0, 1.0, 1.0}};
         m_intensity = 1.0;
     }
 
@@ -24,9 +24,7 @@ namespace qbRT
         const qbVector<double> lightDir = (m_position - intPoint).Normalized();
         double lightDist = (m_position - intPoint).norm();
 
-        qbVector<double> interPoint{3};
-        qbVector<double> interNormal{3};
-        qbVector<double> interColor{3};
+        Data::HitData hitData;
         bool validInt = false;
         Ray lightRay{intPoint, intPoint + lightDir};
 
@@ -34,12 +32,11 @@ namespace qbRT
         {
             if(obj != currObj)
             {
-                validInt = obj->TestIntersections(lightRay, interPoint, interNormal, interColor);
+                validInt = obj->TestIntersections(lightRay, hitData);
 
                 if(validInt)
                 {
-                    // break;
-                    double dist = (interPoint - intPoint).norm();
+                    double dist = (hitData.intPoint - intPoint).norm();
                     if(dist > lightDist)
                     {
                         validInt = false;

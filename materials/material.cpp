@@ -78,11 +78,10 @@ namespace qbRT
         Ray reflectionRay = Ray(intPoint, intPoint + reflection_vector);
 
         std::shared_ptr<Object> closestObj;
-        qbVector<double> closestIntPoint{3};
-        qbVector<double> closestNormal{3};
-        qbVector<double> closestColor{3};
+        Data::HitData closestHitData;
 
-        bool intersectionFound = CastRay(reflectionRay, objectList, currentObject, closestObj, closestIntPoint, closestNormal, closestColor);
+
+        bool intersectionFound = CastRay(reflectionRay, objectList, currentObject, closestObj, closestHitData);
 
         qbVector<double> matColor{3};
         if((intersectionFound) && (reflectionRayCount < maxReflectionDepth))
@@ -90,10 +89,10 @@ namespace qbRT
             reflectionRayCount++;
             if(closestObj -> m_hasMaterial)
             {
-                matColor = closestObj -> m_pMaterial -> ComputeColor(objectList, lightList, closestObj, closestIntPoint, closestNormal, reflectionRay);
+                matColor = closestObj -> m_pMaterial -> ComputeColor(objectList, lightList, closestObj, closestHitData.intPoint, closestHitData.localNormal, reflectionRay);
             } else
             {
-                matColor = ComputeDiffuseColor(objectList, lightList, closestObj, closestIntPoint, closestNormal, closestObj -> baseColor);
+                matColor = ComputeDiffuseColor(objectList, lightList, closestObj, closestHitData.intPoint, closestHitData.localNormal, closestObj -> baseColor);
             }
         }
         reflectionColor = matColor;
@@ -102,11 +101,9 @@ namespace qbRT
 
     bool Material::CastRay(const Ray& castRay, const std::vector<std::shared_ptr<Object>>& objectList,
         const std::shared_ptr<Object>& thisObject, std::shared_ptr<Object>& closestObject,
-        qbVector<double>& closestIntPoint, qbVector<double>& closestLocalNormal, qbVector<double>& closestLocalColor)
+        Data::HitData& closestHitData)
     {
-        qbVector<double> intPoint{3};
-        qbVector<double> localNormal{3};
-        qbVector<double> localColor{3};
+        Data::HitData hitData;
 
         double minDist = 1e6;
         bool intersectionFound = false;
@@ -115,18 +112,16 @@ namespace qbRT
         {
             if(object != thisObject)
             {
-                bool validInt = object -> TestIntersections(castRay, intPoint, localNormal, localColor);
+                bool validInt = object -> TestIntersections(castRay, hitData);
                 if(validInt)
                 {
-                    double dist = (intPoint - castRay.m_point1).norm();
+                    double dist = (hitData.intPoint - castRay.m_point1).norm();
                     intersectionFound = true;
                     if(dist < minDist)
                     {
                         minDist = dist;
                         closestObject = object;
-                        closestIntPoint = intPoint;
-                        closestLocalNormal = localNormal;
-                        closestLocalColor = localColor;
+                        closestHitData = hitData;
                     }
                 }
             }

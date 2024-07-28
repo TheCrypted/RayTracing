@@ -12,7 +12,7 @@ namespace qbRT
     ObjSphere::~ObjSphere()
     = default;
 
-    bool ObjSphere::TestIntersections(const Ray &rayOrig, qbVector<double> &intPoint, qbVector<double> &normal, qbVector<double> &color)
+    bool ObjSphere::TestIntersections(const Ray &rayOrig, Data::HitData& hitData)
     {
         Ray ray = m_transform.Apply(rayOrig, BCKTFORM);
         qbVector<double> vhat = ray.m_lab;
@@ -50,20 +50,17 @@ namespace qbRT
         }
 
         qbVector<double> intTemp = ray.m_point1 + (vhat * t);
-        intPoint = m_transform.Apply(intTemp, FWDTFORM);
-        //
-        // qbVector<double> objOrigin = qbVector{std::vector{0.0, 0.0, 0.0}};
-        // qbVector<double> newObjOrigin = m_transform.Apply(objOrigin, FWDTFORM);
+        hitData.intPoint = m_transform.Apply(intTemp, FWDTFORM);
 
         const qbVector<double>& locNorm = intTemp;
-        normal = m_transform.ApplyNormal(locNorm);
-        normal.Normalize();
+        hitData.localNormal = m_transform.ApplyNormal(locNorm);
+        hitData.localNormal.Normalize();
 
-        color = baseColor;
+        hitData.localColor = baseColor;
 
-        double x = intPoint.GetElement(0);
-        double y = intPoint.GetElement(1);
-        double z = intPoint.GetElement(2);
+        double x = hitData.intPoint.GetElement(0);
+        double y = hitData.intPoint.GetElement(1);
+        double z = hitData.intPoint.GetElement(2);
 
         double u = atan(sqrtf(pow(x, 2.0) + pow(y, 2.0)));
         double v = atan(y/x);

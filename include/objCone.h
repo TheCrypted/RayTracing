@@ -16,8 +16,7 @@ namespace qbRT
             ObjCone();
             ~ObjCone();
 
-            bool TestIntersections(const Ray& ray, qbVector<double>& intPoint, qbVector<double>& normal,
-                qbVector<double>& color) override;
+            bool TestIntersections(const Ray& ray, Data::HitData& hitData) override;
     };
 }
 

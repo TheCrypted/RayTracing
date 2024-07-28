@@ -8,20 +8,27 @@
 #include "qbLinAlg/qbVector.h"
 #include "ray.h"
 #include "gtfm.h"
+#include "utils.h"
 
 namespace qbRT
 {
     class Material;
+
+    constexpr int uvSphere = 0;
+    constexpr int uvPlane = 1;
+    constexpr int uvCylinder = 2;
+    constexpr int uvCube = 3;
 
     class Object {
         public:
             Object();
             virtual ~Object();
 
-            void SetTransform(const qbRT::GTform &transform);
-            virtual bool TestIntersections(const Ray &ray, qbVector<double> &intPoint, qbVector<double> &normal, qbVector<double> &color);
+            void SetTransform(const GTform &transform);
+            virtual bool TestIntersections(const Ray &ray, Data::HitData &hitData);
             static bool closeEnough(double a, double b);
             bool AssignMaterial(const std::shared_ptr<Material> &objectMaterial);
+            void ComputeUV(const qbVector<double>& localIntersection, qbVector<double>& uvCoords);
 
         public:
             bool isVisible = true;
@@ -33,6 +40,7 @@ namespace qbRT
             qbVector<double> uvCoords{2};
 
             bool m_hasMaterial = false;
+            int uvMapType = uvSphere;
     };
 }
 

@@ -15,8 +15,7 @@ namespace qbRT::RM
     RayMarchBase::~RayMarchBase()
     = default;
 
-    bool RayMarchBase::TestIntersections(const Ray& ray, qbVector<double>& intPoint, qbVector<double>& normal,
-        qbVector<double>& color)
+    bool RayMarchBase::TestIntersections(const Ray& ray, Data::HitData& hitData)
     {
         if(hasObjectFunction)
         {
@@ -24,11 +23,9 @@ namespace qbRT::RM
 
             Ray backRay = m_transform.Apply(ray, BCKTFORM);
 
-            qbVector<double> boundPOI{3};
-            qbVector<double> boundNormal{3};
-            qbVector<double> boundColor{3};
+            Data::HitData boundHitData;
 
-            if(boundingBox.TestIntersections(backRay, boundPOI, boundNormal, boundColor))
+            if(boundingBox.TestIntersections(backRay, boundHitData))
             {
                 qbVector<double> vhat = backRay.m_lab;
                 vhat.Normalize();
@@ -53,7 +50,7 @@ namespace qbRT::RM
                 {
                     return false;
                 }
-                intPoint = m_transform.Apply(currLoc, FWDTFORM);
+                hitData.intPoint = m_transform.Apply(currLoc, FWDTFORM);
 
                 qbVector<double> surfaceNormal{3};
                 qbVector<double> x1 = currLoc + m_xDisp;
@@ -67,8 +64,8 @@ namespace qbRT::RM
                 surfaceNormal.SetElement(2, EvaluateSDF(&z1, &params) - EvaluateSDF(&z2, &params));
                 surfaceNormal.Normalize();
 
-                normal = m_transform.ApplyNormal(surfaceNormal);
-                color = baseColor;
+                hitData.localNormal = m_transform.ApplyNormal(surfaceNormal);
+                hitData.localColor = baseColor;
 
                 return true;
             }

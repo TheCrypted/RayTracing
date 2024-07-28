@@ -77,15 +77,11 @@ namespace qbRT
         Ray ref1Ray{intPoint + (refracted1 * 0.0001), intPoint + refracted1};
 
         std::shared_ptr<Object> obj;
-        qbVector<double> closestIntPoint{3};
-        qbVector<double> closestNormal{3};
-        qbVector<double> closestColor{3};
 
-        qbVector<double> newIntPoint{3};
-        qbVector<double> newNormal{3};
-        qbVector<double> newColor{3};
+        Data::HitData closestHitData;
+        Data::HitData hitData;
 
-        bool secondInt = currentObject -> TestIntersections(ref1Ray, newIntPoint, newNormal, newColor);
+        bool secondInt = currentObject -> TestIntersections(ref1Ray, hitData);
         bool intFound = false;
         Ray finalRay;
 
@@ -93,7 +89,7 @@ namespace qbRT
         {
             qbVector<double> p2 = ref1Ray.m_lab;
             p2.Normalize();
-            qbVector<double> tempNormal2 = newNormal;
+            qbVector<double> tempNormal2 = hitData.localNormal;
             double r2 = refractiveIndex;
             double c2 = -qbVector<double>::dot(tempNormal2, p2);
             if(c2 < 0.0)
@@ -104,13 +100,13 @@ namespace qbRT
 
             qbVector<double> refracted2 = r2*p2 + (r2*c2 - sqrtf(1.0-pow(r2,2.0) * (1.0-pow(c2,2.0)))) * tempNormal2;
 
-            Ray ref2Ray{newIntPoint + (refracted2 * 0.0001), newIntPoint + refracted2};
-            intFound = CastRay(ref2Ray, objectList, currentObject, obj, closestIntPoint, closestNormal, closestColor);
+            Ray ref2Ray{hitData.intPoint + (refracted2 * 0.0001), hitData.intPoint + refracted2};
+            intFound = CastRay(ref2Ray, objectList, currentObject, obj, closestHitData);
 
             finalRay = ref2Ray;
         } else
         {
-            intFound = CastRay(ref1Ray, objectList, currentObject, obj, closestIntPoint, closestNormal, closestColor);
+            intFound = CastRay(ref1Ray, objectList, currentObject, obj, closestHitData);
             finalRay = ref1Ray;
         }
 
@@ -120,10 +116,10 @@ namespace qbRT
         {
             if(obj->m_hasMaterial)
             {
-                matColor = obj -> m_pMaterial -> ComputeColor(objectList, lightList, obj, closestIntPoint, closestNormal, finalRay);
+                matColor = obj -> m_pMaterial -> ComputeColor(objectList, lightList, obj, closestHitData.intPoint, closestHitData.localNormal, finalRay);
             } else
             {
-                matColor = ComputeDiffuseColor(objectList, lightList, obj, closestIntPoint, closestNormal, obj->baseColor);
+                matColor = ComputeDiffuseColor(objectList, lightList, obj, closestHitData.intPoint, closestHitData.localNormal, obj->baseColor);
             }
         }
 
@@ -149,14 +145,12 @@ namespace qbRT
 
             Ray lightRay = Ray(startPoint, startPoint + lightDir);
 
-            qbVector<double> poi{3};
-            qbVector<double> poiNormal{3};
-            qbVector<double> poiColor{3};
+            Data::HitData hitData;
             bool validInt = false;
 
             for(auto object : objectList)
             {
-                validInt = object -> TestIntersections(lightRay, poi, poiNormal, poiColor);
+                validInt = object -> TestIntersections(lightRay, hitData);
                 if(validInt)
                 {
                     break;

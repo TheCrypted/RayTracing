@@ -12,8 +12,7 @@ namespace qbRT
     ObjCylinder::~ObjCylinder()
     = default;
 
-    bool ObjCylinder::TestIntersections(const Ray& ray, qbVector<double>& intPoint, qbVector<double>& normal,
-        qbVector<double>& color)
+    bool ObjCylinder::TestIntersections(const Ray& ray, Data::HitData& hitData)
     {
         Ray backRay = m_transform.Apply(ray, BCKTFORM);
 
@@ -113,7 +112,7 @@ namespace qbRT
 
         if(minInd < 2)
         {
-            intPoint = m_transform.Apply(finalPOI, FWDTFORM);
+            hitData.intPoint = m_transform.Apply(finalPOI, FWDTFORM);
 
             qbVector<double> preNorm{3};
             qbVector<double> resNormal{3};
@@ -122,11 +121,10 @@ namespace qbRT
             preNorm.SetElement(1, finalPOI.GetElement(1));
             preNorm.SetElement(2, 0.0);
             resNormal = m_transform.ApplyNormal(preNorm);
-            // resNormal = m_transform.Apply(preNorm, FWDTFORM) - globalOrigin;
             resNormal.Normalize();
 
-            normal = resNormal;
-            color = baseColor;
+            hitData.localNormal = resNormal;
+            hitData.localColor = baseColor;
 
             double x = finalPOI.GetElement(0);
             double y = finalPOI.GetElement(1);
@@ -134,8 +132,9 @@ namespace qbRT
             double u = atan(y/x) / M_PI;
             double v1 = finalPOI.GetElement(2);
 
-            uvCoords.SetElement(0, u);
-            uvCoords.SetElement(1, v1);
+            ComputeUV(finalPOI, uvCoords);
+            hitData.uvCoords = uvCoords;
+            hitData.hitObject = std::make_shared<Object>(*this);
 
             return true;
         } else
@@ -144,18 +143,17 @@ namespace qbRT
             {
                 if(sqrtf(std::pow(finalPOI.GetElement(0), 2.0) + std::pow(finalPOI.GetElement(1), 2.0)) < 1.0)
                 {
-                    intPoint = m_transform.Apply(finalPOI, FWDTFORM);
+                    hitData.intPoint = m_transform.Apply(finalPOI, FWDTFORM);
 
                     qbVector preNorm{std::vector{0.0, 0.0, 0.0 + finalPOI.GetElement(2)}};
-                    normal = m_transform.ApplyNormal(preNorm);
-                    // qbVector globalOrigin = m_transform.Apply(qbVector{std::vector{0.0, 0.0, 0.0}}, FWDTFORM);
-                    // normal = m_transform.Apply(preNorm, FWDTFORM) - globalOrigin;
+                    hitData.localNormal = m_transform.ApplyNormal(preNorm);
 
-                    normal.Normalize();
-                    color = baseColor;
+                    hitData.localNormal.Normalize();
+                    hitData.localColor = baseColor;
 
-                    uvCoords.SetElement(0, intPoint.GetElement(0));
-                    uvCoords.SetElement(1, intPoint.GetElement(1));
+                    ComputeUV(finalPOI, uvCoords);
+                    hitData.uvCoords = uvCoords;
+                    hitData.hitObject = std::make_shared<Object>(*this);
 
                     return true;
                 } else

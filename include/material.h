@@ -44,8 +44,7 @@ namespace qbRT
 			bool CastRay(const Ray &castRay, const std::vector<std::shared_ptr<Object>> &objectList,
 				const std::shared_ptr<Object> &thisObject,
 				std::shared_ptr<Object> &closestObject,
-				qbVector<double> &closestIntPoint, qbVector<double> &closestLocalNormal,
-				qbVector<double> &closestLocalColor);
+				Data::HitData &hitData);
 
 			void AssignTexture(const std::shared_ptr<TextureBase::Texture> &texture);
 

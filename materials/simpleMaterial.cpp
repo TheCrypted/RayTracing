@@ -73,14 +73,12 @@ namespace qbRT
 
             Ray lightRay = Ray(startPoint, startPoint + lightDir);
 
-            qbVector<double> poi{3};
-            qbVector<double> poiNormal{3};
-            qbVector<double> poiColor{3};
+            Data::HitData hitData;
             bool validInt = false;
 
             for(auto object : objectList)
             {
-                validInt = object -> TestIntersections(lightRay, poi, poiNormal, poiColor);
+                validInt = object -> TestIntersections(lightRay, hitData);
                 if(validInt)
                 {
                     break;

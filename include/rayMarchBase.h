@@ -18,8 +18,7 @@ namespace qbRT::RM
         RayMarchBase();
         ~RayMarchBase() override;
 
-        bool TestIntersections(const Ray& ray, qbVector<double>& intPoint, qbVector<double>& normal,
-            qbVector<double>& color) override;
+        bool TestIntersections(const Ray& ray, Data::HitData& hitData) override;
 
         void SetObjectFunction(std::function<double(qbVector<double>*, qbVector<double>*)> objFunc);
         double EvaluateSDF(qbVector<double>* location, qbVector<double>* params);

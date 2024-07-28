@@ -12,8 +12,7 @@ namespace qbRT
     ObjCone::~ObjCone()
     = default;
 
-    bool ObjCone::TestIntersections(const Ray& ray, qbVector<double>& intPoint, qbVector<double>& normal,
-        qbVector<double>& color)
+    bool ObjCone::TestIntersections(const Ray& ray, Data::HitData& hitData)
     {
 	    qbRT::Ray bckRay = m_transform.Apply(ray, qbRT::BCKTFORM);
 
@@ -105,7 +104,7 @@ namespace qbRT
 		qbVector<double> validPOI = poi.at(minIndex);
 		if (minIndex < 2)
 		{
-			intPoint = m_transform.Apply(validPOI, qbRT::FWDTFORM);
+			hitData.intPoint = m_transform.Apply(validPOI, qbRT::FWDTFORM);
 
 			qbVector<double> orgNormal {3};
 			qbVector<double> newNormal {3};
@@ -122,9 +121,8 @@ namespace qbRT
 			// newNormal = m_transform.Apply(orgNormal, qbRT::FWDTFORM) - globalOrigin;
 			newNormal.Normalize();
 
-			normal = newNormal;
-
-			color = baseColor;
+			hitData.localNormal = newNormal;
+			hitData.localColor = baseColor;
 
 			double x = validPOI.GetElement(0);
 			double y = validPOI.GetElement(1);
@@ -132,8 +130,9 @@ namespace qbRT
 			double u = atan2(y, x) / M_PI;
 			double v1 = (validPOI.GetElement(2) * 2.0) + 1.0;
 
-			uvCoords.SetElement(0, u);
-			uvCoords.SetElement(1, v1);
+			ComputeUV(validPOI, uvCoords);
+			hitData.uvCoords = uvCoords;
+			hitData.hitObject = std::make_shared<Object>(*this);
 
 		    return true;
 		}
@@ -143,19 +142,20 @@ namespace qbRT
 		    {
 				if (sqrtf(std::pow(validPOI.GetElement(0), 2.0) + std::pow(validPOI.GetElement(1), 2.0)) < 1.0)
 				{
-					intPoint = m_transform.Apply(validPOI, qbRT::FWDTFORM);
+					hitData.intPoint = m_transform.Apply(validPOI, qbRT::FWDTFORM);
 
 					qbVector localOrigin {std::vector {0.0, 0.0, 0.0}};
 					qbVector normalVector {std::vector {0.0, 0.0, 1.0}};
-					// qbVector<double> globalOrigin = m_transform.Apply(localOrigin, qbRT::FWDTFORM);
-					normal = m_transform.ApplyNormal(normalVector);
-					// normal = m_transform.Apply(normalVector, qbRT::FWDTFORM) - globalOrigin;
-					normal.Normalize();
 
-					color = baseColor;
+					hitData.localNormal = m_transform.ApplyNormal(normalVector);
 
-					uvCoords.SetElement(0, intPoint.GetElement(0));
-					uvCoords.SetElement(1, intPoint.GetElement(1));
+					hitData.localNormal.Normalize();
+
+					hitData.localColor = baseColor;
+
+					ComputeUV(validPOI, uvCoords);
+					hitData.uvCoords = uvCoords;
+					hitData.hitObject = std::make_shared<Object>(*this);
 
 					return true;
 				}

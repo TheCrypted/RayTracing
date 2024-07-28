@@ -12,8 +12,7 @@ namespace qbRT
     ObjCube::~ObjCube()
     = default;
 
-    bool ObjCube::TestIntersections(const Ray& ray, qbVector<double>& intPoint, qbVector<double>& normal,
-        qbVector<double>& color)
+    bool ObjCube::TestIntersections(const Ray& ray, Data::HitData& hitData)
     {
         if(!isVisible) return false;
 
@@ -125,15 +124,17 @@ namespace qbRT
                     norm = std::vector{0.0, 1.0, 0.0};
                     break;
             }
-            intPoint = m_transform.Apply(locIntPoint, FWDTFORM);
+            hitData.intPoint = m_transform.Apply(locIntPoint, FWDTFORM);
 
-            normal = m_transform.ApplyNormal(norm);
-            normal.Normalize();
+            hitData.localNormal = m_transform.ApplyNormal(norm);
+            hitData.localNormal.Normalize();
 
-            color = baseColor;
+            hitData.localColor = baseColor;
 
-            uvCoords.SetElement(0, finU);
-            uvCoords.SetElement(1, finV);
+            ComputeUV(locIntPoint, uvCoords);
+            hitData.uvCoords = uvCoords;
+            hitData.hitObject = std::make_shared<Object>(*this);
+
             return true;
         } else
         {

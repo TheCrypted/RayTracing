@@ -3,7 +3,6 @@
 //
 
 #include "../include/objectPlane.h"
-#include <cmath>
 
 namespace qbRT
 {
@@ -13,7 +12,7 @@ namespace qbRT
     ObjPlane::~ObjPlane()
     = default;
 
-    bool ObjPlane::TestIntersections(const Ray& rayOrig, qbVector<double>& intPoint, qbVector<double>& normal, qbVector<double>& color)
+    bool ObjPlane::TestIntersections(const Ray& rayOrig, Data::HitData& hitData)
     {
         Ray backRay = m_transform.Apply(rayOrig, BCKTFORM);
 
@@ -32,7 +31,7 @@ namespace qbRT
                 if(abs(u) < 1.0 && abs(v) < 1.0)
                 {
                     qbVector<double> intTemp = backRay.m_point1 + t * cop_m_lab;
-                    intPoint = m_transform.Apply(intTemp, FWDTFORM);
+                    hitData.intPoint = m_transform.Apply(intTemp, FWDTFORM);
 
                     // qbVector localOrigin{std::vector{0.0, 0.0, 0.0}};
                     // qbVector localNormal{std::vector{0.0, 0.0, -1.0}};
@@ -40,13 +39,14 @@ namespace qbRT
                     // normal = m_transform.Apply(localNormal, FWDTFORM) - globalOrigin;
 
                     qbVector locNorm{std::vector{0.0, 0.0, -1.0}};
-                    normal = m_transform.ApplyNormal(locNorm);
-                    normal.Normalize();
+                    hitData.localNormal = m_transform.ApplyNormal(locNorm);
+                    hitData.localNormal.Normalize();
 
-                    color = baseColor;
+                    hitData.localColor = baseColor;
 
-                    uvCoords.SetElement(0, u);
-                    uvCoords.SetElement(1, v);
+                    ComputeUV(intTemp, uvCoords);
+                    hitData.uvCoords = uvCoords;
+                    hitData.hitObject = std::make_shared<Object>(*this);
 
                     return true;
                 } else
