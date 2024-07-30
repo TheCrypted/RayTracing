@@ -81,6 +81,7 @@ namespace qbRT {
         auto glassMaterial = std::make_shared<SimpleRefractive> (SimpleRefractive());
         auto wallMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
         auto stoneMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
+        auto checkedMaterial = std::make_shared<SimpleMaterial> (SimpleMaterial());
 
         cylMaterial -> baseColor = qbVector{std::vector{0.2, 0.3, 0.8}};
         cylMaterial -> reflectivity = 0.05;
@@ -90,6 +91,11 @@ namespace qbRT {
         imageMaterial -> reflectivity = 0.0;
         imageMaterial -> shine = 0.0;
         imageMaterial -> AssignTexture(noiseTexture);
+
+        checkedMaterial -> baseColor = qbVector{std::vector{1.0, 0.125, 0.125}};
+        checkedMaterial -> reflectivity = 0.3;
+        checkedMaterial -> shine = 10.0;
+        checkedMaterial -> AssignTexture(check1Texture);
 
         coneMaterial -> baseColor = qbVector{std::vector{0.8, 0.3, 0.4}};
         coneMaterial -> reflectivity = 0.05;
@@ -134,7 +140,7 @@ namespace qbRT {
         floor -> SetTransform(GTform{qbVector{std::vector{0.0, 0.0, 1.0}},
             qbVector{std::vector{0.0, 0.0, 0.0}},
             qbVector{std::vector{16.0, 16.0, 1.0}}});
-        floor ->AssignMaterial(stoneMaterial);
+        floor ->AssignMaterial(floorMaterial);
         floor -> uvMapType = uvPlane;
 
         auto img = std::make_shared<ObjPlane> (ObjPlane());
@@ -179,13 +185,44 @@ namespace qbRT {
             qbVector{std::vector{0.5, 0.5, 1.0}}});
         cube->AssignMaterial(sphereMaterial2);
 
+        // composite shape ******************************************
+
+        auto bottleBody = std::make_shared<ObjCylinder>(ObjCylinder());
+        bottleBody -> SetTransform(GTform{qbVector{std::vector{0.0, 0.0, 0.5}},
+            qbVector{std::vector{0.0, 0.0, M_PI/5.0}},
+            qbVector{std::vector{0.4, 0.4, 1.0}}});
+        bottleBody -> AssignMaterial(checkedMaterial);
+        bottleBody -> uvMapType = uvCylinder;
+
+        auto bottleCone = std::make_shared<ObjCone>(ObjCone());
+        bottleCone -> SetTransform(GTform{qbVector{std::vector{0.0, 0.0, -2.0}},
+            qbVector{std::vector{0.0, 0.0, 0.0}},
+            qbVector{std::vector{0.4, 0.4, 0.5}}});
+        bottleCone -> AssignMaterial(sphereMaterial);
+
+        auto bottleCap = std::make_shared<ObjCylinder>(ObjCylinder());
+        bottleCap -> SetTransform(GTform{qbVector{std::vector{0.0, 0.0, -1.5}},
+            qbVector{std::vector{0.0, 0.0, 0.0}},
+            qbVector{std::vector{0.2, 0.2, 0.5}}});
+        bottleCap -> AssignMaterial(sphereMaterial2);
+        bottleCap -> uvMapType = uvCylinder;
+
+        auto bottle = std::make_shared<Shape::Composite>(Shape::Composite());
+        bottle -> AddSubShape(bottleBody);
+        bottle -> AddSubShape(bottleCone);
+        bottle -> AddSubShape(bottleCap);
+        bottle -> SetTransform(GTform{qbVector{std::vector{1.0, -1.75, 0.0}}, qbVector{std::vector{0.0, 0.0, 0.0}},
+        qbVector{std::vector{1.0, 1.0, 1.0}}});
+
+        // ******************************************
+
         objList.push_back(floor);
         objList.push_back(img);
         objList.push_back(sphere);
         objList.push_back(sphere2);
         objList.push_back(sphere3);
         objList.push_back(sphere4);
-        objList.push_back(cube);
+        objList.push_back(bottle);
 
         lightList.push_back(std::make_shared<PointLight>(PointLight()));
         lightList.at(0) -> m_position = qbVector{std::vector{5.0, -10.0, -5.0}};

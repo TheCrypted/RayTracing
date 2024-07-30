@@ -28,6 +28,7 @@
 #include "textNorm.h"
 #include "imgText.h"
 #include "image.h"
+#include "composite.h"
 
 namespace qbRT
 {
