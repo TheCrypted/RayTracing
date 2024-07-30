@@ -51,7 +51,7 @@ namespace qbRT
 
     }
 
-    std::vector<qbVector<double>> Object::GetCube(double xMax, double xMin, double yMax, double yMin, double zMax, double zMin)
+    std::vector<qbVector<double>> Object::GetCube(double xMin, double xMax, double yMin, double yMax, double zMin, double zMax)
     {
         std::vector<qbVector<double>> cubeVertices(8);
 
