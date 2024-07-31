@@ -53,18 +53,18 @@ namespace qbRT
 
     std::vector<qbVector<double>> Object::GetCube(double xMin, double xMax, double yMin, double yMax, double zMin, double zMax)
     {
-        std::vector<qbVector<double>> cubeVertices(8);
+        std::vector<qbVector<double>> cornerPoints (8);
 
-        cubeVertices[0] = std::vector{xMin - boxPadding, yMin - boxPadding, zMin - boxPadding};
-        cubeVertices[1] = std::vector{xMax + boxPadding, yMin - boxPadding, zMin - boxPadding};
-        cubeVertices[2] = std::vector{xMax + boxPadding, yMax + boxPadding, zMin - boxPadding};
-        cubeVertices[3] = std::vector{xMin - boxPadding, yMax + boxPadding, zMin - boxPadding};
-        cubeVertices[4] = std::vector{xMin - boxPadding, yMin - boxPadding, zMax + boxPadding};
-        cubeVertices[5] = std::vector{xMax + boxPadding, yMin - boxPadding, zMax + boxPadding};
-        cubeVertices[6] = std::vector{xMax + boxPadding, yMax + boxPadding, zMax + boxPadding};
-        cubeVertices[7] = std::vector{xMin - boxPadding, yMax + boxPadding, zMax + boxPadding};
+        cornerPoints.at(0) = std::vector {xMin - boxPadding, yMin - boxPadding, zMin - boxPadding};
+        cornerPoints.at(1) = std::vector {xMin - boxPadding, yMin - boxPadding, zMax + boxPadding};
+        cornerPoints.at(2) = std::vector {xMax + boxPadding, yMin - boxPadding, zMax + boxPadding};
+        cornerPoints.at(3) = std::vector {xMax + boxPadding, yMin - boxPadding, zMin - boxPadding};
+        cornerPoints.at(4) = std::vector {xMin - boxPadding, yMax + boxPadding, zMin - boxPadding};
+        cornerPoints.at(5) = std::vector {xMin - boxPadding, yMax + boxPadding, zMax - boxPadding};
+        cornerPoints.at(6) = std::vector {xMax + boxPadding, yMax + boxPadding, zMax + boxPadding};
+        cornerPoints.at(7) = std::vector {xMax + boxPadding, yMax + boxPadding, zMin - boxPadding};
 
-        return cubeVertices;
+        return cornerPoints;
     }
 
 

@@ -7,7 +7,13 @@
 namespace qbRT
 {
     ObjCone::ObjCone()
-    = default;
+    {
+		uvMapType = uvCylinder;
+
+		boxTransform.SetTransform(qbVector{std::vector{0.0, 0.0, 0.5}},
+			qbVector{std::vector{0.0, 0.0, 0.0}},
+			qbVector{std::vector{1.0, 1.0, 0.5}});
+    }
 
     ObjCone::~ObjCone()
     = default;

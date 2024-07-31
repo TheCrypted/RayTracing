@@ -22,7 +22,7 @@ namespace qbRT::Shape
 
         private:
             int TestIntersections(const Ray& castRay, const Ray& bckRay, qbVector<double>& intPoint,
-                double currDist, Data::HitData& hitData);
+                double& currDist, Data::HitData& hitData);
 
         public:
             ObjCube boundingBox = ObjCube();

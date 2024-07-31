@@ -195,7 +195,7 @@ namespace qbRT
         }
 
         bool validIntersection = false;
-        for (int i = 0; i < 6 && !validIntersection; ++i)
+        for (int i = 0; i < 6 && !validIntersection; i++)
         {
             if((t[i] < 100e6) && (t[i] > 0.0) && (abs(u[i]) <= 1.0) && (abs(v[i]) <= 1.0))
             {

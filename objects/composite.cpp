@@ -89,9 +89,9 @@ namespace qbRT::Shape
         double yDist = yLim.GetElement(1) - yLim.GetElement(0);
         double zDist = zLim.GetElement(1) - zLim.GetElement(0);
 
-        double xCentre = xLim.GetElement(0) + xDist / 2.0;
-        double yCentre = yLim.GetElement(0) + yDist / 2.0;
-        double zCentre = zLim.GetElement(0) + zDist / 2.0;
+        double xCentre = xLim.GetElement(0) + (xDist / 2.0);
+        double yCentre = yLim.GetElement(0) + (yDist / 2.0);
+        double zCentre = zLim.GetElement(0) + (zDist / 2.0);
 
         boxTransform.SetTransform(qbVector{std::vector{xCentre, yCentre, zCentre}},
             qbVector{std::vector{0.0, 0.0, 0.0}},
@@ -112,7 +112,6 @@ namespace qbRT::Shape
         for (int i = 0; i < 8; ++i)
         {
             extents[i] = m_transform.Apply(extents[i], FWDTFORM);
-
             xMin = std::min(xMin, extents[i].GetElement(0));
             xMax = std::max(xMax, extents[i].GetElement(0));
             yMin = std::min(yMin, extents[i].GetElement(1));
@@ -148,7 +147,7 @@ namespace qbRT::Shape
                     qbVector newNormal = m_transform.ApplyNormal(locHitData.localNormal);
                     newNormal.Normalize();
                     locHitData.hitObject -> ComputeUV(locHitData.localIntPoint, hitData.uvCoords);
-                    uvCoords = locHitData.uvCoords;
+                    uvCoords = hitData.uvCoords;
 
                     hitData.intPoint = globalIntersection;
                     hitData.localNormal = newNormal;
@@ -163,12 +162,13 @@ namespace qbRT::Shape
         return false;
     }
 
-    int Composite::TestIntersections(const Ray& castRay, const Ray& bckRay, qbVector<double>& intPoint, double currDist, Data::HitData& hitData)
+    int Composite::TestIntersections(const Ray& castRay, const Ray& bckRay, qbVector<double>& intPoint, double& currDist, Data::HitData& hitData)
     {
-        int validShapeInd = -1, i = 0;
+        int validShapeInd = -1;
         Data::HitData loc_hitData;
-        for(const auto & obj : shapes)
+        for (int i = 0; i < shapes.size(); ++i)
         {
+            auto obj = shapes[i];
             if(obj -> isVisible)
             {
                 bool shapeHit = obj -> TestIntersections(bckRay, loc_hitData);
@@ -186,7 +186,6 @@ namespace qbRT::Shape
                     }
                 }
             }
-            i++;
         }
 
         return validShapeInd;

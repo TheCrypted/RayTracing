@@ -57,6 +57,9 @@ namespace qbRT {
         normMap -> AssignTexture(stoneTexture);
         normMap -> scale = 0.015;
 
+        auto roughNormMap = std::make_shared<Normal::BasicRough>(Normal::BasicRough());
+        roughNormMap -> amplitude = 0.1;
+
         auto noiseMap = std::make_shared<TextureBase::Colormap> (TextureBase::Colormap());
         noiseMap -> SetStop(0.0, qbVector{std::vector{1.0, 1.0, 1.0, 1.0}});
         noiseMap -> SetStop(0.2, qbVector{std::vector{1.0, 1.0, 1.0, 1.0}});
@@ -110,7 +113,7 @@ namespace qbRT {
         floorMaterial -> reflectivity = 0.25;
         floorMaterial -> shine = 0.0;
         floorMaterial -> AssignTexture(floorTexture);
-        floorMaterial -> AssignNormalMap(normMap);
+        floorMaterial -> AssignNormalMap(roughNormMap);
 
         stoneMaterial -> baseColor = qbVector{std::vector{1.0, 1.0, 1.0}};
         stoneMaterial -> reflectivity = 0.25;
@@ -210,7 +213,7 @@ namespace qbRT {
         auto bottle = std::make_shared<Shape::Composite>(Shape::Composite());
         bottle -> AddSubShape(bottleBody);
         bottle -> AddSubShape(bottleCone);
-        bottle -> AddSubShape(bottleCap);
+        bottle -> AddSubShape(bottleCone);
         bottle -> SetTransform(GTform{qbVector{std::vector{1.0, -1.75, 0.0}}, qbVector{std::vector{0.0, 0.0, 0.0}},
         qbVector{std::vector{1.0, 1.0, 1.0}}});
 
