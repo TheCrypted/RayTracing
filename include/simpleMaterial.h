@@ -14,19 +14,19 @@ namespace qbRT
             SimpleMaterial();
             ~SimpleMaterial() override;
 
-            qbVector<double> ComputeColor(	const std::vector<std::shared_ptr<Object>> &objectList,
+            qbVector3<double> ComputeColor(	const std::vector<std::shared_ptr<Object>> &objectList,
                 const std::vector<std::shared_ptr<Light>> &lightList,
                 const std::shared_ptr<Object> &currentObject,
-                const qbVector<double> &intPoint, const qbVector<double> &localNormal,
+                const qbVector3<double> &intPoint, const qbVector3<double> &localNormal,
                 const Ray &cameraRay) override;
 
-            qbVector<double> ComputeSpecular(	const std::vector<std::shared_ptr<Object>> &objectList,
+            qbVector3<double> ComputeSpecular(	const std::vector<std::shared_ptr<Object>> &objectList,
                 const std::vector<std::shared_ptr<Light>> &lightList,
-                const qbVector<double> &intPoint, const qbVector<double> &localNormal,
+                const qbVector3<double> &intPoint, const qbVector3<double> &localNormal,
                 const Ray &cameraRay);
 
         public:
-            qbVector<double> baseColor {std::vector {1.0, 1.0, 1.0}};
+            qbVector3<double> baseColor {std::vector {1.0, 1.0, 1.0}};
             double reflectivity = 0.0;
             double shine = 0.0;
 

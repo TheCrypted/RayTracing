@@ -11,9 +11,10 @@
 #include "normal.h"
 #include "object.h"
 #include "light.h"
-#include "qbLinAlg/qbVector.h"
+#include "qbLinAlg/qbVector3.hpp"
 #include "ray.h"
 #include "texture.h"
+#include "qbLinAlg/qbVector2.hpp"
 
 
 namespace qbRT
@@ -23,29 +24,29 @@ namespace qbRT
 			Material();
 			virtual ~Material();
 
-			virtual qbVector<double> ComputeColor(const std::vector<std::shared_ptr<Object>> &objectList,
+			virtual qbVector3<double> ComputeColor(const std::vector<std::shared_ptr<Object>> &objectList,
 				const std::vector<std::shared_ptr<Light>> &lightList,
 				const std::shared_ptr<Object> &currentObject,
-				const qbVector<double> &intPoint, const qbVector<double> &localNormal,
+				const qbVector3<double> &intPoint, const qbVector3<double> &localNormal,
 				const Ray &cameraRay);
 
-			static qbVector<double> ComputeDiffuseColor(const std::vector<std::shared_ptr<Object>> &objectList,
+			static qbVector3<double> ComputeDiffuseColor(const std::vector<std::shared_ptr<Object>> &objectList,
 				const std::vector<std::shared_ptr<Light>> &lightList,
 				const std::shared_ptr<Object> &currentObject,
-				const qbVector<double> &intPoint, const qbVector<double> &localNormal,
-				const qbVector<double> &baseColor);
+				const qbVector3<double> &intPoint, const qbVector3<double> &localNormal,
+				const qbVector3<double> &baseColor);
 
-			qbVector<double> ComputeReflectionColor(const std::vector<std::shared_ptr<Object>> &objectList,
+			qbVector3<double> ComputeReflectionColor(const std::vector<std::shared_ptr<Object>> &objectList,
 				const std::vector<std::shared_ptr<Light>> &lightList,
 				const std::shared_ptr<Object> &currentObject,
-				const qbVector<double> &intPoint, const qbVector<double> &localNormal,
+				const qbVector3<double> &intPoint, const qbVector3<double> &localNormal,
 				const Ray &cameraRay);
 
-			qbVector<double> ComputeSDColor(const std::vector<std::shared_ptr<Object>> &objectList,
+			qbVector3<double> ComputeSDColor(const std::vector<std::shared_ptr<Object>> &objectList,
 				const std::vector<std::shared_ptr<Light>> &lightList,
 				const std::shared_ptr<Object> &currentObject,
-				const qbVector<double> &intPoint, const qbVector<double> &localNormal,
-				const qbVector<double> &baseColor, const Ray& camRay);
+				const qbVector3<double> &intPoint, const qbVector3<double> &localNormal,
+				const qbVector3<double> &baseColor, const Ray& camRay);
 
 			bool CastRay(const Ray &castRay, const std::vector<std::shared_ptr<Object>> &objectList,
 				const std::shared_ptr<Object> &thisObject,
@@ -56,22 +57,22 @@ namespace qbRT
 
 			void AssignNormalMap(const std::shared_ptr<Normal::NormalBase>& normMap);
 
-			qbVector<double> GetTextureColor(const qbVector<double> &coords);
+			qbVector3<double> GetTextureColor(const qbVector2<double> &coords);
 
-			qbVector<double> PerturbNormal(const qbVector<double> &normal, const qbVector<double> &uvCoords);
+			qbVector3<double> PerturbNormal(const qbVector3<double> &normal, const qbVector2<double> &uvCoords);
 
-			void BlendColors(qbVector<double>& color1, const qbVector<double>& color2);
+			void BlendColors(qbVector4<double>& color1, const qbVector4<double>& color2);
 
 		public:
 			inline static int maxReflectionDepth;
 			inline static int reflectionRayCount;
-			inline static qbVector<double> ambientColor{std::vector{1.0, 1.0, 1.0}};
+			inline static qbVector3<double> ambientColor{std::vector{1.0, 1.0, 1.0}};
 			inline static double ambientIntensity = 0.2;
 			std::vector<std::shared_ptr<TextureBase::Texture>> textureList;
 			std::vector<std::shared_ptr<Normal::NormalBase>> normMapList;
 			bool hasTexture = false;
 			bool hasNormMap = false;
-			qbVector<double> locNorm;
+			qbVector3<double> locNorm;
 
 			double specular = 0.0;
 			double shine = 0.0;

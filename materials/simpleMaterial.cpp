@@ -12,18 +12,18 @@ namespace qbRT
     SimpleMaterial::~SimpleMaterial()
     = default;
 
-    qbVector<double> SimpleMaterial::ComputeColor(	const std::vector<std::shared_ptr<Object>> &objectList,
+    qbVector3<double> SimpleMaterial::ComputeColor(	const std::vector<std::shared_ptr<Object>> &objectList,
         const std::vector<std::shared_ptr<Light>> &lightList,
         const std::shared_ptr<Object> &currentObject,
-        const qbVector<double> &intPoint, const qbVector<double> &localNormal,
+        const qbVector3<double> &intPoint, const qbVector3<double> &localNormal,
         const Ray &cameraRay)
     {
-        qbVector<double> difColor{3};
-        qbVector<double> matColor{3};
-        qbVector<double> refColor{3};
-        qbVector<double> specColor{3};
+        qbVector3<double> difColor;
+        qbVector3<double> matColor;
+        qbVector3<double> refColor;
+        qbVector3<double> specColor;
 
-        qbVector<double> normCopy = localNormal;
+        qbVector3<double> normCopy = localNormal;
 
         if(hasNormMap)
         {
@@ -37,7 +37,7 @@ namespace qbRT
             difColor = ComputeSDColor(objectList, lightList, currentObject, intPoint, normCopy, baseColor, cameraRay);
         } else
         {
-            qbVector<double> textureCol = GetTextureColor(currentObject -> uvCoords);
+            qbVector3<double> textureCol = GetTextureColor(currentObject -> uvCoords);
 
             difColor = ComputeSDColor(objectList, lightList, currentObject, intPoint, normCopy,
                 textureCol, cameraRay);
@@ -52,12 +52,12 @@ namespace qbRT
         return matColor;
     }
 
-    qbVector<double> SimpleMaterial::ComputeSpecular(	const std::vector<std::shared_ptr<Object>> &objectList,
+    qbVector3<double> SimpleMaterial::ComputeSpecular(	const std::vector<std::shared_ptr<Object>> &objectList,
         const std::vector<std::shared_ptr<Light>> &lightList,
-        const qbVector<double> &intPoint, const qbVector<double> &localNormal,
+        const qbVector3<double> &intPoint, const qbVector3<double> &localNormal,
         const Ray &cameraRay)
     {
-        qbVector<double> resColor{3};
+        qbVector3<double> resColor;
         double red = 0.0;
         double green = 0.0;
         double blue = 0.0;
@@ -66,8 +66,8 @@ namespace qbRT
         {
             double intensity = 0.0;
 
-            qbVector<double> lightDir = (light->m_position - intPoint).Normalized();
-            qbVector<double> startPoint = intPoint + lightDir * 0.0001;
+            qbVector3<double> lightDir = (light->m_position - intPoint).Normalized();
+            qbVector3<double> startPoint = intPoint + lightDir * 0.0001;
 
             Ray lightRay = Ray(startPoint, startPoint + lightDir);
 
@@ -85,13 +85,13 @@ namespace qbRT
 
             if(!validInt)
             {
-                auto r = lightRay.m_lab - (2 * qbVector<double>::dot(lightRay.m_lab, localNormal) * localNormal);
+                auto r = lightRay.m_lab - (2 * qbVector3<double>::dot(lightRay.m_lab, localNormal) * localNormal);
                 r.Normalize();
 
-                qbVector<double> v = cameraRay.m_lab;
+                qbVector3<double> v = cameraRay.m_lab;
                 v.Normalize();
 
-                double dotProd = qbVector<double>::dot(r, v);
+                double dotProd = qbVector3<double>::dot(r, v);
 
                 if(dotProd > 0.0)
                 {
