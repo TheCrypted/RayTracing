@@ -41,6 +41,12 @@ namespace qbRT
 				const qbVector<double> &intPoint, const qbVector<double> &localNormal,
 				const Ray &cameraRay);
 
+			qbVector<double> ComputeSDColor(const std::vector<std::shared_ptr<Object>> &objectList,
+				const std::vector<std::shared_ptr<Light>> &lightList,
+				const std::shared_ptr<Object> &currentObject,
+				const qbVector<double> &intPoint, const qbVector<double> &localNormal,
+				const qbVector<double> &baseColor, const Ray& camRay);
+
 			bool CastRay(const Ray &castRay, const std::vector<std::shared_ptr<Object>> &objectList,
 				const std::shared_ptr<Object> &thisObject,
 				std::shared_ptr<Object> &closestObject,
@@ -66,6 +72,9 @@ namespace qbRT
 			bool hasTexture = false;
 			bool hasNormMap = false;
 			qbVector<double> locNorm;
+
+			double specular = 0.0;
+			double shine = 0.0;
 
 		private:
 

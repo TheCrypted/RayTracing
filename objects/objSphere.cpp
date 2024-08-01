@@ -21,9 +21,8 @@ namespace qbRT
     {
         Ray ray = m_transform.Apply(rayOrig, BCKTFORM);
         qbVector<double> vhat = ray.m_lab;
-        vhat.Normalize();
 
-        const double a = 1.0f;
+        const double a = qbVector<double>::dot(vhat, vhat);
         const double b = 2.0 * qbVector<double>::dot(ray.m_point1, vhat);
         const double c = qbVector<double>::dot(ray.m_point1, ray.m_point1) - 1.0;
 
@@ -32,7 +31,7 @@ namespace qbRT
         {
             return false;
         }
-        double numRT = sqrtf(intTest);
+        double numRT = sqrt(intTest);
         double t1 = (-b + numRT) / (2.0 * a);
         double t2 = (-b - numRT) / (2.0 * a);
         if (t1 < 0.0 && t2 < 0.0)

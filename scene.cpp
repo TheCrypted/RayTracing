@@ -180,7 +180,7 @@ namespace qbRT {
         cylinder -> SetTransform(GTform{qbVector{std::vector{0.0, 0.0, 0.0}},
             qbVector{std::vector{0.0, 0.0, 0.0}},
             qbVector{std::vector{0.5, 0.5, 1.0}}});
-        cylinder->AssignMaterial(glassMaterial);
+        cylinder->AssignMaterial(checkedMaterial);
 
         auto cube = std::make_shared<ObjCube>(ObjCube());
         cube -> SetTransform(GTform{qbVector{std::vector{0.0, 0.0, 0.0}},
@@ -194,7 +194,7 @@ namespace qbRT {
         bottleBody -> SetTransform(GTform{qbVector{std::vector{0.0, 0.0, 0.5}},
             qbVector{std::vector{0.0, 0.0, M_PI/5.0}},
             qbVector{std::vector{0.4, 0.4, 1.0}}});
-        bottleBody -> AssignMaterial(checkedMaterial);
+        bottleBody -> AssignMaterial(floorMaterial);
         bottleBody -> uvMapType = uvCylinder;
 
         auto bottleCone = std::make_shared<ObjCone>(ObjCone());
@@ -225,7 +225,7 @@ namespace qbRT {
         objList.push_back(sphere2);
         objList.push_back(sphere3);
         objList.push_back(sphere4);
-        objList.push_back(bottle);
+        objList.push_back(cylinder);
 
         lightList.push_back(std::make_shared<PointLight>(PointLight()));
         lightList.at(0) -> m_position = qbVector{std::vector{5.0, -10.0, -5.0}};

@@ -34,11 +34,13 @@ namespace qbRT
 
         if(!hasTexture)
         {
-            difColor = ComputeDiffuseColor(objectList, lightList, currentObject, intPoint, normCopy, baseColor);
+            difColor = ComputeSDColor(objectList, lightList, currentObject, intPoint, normCopy, baseColor, cameraRay);
         } else
         {
-            difColor = ComputeDiffuseColor(objectList, lightList, currentObject, intPoint, normCopy,
-                GetTextureColor(currentObject -> uvCoords));
+            qbVector<double> textureCol = GetTextureColor(currentObject -> uvCoords);
+
+            difColor = ComputeSDColor(objectList, lightList, currentObject, intPoint, normCopy,
+                textureCol, cameraRay);
         }
 
         if(reflectivity > 0.0)
@@ -46,10 +48,6 @@ namespace qbRT
 
         matColor = (refColor * reflectivity) + (difColor * (1.0 - reflectivity));
 
-        if(shine > 0.0)
-            specColor = ComputeSpecular(objectList, lightList, intPoint, normCopy, cameraRay);
-
-        matColor = matColor + specColor;
 
         return matColor;
     }

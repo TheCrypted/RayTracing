@@ -22,7 +22,6 @@ namespace qbRT
         Ray backRay = m_transform.Apply(rayOrig, BCKTFORM);
 
         qbVector<double> cop_m_lab = backRay.m_lab;
-        cop_m_lab.Normalize();
 
         if(!closeEnough(cop_m_lab.GetElement(2), 0.0))
         {
