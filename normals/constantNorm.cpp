@@ -10,7 +10,7 @@ namespace qbRT::Normal
     Constant::~Constant()
     = default;
 
-    qbVector<double> Constant::CompPerturbation(const qbVector<double>& normal, const qbVector<double>& uvCoords)
+    qbVector3<double> Constant::CompPerturbation(const qbVector3<double>& normal, const qbVector2<double>& uvCoords)
     {
         return PerturbNormal(normal, displacement);
     }

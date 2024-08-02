@@ -42,7 +42,7 @@ namespace qbRT
             GTform m_transform;
 
             std::shared_ptr<Material> m_pMaterial;
-            qbVector<double> uvCoords;
+            qbVector2<double> uvCoords;
 
             bool m_hasMaterial = false;
             int uvMapType = uvSphere;

@@ -16,7 +16,7 @@ namespace qbRT::Normal
             BasicRough();
             ~BasicRough() override;
 
-            qbVector<double> CompPerturbation(const qbVector<double>& normal, const qbVector<double>& uvCoords) override;
+            qbVector3<double> CompPerturbation(const qbVector3<double>& normal, const qbVector2<double>& uvCoords) override;
 
         public:
             std::shared_ptr<std::mt19937> randGen;

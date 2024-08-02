@@ -37,15 +37,15 @@ namespace qbRT::Normal
         return true;
     }
 
-    qbVector<double> Image::CompPerturbation(const qbVector<double>& normal, const qbVector<double>& uvCoords)
+    qbVector3<double> Image::CompPerturbation(const qbVector3<double>& normal, const qbVector2<double>& uvCoords)
     {
         double xD = 0.0;
         double yD = 0.0;
         double zD = 0.0;
         if (hasImage)
         {
-            qbVector<double> inputLoc = uvCoords;
-            qbVector<double> newLoc = ApplyTransform(inputLoc);
+            qbVector2<double> inputLoc = uvCoords;
+            qbVector2<double> newLoc = ApplyTransform(inputLoc);
             double u = newLoc.GetElement(0);
             double v = newLoc.GetElement(1);
 
@@ -86,7 +86,7 @@ namespace qbRT::Normal
             yD = -yD;
         }
 
-        qbVector perturbation = std::vector {xD, yD, zD};
+        qbVector3 perturbation = std::vector {xD, yD, zD};
         return PerturbNormal(normal, perturbation);
     }
 

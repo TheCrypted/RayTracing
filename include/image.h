@@ -19,7 +19,7 @@ namespace qbRT::Normal
             Image();
             ~Image() override;
 
-            qbVector<double> CompPerturbation(const qbVector<double>& normal, const qbVector<double>& uvCoords) override;
+            qbVector3<double> CompPerturbation(const qbVector3<double>& normal, const qbVector2<double>& uvCoords) override;
             bool LoadImage(std::string filename);
 
         private:
@@ -35,7 +35,7 @@ namespace qbRT::Normal
             bool reverse = false;
 
         private:
-            qbMatrix2<double> transMat{3, 3, std::vector{1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0}};
+            qbMatrix33<double> transMat{std::vector{1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0}};
             std::shared_ptr<std::mt19937> randGen;
 
             bool hasImage = false;

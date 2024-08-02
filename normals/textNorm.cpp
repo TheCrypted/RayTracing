@@ -18,13 +18,13 @@ namespace qbRT::Normal
         hasTexture = true;
     }
 
-    qbVector<double> TextureNormal::CompPerturbation(const qbVector<double>& normal, const qbVector<double>& uvCoords)
+    qbVector3<double> TextureNormal::CompPerturbation(const qbVector3<double>& normal, const qbVector2<double>& uvCoords)
     {
         double x = 0.0, y = 0.0, z = 0.0;
 
         if(hasTexture)
         {
-            qbVector<double> uvDiff = TextureDiff(texture, uvCoords);
+            qbVector2<double> uvDiff = TextureDiff(texture, uvCoords);
             if(!reverse)
             {
                 x = -uvDiff.GetElement(0) * scale;
@@ -35,7 +35,7 @@ namespace qbRT::Normal
                 y = uvDiff.GetElement(1) * scale;
             }
         }
-        qbVector perturbation = std::vector{x, y, z};
+        qbVector3 perturbation = std::vector{x, y, z};
         return PerturbNormal(normal, perturbation);
     }
 }

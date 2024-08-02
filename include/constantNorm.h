@@ -14,10 +14,10 @@ namespace qbRT::Normal
             Constant() = default;
             ~Constant() override;
 
-            qbVector<double> CompPerturbation(const qbVector<double>& normal, const qbVector<double>& uvCoords) override;
+            qbVector3<double> CompPerturbation(const qbVector3<double>& normal, const qbVector2<double>& uvCoords) override;
 
         public:
-            qbVector<double> displacement{3};
+            qbVector3<double> displacement;
     };
 }
 

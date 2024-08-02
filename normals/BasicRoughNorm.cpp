@@ -17,10 +17,10 @@ namespace qbRT::Normal
     BasicRough::~BasicRough()
     = default;
 
-    qbVector<double> BasicRough::CompPerturbation(const qbVector<double>& normal, const qbVector<double>& uvCoords)
+    qbVector3<double> BasicRough::CompPerturbation(const qbVector3<double>& normal, const qbVector2<double>& uvCoords)
     {
         std::uniform_real_distribution randDist{-amplitude, amplitude};
-        qbVector perturbation = std::vector{randDist(*randGen), randDist(*randGen), randDist(*randGen)};
+        qbVector3 perturbation = std::vector{randDist(*randGen), randDist(*randGen), randDist(*randGen)};
 
         return PerturbNormal(normal, perturbation);
     }
