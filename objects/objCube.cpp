@@ -9,9 +9,9 @@ namespace qbRT
     ObjCube::ObjCube()
     {
         uvMapType = uvCube;
-        boxTransform.SetTransform(qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{1.0, 1.0, 1.0}});
+        boxTransform.SetTransform(qbVector3{0.0, 0.0, 0.0},
+            qbVector3{0.0, 0.0, 0.0},
+            qbVector3{1.0, 1.0, 1.0});
     }
 
     ObjCube::~ObjCube()
@@ -27,7 +27,7 @@ namespace qbRT
         double ay = backRay.m_point1.GetElement(1);
         double az = backRay.m_point1.GetElement(2);
 
-        qbVector<double> k = backRay.m_lab;
+        qbVector3<double> k = backRay.m_lab;
         k.Normalize();
 
         double kx = k.GetElement(0);
@@ -105,8 +105,8 @@ namespace qbRT
 
         if(validIntersection)
         {
-            qbVector<double> locIntPoint = backRay.m_point1 + finT * k;
-            qbVector<double> norm;
+            qbVector3<double> locIntPoint = backRay.m_point1 + finT * k;
+            qbVector3<double> norm;
 
             switch (finInd)
             {
@@ -157,7 +157,7 @@ namespace qbRT
         double ay = backRay.m_point1.GetElement(1);
         double az = backRay.m_point1.GetElement(2);
 
-        qbVector<double> k = backRay.m_lab;
+        qbVector3<double> k = backRay.m_lab;
         k.Normalize();
 
         double kx = k.GetElement(0);

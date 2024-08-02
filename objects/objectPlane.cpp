@@ -9,9 +9,9 @@ namespace qbRT
     ObjPlane::ObjPlane()
     {
         uvMapType = uvPlane;
-        boxTransform.SetTransform(qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{1.0, 1.0, 0.01}});
+        boxTransform.SetTransform(qbVector3{0.0, 0.0, 0.0},
+            qbVector3{0.0, 0.0, 0.0},
+            qbVector3{1.0, 1.0, 0.01});
     }
 
     ObjPlane::~ObjPlane()
@@ -21,7 +21,7 @@ namespace qbRT
     {
         Ray backRay = m_transform.Apply(rayOrig, BCKTFORM);
 
-        qbVector<double> cop_m_lab = backRay.m_lab;
+        qbVector3 cop_m_lab = backRay.m_lab;
 
         if(!closeEnough(cop_m_lab.GetElement(2), 0.0))
         {
@@ -34,10 +34,10 @@ namespace qbRT
 
                 if(abs(u) < 1.0 && abs(v) < 1.0)
                 {
-                    qbVector<double> intTemp = backRay.m_point1 + t * cop_m_lab;
+                    qbVector3 intTemp = backRay.m_point1 + t * cop_m_lab;
                     hitData.intPoint = m_transform.Apply(intTemp, FWDTFORM);
 
-                    qbVector locNorm{std::vector{0.0, 0.0, -1.0}};
+                    qbVector3 locNorm{0.0, 0.0, -1.0};
                     hitData.localNormal = m_transform.ApplyNormal(locNorm);
                     hitData.localNormal.Normalize();
 

@@ -9,6 +9,7 @@
 #include "ray.h"
 #include "gtfm.h"
 #include "utils.h"
+#include "qbLinAlg/qbVector2.hpp"
 
 namespace qbRT
 {
@@ -24,24 +25,24 @@ namespace qbRT
             Object();
             virtual ~Object();
 
-            virtual void GetExtents(qbVector<double>& x, qbVector<double>& y, qbVector<double>& z);
-            virtual void GetExtents(const GTform& transform, qbVector<double>& x, qbVector<double>& y, qbVector<double>& z);
-            std::vector<qbVector<double>> GetCube(double xMax, double xMin, double yMax, double yMin, double zMax, double zMin);
+            virtual void GetExtents(qbVector2<double>& x, qbVector2<double>& y, qbVector2<double>& z);
+            virtual void GetExtents(const GTform& transform, qbVector2<double>& x, qbVector2<double>& y, qbVector2<double>& z);
+            std::vector<qbVector3<double>> GetCube(double xMax, double xMin, double yMax, double yMin, double zMax, double zMin);
 
             void SetTransform(const GTform &transform);
             virtual bool TestIntersections(const Ray &ray, Data::HitData &hitData);
             static bool closeEnough(double a, double b);
             bool AssignMaterial(const std::shared_ptr<Material> &objectMaterial);
-            void ComputeUV(const qbVector<double>& localIntersection, qbVector<double>& uvCoords);
+            void ComputeUV(const qbVector3<double>& localIntersection, qbVector2<double>& uvCoords);
 
         public:
             bool isVisible = true;
 
-            qbVector<double> baseColor {3};
+            qbVector3<double> baseColor;
             GTform m_transform;
 
             std::shared_ptr<Material> m_pMaterial;
-            qbVector<double> uvCoords{2};
+            qbVector<double> uvCoords;
 
             bool m_hasMaterial = false;
             int uvMapType = uvSphere;

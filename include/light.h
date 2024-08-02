@@ -18,14 +18,14 @@ namespace qbRT
             Light();
             virtual ~Light();
 
-            virtual bool CalculateLighting(const qbVector<double> &intPoint, const qbVector<double> &localNormal,
+            virtual bool CalculateLighting(const qbVector3<double> &intPoint, const qbVector3<double> &localNormal,
                     const std::vector<std::shared_ptr<Object>> &objectList,
                     const std::shared_ptr<Object> &currentObject,
-                    qbVector<double> &color, double &intensity);
+                    qbVector3<double> &color, double &intensity);
 
         public:
-            qbVector<double> m_position {3};
-            qbVector<double> m_color {3};
+            qbVector3<double> m_position {3};
+            qbVector3<double> m_color {3};
             double m_intensity;
     };
 }

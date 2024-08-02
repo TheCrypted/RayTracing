@@ -10,9 +10,9 @@ namespace qbRT
     {
 		uvMapType = uvCylinder;
 
-		boxTransform.SetTransform(qbVector{std::vector{0.0, 0.0, 0.5}},
-			qbVector{std::vector{0.0, 0.0, 0.0}},
-			qbVector{std::vector{1.0, 1.0, 0.5}});
+		boxTransform.SetTransform(qbVector3{0.0, 0.0, 0.5},
+			qbVector3{0.0, 0.0, 0.0},
+			qbVector3{1.0, 1.0, 0.5});
     }
 
     ObjCone::~ObjCone()
@@ -20,20 +20,20 @@ namespace qbRT
 
     bool ObjCone::TestIntersections(const Ray& ray, Data::HitData& hitData)
     {
-	    qbRT::Ray bckRay = m_transform.Apply(ray, qbRT::BCKTFORM);
+	    Ray bckRay = m_transform.Apply(ray, BCKTFORM);
 
-		qbVector<double> v = bckRay.m_lab;
+		qbVector3<double> v = bckRay.m_lab;
 		v.Normalize();
 
-		qbVector<double> p = bckRay.m_point1;
+		qbVector3<double> p = bckRay.m_point1;
 
-		double a = std::pow(v.GetElement(0), 2.0) + std::pow(v.GetElement(1), 2.0) - std::pow(v.GetElement(2), 2.0);
-		double b = 2 * (p.GetElement(0)*v.GetElement(0) + p.GetElement(1)*v.GetElement(1) - p.GetElement(2)*v.GetElement(2));
-		double c = std::pow(p.GetElement(0), 2.0) + std::pow(p.GetElement(1), 2.0) - std::pow(p.GetElement(2), 2.0);
+		double a = std::pow(v.m_x, 2.0) + std::pow(v.m_y, 2.0) - std::pow(v.m_z, 2.0);
+		double b = 2 * (p.m_x*v.m_x + p.m_y*v.m_y - p.m_z*v.m_z);
+		double c = std::pow(p.m_x, 2.0) + std::pow(p.m_y, 2.0) - std::pow(p.m_z, 2.0);
 
 		double numSQRT = sqrtf(std::pow(b, 2.0) - 4 * a * c);
 
-		std::array<qbVector<double>, 3> poi;
+		std::array<qbVector3<double>, 3> poi;
 		std::array<double, 3> t;
 		bool t1Valid, t2Valid, t3Valid;
 		if (numSQRT > 0.0)
@@ -107,14 +107,14 @@ namespace qbRT
 		    }
 		}
 
-		qbVector<double> validPOI = poi.at(minIndex);
+		qbVector3<double> validPOI = poi.at(minIndex);
 		if (minIndex < 2)
 		{
-			hitData.intPoint = m_transform.Apply(validPOI, qbRT::FWDTFORM);
+			hitData.intPoint = m_transform.Apply(validPOI, FWDTFORM);
 
-			qbVector<double> orgNormal {3};
-			qbVector<double> newNormal {3};
-			qbVector localOrigin {std::vector {0.0, 0.0, 0.0}};
+			qbVector3<double> orgNormal;
+			qbVector3<double> newNormal;
+			qbVector3 localOrigin {0.0, 0.0, 0.0};
 			// qbVector<double> globalOrigin = m_transform.Apply(localOrigin, qbRT::FWDTFORM);
 			double tX = validPOI.GetElement(0);
 			double tY = validPOI.GetElement(1);
@@ -150,8 +150,8 @@ namespace qbRT
 				{
 					hitData.intPoint = m_transform.Apply(validPOI, qbRT::FWDTFORM);
 
-					qbVector localOrigin {std::vector {0.0, 0.0, 0.0}};
-					qbVector normalVector {std::vector {0.0, 0.0, 1.0}};
+					qbVector3 localOrigin {0.0, 0.0, 0.0};
+					qbVector3 normalVector {0.0, 0.0, 1.0};
 
 					hitData.localNormal = m_transform.ApplyNormal(normalVector);
 

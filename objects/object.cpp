@@ -15,9 +15,9 @@ namespace qbRT
     Object::~Object()
     = default;
 
-    void Object::GetExtents(qbVector<double>& x, qbVector<double>& y, qbVector<double>& z)
+    void Object::GetExtents(qbVector2<double>& x, qbVector2<double>& y, qbVector2<double>& z)
     {
-        std::vector<qbVector<double>> cubeVerts = GetCube(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+        std::vector<qbVector3<double>> cubeVerts = GetCube(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 
         GTform netTransform = m_transform * boxTransform;
 
@@ -46,14 +46,14 @@ namespace qbRT
         z.SetElement(1, zMax);
     }
 
-    void Object::GetExtents(const GTform& transform, qbVector<double>& x, qbVector<double>& y, qbVector<double>& z)
+    void Object::GetExtents(const GTform& transform, qbVector2<double>& x, qbVector2<double>& y, qbVector2<double>& z)
     {
 
     }
 
-    std::vector<qbVector<double>> Object::GetCube(double xMin, double xMax, double yMin, double yMax, double zMin, double zMax)
+    std::vector<qbVector3<double>> Object::GetCube(double xMin, double xMax, double yMin, double yMax, double zMin, double zMax)
     {
-        std::vector<qbVector<double>> cornerPoints (8);
+        std::vector<qbVector3<double>> cornerPoints (8);
 
         cornerPoints.at(0) = std::vector {xMin - boxPadding, yMin - boxPadding, zMin - boxPadding};
         cornerPoints.at(1) = std::vector {xMin - boxPadding, yMin - boxPadding, zMax + boxPadding};
@@ -78,11 +78,11 @@ namespace qbRT
         return false;
     }
 
-    void Object::ComputeUV(const qbVector<double>& localIntersection, qbVector<double>& uvCoords)
+    void Object::ComputeUV(const qbVector3<double>& localIntersection, qbVector2<double>& uvCoords)
     {
         switch (uvMapType)
         {
-            case qbRT::uvSphere:
+            case uvSphere:
             {
                 double x = localIntersection.GetElement(0);
                 double y = localIntersection.GetElement(1);

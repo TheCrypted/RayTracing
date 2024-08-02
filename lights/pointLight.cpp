@@ -10,18 +10,18 @@ namespace qbRT
 {
     PointLight::PointLight()
     {
-        m_color = qbVector{std::vector{1.0, 1.0, 1.0}};
+        m_color = qbVector3{1.0, 1.0, 1.0};
         m_intensity = 1.0;
     }
 
     PointLight::~PointLight()
     = default;
 
-    bool PointLight::CalculateLighting(const qbVector<double> &intPoint, const qbVector<double> &normal,
+    bool PointLight::CalculateLighting(const qbVector3<double> &intPoint, const qbVector3<double> &normal,
                 const std::vector<std::shared_ptr<Object>> &objList, const std::shared_ptr<Object> &currObj,
-                qbVector<double> &color, double &lightIntensity)
+                qbVector3<double> &color, double &lightIntensity)
     {
-        const qbVector<double> lightDir = (m_position - intPoint).Normalized();
+        const qbVector3<double> lightDir = (m_position - intPoint).Normalized();
         double lightDist = (m_position - intPoint).norm();
 
         Data::HitData hitData;
@@ -53,7 +53,7 @@ namespace qbRT
 
         if(!validInt)
         {
-            const double angle = std::acos(qbVector<double>::dot(lightDir, normal));
+            const double angle = std::acos(qbVector3<double>::dot(lightDir, normal));
 
             if(angle > 1.5708)
             {

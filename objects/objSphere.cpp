@@ -9,9 +9,9 @@ namespace qbRT
     ObjSphere::ObjSphere()
     {
         uvMapType = uvSphere;
-        boxTransform.SetTransform(qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{1.0, 1.0, 1.0}});
+        boxTransform.SetTransform(qbVector3{0.0, 0.0, 0.0},
+            qbVector3{0.0, 0.0, 0.0},
+            qbVector3{1.0, 1.0, 1.0});
     }
 
     ObjSphere::~ObjSphere()
@@ -20,11 +20,11 @@ namespace qbRT
     bool ObjSphere::TestIntersections(const Ray &rayOrig, Data::HitData& hitData)
     {
         Ray ray = m_transform.Apply(rayOrig, BCKTFORM);
-        qbVector<double> vhat = ray.m_lab;
+        qbVector3 vhat = ray.m_lab;
 
-        const double a = qbVector<double>::dot(vhat, vhat);
-        const double b = 2.0 * qbVector<double>::dot(ray.m_point1, vhat);
-        const double c = qbVector<double>::dot(ray.m_point1, ray.m_point1) - 1.0;
+        const double a = qbVector3<double>::dot(vhat, vhat);
+        const double b = 2.0 * qbVector3<double>::dot(ray.m_point1, vhat);
+        const double c = qbVector3<double>::dot(ray.m_point1, ray.m_point1) - 1.0;
 
         double intTest = (b*b) - (4.0 * a * c);
         if(intTest <= 0.0)
@@ -53,10 +53,10 @@ namespace qbRT
             else return false;
         }
 
-        qbVector<double> intTemp = ray.m_point1 + (vhat * t);
+        qbVector3<double> intTemp = ray.m_point1 + (vhat * t);
         hitData.intPoint = m_transform.Apply(intTemp, FWDTFORM);
 
-        const qbVector<double>& locNorm = intTemp;
+        const qbVector3<double>& locNorm = intTemp;
         hitData.localNormal = m_transform.ApplyNormal(locNorm);
         hitData.localNormal.Normalize();
 

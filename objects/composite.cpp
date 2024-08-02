@@ -18,9 +18,9 @@ namespace qbRT::Shape
 
     void Composite::AddSubShape(std::shared_ptr<Object> obj)
     {
-        qbVector<double> x_lim{2};
-        qbVector<double> y_lim{2};
-        qbVector<double> z_lim{2};
+        qbVector2<double> x_lim;
+        qbVector2<double> y_lim;
+        qbVector2<double> z_lim;
         obj->GetExtents(x_lim, y_lim, z_lim);
 
         if(x_lim.GetElement(0) < xLim.GetElement(0))
@@ -46,9 +46,9 @@ namespace qbRT::Shape
         double yCentre = yLim.GetElement(0) + yDist / 2.0;
         double zCentre = zLim.GetElement(0) + zDist / 2.0;
 
-        boxTransform.SetTransform(qbVector{std::vector{xCentre, yCentre, zCentre}},
-            qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{xDist/2.0, yDist/2.0, zDist/2.0}}
+        boxTransform.SetTransform(qbVector3{xCentre, yCentre, zCentre},
+            qbVector3{0.0, 0.0, 0.0},
+            qbVector3{xDist/2.0, yDist/2.0, zDist/2.0}
             );
 
         boundingBox.SetTransform(boxTransform);
@@ -62,9 +62,9 @@ namespace qbRT::Shape
         yLim = std::vector{1e6, -1e6};
         zLim = std::vector{1e6, -1e6};
 
-        qbVector<double> x_lim{2};
-        qbVector<double> y_lim{2};
-        qbVector<double> z_lim{2};
+        qbVector2<double> x_lim;
+        qbVector2<double> y_lim;
+        qbVector2<double> z_lim;
 
         for(const auto& obj : shapes)
         {
@@ -93,17 +93,17 @@ namespace qbRT::Shape
         double yCentre = yLim.GetElement(0) + (yDist / 2.0);
         double zCentre = zLim.GetElement(0) + (zDist / 2.0);
 
-        boxTransform.SetTransform(qbVector{std::vector{xCentre, yCentre, zCentre}},
-            qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{xDist/2.0, yDist/2.0, zDist/2.0}}
+        boxTransform.SetTransform(qbVector3{xCentre, yCentre, zCentre},
+            qbVector3{0.0, 0.0, 0.0},
+            qbVector3{xDist/2.0, yDist/2.0, zDist/2.0}
             );
 
         boundingBox.SetTransform(boxTransform);
     }
 
-    void Composite::GetExtents(qbVector<double>& x, qbVector<double>& y, qbVector<double>& z)
+    void Composite::GetExtents(qbVector2<double>& x, qbVector2<double>& y, qbVector2<double>& z)
     {
-        std::vector<qbVector<double>> extents = GetCube(xLim.GetElement(0), xLim.GetElement(1),
+        std::vector<qbVector3<double>> extents = GetCube(xLim.GetElement(0), xLim.GetElement(1),
             yLim.GetElement(0), yLim.GetElement(1), zLim.GetElement(0), zLim.GetElement(1));
 
         double xMin = 1e6, yMin = 1e6, zMin = 1e6;
@@ -136,7 +136,7 @@ namespace qbRT::Shape
 
             if(!useBoundingBox || boundingBox.TestIntersections(backRay))
             {
-                qbVector<double> globalIntersection{3};
+                qbVector3<double> globalIntersection;
                 Data::HitData locHitData;
                 double currDist = 100e6;
 
@@ -144,7 +144,7 @@ namespace qbRT::Shape
 
                 if(shapeInd > -1)
                 {
-                    qbVector newNormal = m_transform.ApplyNormal(locHitData.localNormal);
+                    qbVector3 newNormal = m_transform.ApplyNormal(locHitData.localNormal);
                     newNormal.Normalize();
                     locHitData.hitObject -> ComputeUV(locHitData.localIntPoint, hitData.uvCoords);
                     uvCoords = hitData.uvCoords;
@@ -162,7 +162,7 @@ namespace qbRT::Shape
         return false;
     }
 
-    int Composite::TestIntersections(const Ray& castRay, const Ray& bckRay, qbVector<double>& intPoint, double& currDist, Data::HitData& hitData)
+    int Composite::TestIntersections(const Ray& castRay, const Ray& bckRay, qbVector3<double>& intPoint, double& currDist, Data::HitData& hitData)
     {
         int validShapeInd = -1;
         Data::HitData loc_hitData;
@@ -174,7 +174,7 @@ namespace qbRT::Shape
                 bool shapeHit = obj -> TestIntersections(bckRay, loc_hitData);
                 if(shapeHit)
                 {
-                    qbVector loc_intPoint = m_transform.Apply(loc_hitData.intPoint, FWDTFORM);
+                    qbVector3 loc_intPoint = m_transform.Apply(loc_hitData.intPoint, FWDTFORM);
                     double dist = (loc_intPoint - castRay.m_point1).norm();
 
                     if(dist < currDist)

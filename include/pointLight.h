@@ -14,9 +14,9 @@ namespace qbRT
             PointLight();
             ~PointLight() override;
 
-            bool CalculateLighting(const qbVector<double> &intPoint, const qbVector<double> &normal,
+            bool CalculateLighting(const qbVector3<double> &intPoint, const qbVector3<double> &normal,
                 const std::vector<std::shared_ptr<Object>> &objList, const std::shared_ptr<Object> &currObj,
-                qbVector<double> &color, double &lightIntensity) override;
+                qbVector3<double> &color, double &lightIntensity) override;
 
         // public:
         //     qbVector<double> m_position {3};

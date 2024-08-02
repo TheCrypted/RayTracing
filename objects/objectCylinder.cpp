@@ -10,9 +10,9 @@ namespace qbRT
     {
         uvMapType = uvCylinder;
 
-        boxTransform.SetTransform(qbVector{std::vector{0.0, 0.0, 0.5}},
-            qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{1.0, 1.0, 1.0}});
+        boxTransform.SetTransform(qbVector3{0.0, 0.0, 0.5},
+            qbVector3{0.0, 0.0, 0.0},
+            qbVector3{1.0, 1.0, 1.0});
     }
 
     ObjCylinder::~ObjCylinder()
@@ -22,17 +22,17 @@ namespace qbRT
     {
         Ray backRay = m_transform.Apply(ray, BCKTFORM);
 
-        qbVector<double> v = backRay.m_lab;
+        qbVector3 v = backRay.m_lab;
         v.Normalize();
 
-        qbVector<double> p = backRay.m_point1;
+        qbVector3 p = backRay.m_point1;
 
-        double a  = std::pow(v.GetElement(0), 2.0) + std::pow(v.GetElement(1), 2.0);
-        double b = 2.0 * (v.GetElement(0) * p.GetElement(0) + v.GetElement(1) * p.GetElement(1));
-        double c = std::pow(p.GetElement(0), 2.0) + std::pow(p.GetElement(1), 2.0) - 1.0;
+        double a  = std::pow(v.m_x, 2.0) + std::pow(v.m_y, 2.0);
+        double b = 2.0 * (v.m_x * p.m_x + v.m_y * p.m_y);
+        double c = std::pow(p.m_x, 2.0) + std::pow(p.m_y, 2.0) - 1.0;
 
         double sqrt = std::pow(b, 2.0) - 4.0 * a * c; // [WARNING] THIS ISNT THE ACTUAL ROOT
-        std::array<qbVector<double>, 4> poi;
+        std::array<qbVector3<double>, 4> poi;
         std::array<double, 4> t;
         bool valid1, valid2, valid3, valid4;
 
@@ -114,22 +114,19 @@ namespace qbRT
             }
         }
 
-        qbVector<double> finalPOI = poi[minInd];
+        qbVector3<double> finalPOI = poi[minInd];
 
         if(minInd < 2)
         {
             hitData.intPoint = m_transform.Apply(finalPOI, FWDTFORM);
 
-            qbVector<double> preNorm{3};
-            qbVector<double> resNormal{3};
-            qbVector<double> globalOrigin = m_transform.Apply(qbVector{std::vector{0.0, 0.0, 0.0}}, FWDTFORM);
+            qbVector3<double> preNorm;
             preNorm.SetElement(0, finalPOI.GetElement(0));
             preNorm.SetElement(1, finalPOI.GetElement(1));
             preNorm.SetElement(2, 0.0);
-            resNormal = m_transform.ApplyNormal(preNorm);
-            resNormal.Normalize();
+            hitData.localNormal = m_transform.ApplyNormal(preNorm);
+            hitData.localNormal.Normalize();
 
-            hitData.localNormal = resNormal;
             hitData.localColor = baseColor;
 
             double x = finalPOI.GetElement(0);
@@ -151,7 +148,7 @@ namespace qbRT
                 {
                     hitData.intPoint = m_transform.Apply(finalPOI, FWDTFORM);
 
-                    qbVector preNorm{std::vector{0.0, 0.0, 0.0 + finalPOI.GetElement(2)}};
+                    qbVector3 preNorm{0.0, 0.0, finalPOI.GetElement(2)};
                     hitData.localNormal = m_transform.ApplyNormal(preNorm);
 
                     hitData.localNormal.Normalize();

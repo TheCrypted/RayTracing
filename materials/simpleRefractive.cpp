@@ -12,15 +12,15 @@ namespace qbRT
     SimpleRefractive::~SimpleRefractive()
     = default;
 
-    qbVector<double> SimpleRefractive::ComputeColor(const std::vector<std::shared_ptr<Object>>& objectList,
+    qbVector3<double> SimpleRefractive::ComputeColor(const std::vector<std::shared_ptr<Object>>& objectList,
         const std::vector<std::shared_ptr<Light>>& lightList, const std::shared_ptr<Object>& currentObject,
-        const qbVector<double>& intPoint, const qbVector<double>& localNormal, const Ray& cameraRay)
+        const qbVector3<double>& intPoint, const qbVector3<double>& localNormal, const Ray& cameraRay)
     {
-        qbVector<double> refCol{3};
-        qbVector<double> matCol{3};
-        qbVector<double> traCol{3};
-        qbVector<double> spcCol{3};
-        qbVector<double> difCol{3};
+        qbVector3<double> refCol;
+        qbVector3<double> matCol;
+        qbVector3<double> traCol;
+        qbVector3<double> spcCol;
+        qbVector3<double> difCol;
 
         if(hasTexture)
         {
@@ -55,24 +55,24 @@ namespace qbRT
         return matCol;
     }
 
-    qbVector<double> SimpleRefractive::ComputeTranslucency(const std::vector<std::shared_ptr<Object>>& objectList,
+    qbVector3<double> SimpleRefractive::ComputeTranslucency(const std::vector<std::shared_ptr<Object>>& objectList,
         const std::vector<std::shared_ptr<Light>>& lightList, const std::shared_ptr<Object>& currentObject,
-        const qbVector<double>& intPoint, const qbVector<double>& localNormal, const Ray& cameraRay)
+        const qbVector3<double>& intPoint, const qbVector3<double>& localNormal, const Ray& cameraRay)
     {
-        qbVector<double> trnCol{3};
+        qbVector3<double> trnCol;
 
-        qbVector<double> p = cameraRay.m_lab;
+        qbVector3<double> p = cameraRay.m_lab;
         p.Normalize();
-        qbVector<double> tempNormal = localNormal;
+        qbVector3<double> tempNormal = localNormal;
         double r = 1.0 / refractiveIndex;
-        double c = -qbVector<double>::dot(tempNormal, p);
+        double c = -qbVector3<double>::dot(tempNormal, p);
         if(c < 0.0)
         {
             tempNormal = tempNormal * -1.0;
-            c = -qbVector<double>::dot(tempNormal, p);
+            c = -qbVector3<double>::dot(tempNormal, p);
         }
 
-        qbVector<double> refracted1 = r*p + (r*c - sqrtf(1.0-pow(r,2.0) * (1.0-pow(c,2.0)))) * tempNormal;
+        qbVector3<double> refracted1 = r*p + (r*c - sqrtf(1.0-pow(r,2.0) * (1.0-pow(c,2.0)))) * tempNormal;
 
         Ray ref1Ray{intPoint + (refracted1 * 0.0001), intPoint + refracted1};
 
@@ -87,18 +87,18 @@ namespace qbRT
 
         if(secondInt)
         {
-            qbVector<double> p2 = ref1Ray.m_lab;
+            qbVector3<double> p2 = ref1Ray.m_lab;
             p2.Normalize();
-            qbVector<double> tempNormal2 = hitData.localNormal;
+            qbVector3<double> tempNormal2 = hitData.localNormal;
             double r2 = refractiveIndex;
-            double c2 = -qbVector<double>::dot(tempNormal2, p2);
+            double c2 = -qbVector3<double>::dot(tempNormal2, p2);
             if(c2 < 0.0)
             {
                 tempNormal2 = tempNormal2 * -1.0;
-                c2 = -qbVector<double>::dot(tempNormal2, p2);
+                c2 = -qbVector3<double>::dot(tempNormal2, p2);
             }
 
-            qbVector<double> refracted2 = r2*p2 + (r2*c2 - sqrtf(1.0-pow(r2,2.0) * (1.0-pow(c2,2.0)))) * tempNormal2;
+            qbVector3<double> refracted2 = r2*p2 + (r2*c2 - sqrtf(1.0-pow(r2,2.0) * (1.0-pow(c2,2.0)))) * tempNormal2;
 
             Ray ref2Ray{hitData.intPoint + (refracted2 * 0.0001), hitData.intPoint + refracted2};
             intFound = CastRay(ref2Ray, objectList, currentObject, obj, closestHitData);
@@ -110,7 +110,7 @@ namespace qbRT
             finalRay = ref1Ray;
         }
 
-        qbVector<double> matColor{3};
+        qbVector3<double> matColor;
 
         if(intFound)
         {
@@ -127,11 +127,11 @@ namespace qbRT
         return trnCol;
     }
 
-    qbVector<double> SimpleRefractive::ComputeSpecular(const std::vector<std::shared_ptr<Object>>& objectList,
-        const std::vector<std::shared_ptr<Light>>& lightList, const qbVector<double>& intPoint,
-        const qbVector<double>& localNormal, const Ray& cameraRay)
+    qbVector3<double> SimpleRefractive::ComputeSpecular(const std::vector<std::shared_ptr<Object>>& objectList,
+        const std::vector<std::shared_ptr<Light>>& lightList, const qbVector3<double>& intPoint,
+        const qbVector3<double>& localNormal, const Ray& cameraRay)
     {
-        qbVector<double> resColor{3};
+        qbVector3<double> resColor;
         double red = 0.0;
         double green = 0.0;
         double blue = 0.0;
@@ -140,8 +140,8 @@ namespace qbRT
         {
             double intensity = 0.0;
 
-            qbVector<double> lightDir = (light->m_position - intPoint).Normalized();
-            qbVector<double> startPoint = intPoint + lightDir * 0.0001;
+            qbVector3<double> lightDir = (light->m_position - intPoint).Normalized();
+            qbVector3<double> startPoint = intPoint + lightDir * 0.0001;
 
             Ray lightRay = Ray(startPoint, startPoint + lightDir);
 
@@ -159,13 +159,13 @@ namespace qbRT
 
             if(!validInt)
             {
-                auto r = lightRay.m_lab - (2 * qbVector<double>::dot(lightRay.m_lab, localNormal) * localNormal);
+                auto r = lightRay.m_lab - (2 * qbVector3<double>::dot(lightRay.m_lab, localNormal) * localNormal);
                 r.Normalize();
 
-                qbVector<double> v = cameraRay.m_lab;
+                qbVector3<double> v = cameraRay.m_lab;
                 v.Normalize();
 
-                double dotProd = qbVector<double>::dot(r, v);
+                double dotProd = qbVector3<double>::dot(r, v);
 
                 if(dotProd > 0.0)
                 {
