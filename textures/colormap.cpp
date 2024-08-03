@@ -12,13 +12,13 @@ namespace qbRT::TextureBase
     Colormap::~Colormap()
     = default;
 
-    void Colormap::SetStop(double stop, const qbVector<double>& color)
+    void Colormap::SetStop(double stop, const qbVector4<double>& color)
     {
         stops.push_back(stop);
         colors.push_back(color);
     }
 
-    qbVector<double> Colormap::GetColor(double stop)
+    qbVector4<double> Colormap::GetColor(double stop)
     {
         int numStops = stops.size();
         int preStop = 0;

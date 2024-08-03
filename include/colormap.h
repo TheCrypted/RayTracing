@@ -5,6 +5,7 @@
 #ifndef COLORMAP_H
 #define COLORMAP_H
 #include "qbLinAlg/qbVector.h"
+#include "qbLinAlg/qbVector4.hpp"
 
 
 namespace qbRT::TextureBase
@@ -14,12 +15,12 @@ namespace qbRT::TextureBase
             Colormap();
             ~Colormap();
 
-            void SetStop(double stop, const qbVector<double> &color);
-            qbVector<double> GetColor(double stop);
+            void SetStop(double stop, const qbVector4<double> &color);
+            qbVector4<double> GetColor(double stop);
 
         private:
             std::vector<double> stops;
-            std::vector<qbVector<double>> colors;
+            std::vector<qbVector4<double>> colors;
     };
 }
 

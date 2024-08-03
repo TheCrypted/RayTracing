@@ -18,7 +18,7 @@ namespace qbRT::TextureBase
             MarbleText();
             ~MarbleText() override;
 
-            qbVector<double> GetColor(const qbVector<double>& uv) override;
+            qbVector4<double> GetColor(const qbVector2<double>& uv) override;
 
             void SetColor(const std::shared_ptr<Colormap>& in_colorMap);
             void SetAmplitude(double in_amplitude1, double in_amplitude2);

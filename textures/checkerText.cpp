@@ -20,13 +20,13 @@ namespace qbRT::TextureBase
     Checker::~Checker()
     = default;
 
-    qbVector<double> Checker::GetColor(const qbVector<double>& uv)
+    qbVector4<double> Checker::GetColor(const qbVector2<double>& uv)
     {
-        qbVector<double> convCoord = ApplyTransform(uv);
+        qbVector2<double> convCoord = ApplyTransform(uv);
         double u = convCoord.GetElement(0);
         double v = convCoord.GetElement(1);
 
-        qbVector<double> res{4};
+        qbVector4<double> res;
         if((static_cast<int>(floor(u)) + static_cast<int>(floor(v))) % 2 == 0)
         {
             res = color1 -> GetColor(uv);
@@ -38,7 +38,7 @@ namespace qbRT::TextureBase
         return res;
     }
 
-    void Checker::SetColor(const qbVector<double>& in_color1, const qbVector<double>& in_color2)
+    void Checker::SetColor(const qbVector4<double>& in_color1, const qbVector4<double>& in_color2)
     {
 
         auto loc_color1 = std::make_shared<Flat>(Flat());

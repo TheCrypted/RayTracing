@@ -16,8 +16,8 @@ namespace qbRT::TextureBase
             Checker();
             ~Checker() override;
 
-            qbVector<double> GetColor(const qbVector<double>& uv) override;
-            void SetColor(const qbVector<double>& color1, const qbVector<double>& color2);
+            qbVector4<double> GetColor(const qbVector2<double>& uv) override;
+            void SetColor(const qbVector4<double>& color1, const qbVector4<double>& color2);
             void SetColor(const std::shared_ptr<Texture>& in_color1, const std::shared_ptr<Texture>& in_color2);
 
         private:

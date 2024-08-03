@@ -19,9 +19,9 @@ namespace qbRT::TextureBase
 			Stone();
 			~Stone() override;
 
-			qbVector<double> GetColor(const qbVector<double> &uvCoords) override;
+			qbVector4<double> GetColor(const qbVector2<double> &uvCoords) override;
 
-			double GetValue(const qbVector<double> &uvCoords) override;
+			double GetValue(const qbVector2<double> &uvCoords) override;
 
 			void SetColorMap(const std::shared_ptr<Colormap> &colorMap);
 

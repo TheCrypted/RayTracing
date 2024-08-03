@@ -14,11 +14,11 @@ namespace qbRT::TextureBase
             Flat();
             ~Flat() override;
 
-            qbVector<double> GetColor(const qbVector<double>& uv) override;
-            void SetColor(const qbVector<double>& color);
+            qbVector4<double> GetColor(const qbVector2<double>& uv) override;
+            void SetColor(const qbVector4<double>& color);
 
         private:
-            qbVector<double> color{4};
+            qbVector4<double> color;
 
     };
 }

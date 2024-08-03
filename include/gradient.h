@@ -15,9 +15,9 @@ namespace qbRT::TextureBase
             Gradient();
             ~Gradient() override;
 
-            qbVector<double> GetColor(const qbVector<double>& coords) override;
-            double GetValue(const qbVector<double>& coords) override;
-            void SetStop(double stop, const qbVector<double> &color);
+            qbVector4<double> GetColor(const qbVector2<double>& coords) override;
+            double GetValue(const qbVector2<double>& coords) override;
+            void SetStop(double stop, const qbVector4<double> &color);
 
         private:
             Colormap colormap;

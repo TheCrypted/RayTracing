@@ -22,16 +22,16 @@ namespace qbRT::TextureBase
     = default;
 
 
-    qbVector<double> MarbleText::GetColor(const qbVector<double>& uv)
+    qbVector4<double> MarbleText::GetColor(const qbVector2<double>& uv)
     {
-        qbVector<double> in_coord = uv;
-        qbVector<double> backCoord = ApplyTransform(uv);
+        qbVector2<double> in_coord = uv;
+        qbVector2<double> backCoord = ApplyTransform(uv);
         double u = backCoord.GetElement(0);
         double v = backCoord.GetElement(1);
 
-        qbVector<double> locColor{4};
+        qbVector4<double> locColor;
 
-        if(!hasColorMap) locColor = qbVector{std::vector{1.0, 0.0, 1.0, 1.0}};
+        if(!hasColorMap) locColor = qbVector4{1.0, 0.0, 1.0, 1.0};
         else
         {
             double mapPos = sinAmp * sin(sinFreq * M_PI * ((u + v)/2.0 + (noiseGenList[0].GetValue(u, v) * amplitude1) *

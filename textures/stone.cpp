@@ -30,17 +30,17 @@ namespace qbRT::TextureBase
 	Stone::~Stone()
 	= default;
 
-	qbVector<double> Stone::GetColor(const qbVector<double> &uvCoords)
+	qbVector4<double> Stone::GetColor(const qbVector2<double> &uvCoords)
 	{
-		qbVector inputLoc = uvCoords;
-		qbVector newLoc = ApplyTransform(inputLoc);
+		qbVector2 inputLoc = uvCoords;
+		qbVector2 newLoc = ApplyTransform(inputLoc);
 		double newU = newLoc.GetElement(0);
 		double newV = newLoc.GetElement(1);
 
-		qbVector<double> localColor{4};
+		qbVector4<double> localColor;
 		if (!hasColormap)
 		{
-			localColor = qbVector{std::vector{1.0, 0.0, 1.0, 1.0}};
+			localColor = qbVector4{1.0, 0.0, 1.0, 1.0};
 		}
 		else
 		{
@@ -54,10 +54,10 @@ namespace qbRT::TextureBase
 		return localColor;
 	}
 
-	double Stone::GetValue(const qbVector<double> &uvCoords)
+	double Stone::GetValue(const qbVector2<double> &uvCoords)
 	{
-		qbVector inputLoc = uvCoords;
-		qbVector newLoc = ApplyTransform(inputLoc);
+		qbVector2 inputLoc = uvCoords;
+		qbVector2 newLoc = ApplyTransform(inputLoc);
 		double newU = newLoc.GetElement(0);
 		double newV = newLoc.GetElement(1);
 

@@ -16,16 +16,16 @@ namespace qbRT::TextureBase
     BasicNoise::~BasicNoise()
     = default;
 
-    qbVector<double> BasicNoise::GetColor(const qbVector<double>& uv)
+    qbVector4<double> BasicNoise::GetColor(const qbVector2<double>& uv)
     {
-        qbVector<double> in_coord = uv;
-        qbVector<double> backCoord = ApplyTransform(uv);
+        qbVector2<double> in_coord = uv;
+        qbVector2<double> backCoord = ApplyTransform(uv);
         double u = backCoord.GetElement(0);
         double v = backCoord.GetElement(1);
 
-        qbVector<double> locColor{4};
+        qbVector4<double> locColor;
 
-        if(!hasColorMap) locColor = qbVector{std::vector{1.0, 0.0, 1.0, 1.0}};
+        if(!hasColorMap) locColor = qbVector4{1.0, 0.0, 1.0, 1.0};
         else
         {
             double mapPos = std::clamp(noiseGen.GetValue(u, v) * amplitude, 0.0, 1.0);
@@ -50,10 +50,5 @@ namespace qbRT::TextureBase
         scale = in_scale;
         noiseGen.SetGrid(scale);
     }
-
-
-
-
-
 
 }

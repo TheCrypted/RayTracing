@@ -18,7 +18,7 @@ namespace qbRT::TextureBase
 		Image();
 		~Image() override;
 
-		qbVector<double> GetColor(const qbVector<double> &uvCoords) override;
+		qbVector4<double> GetColor(const qbVector2<double> &uvCoords) override;
 
 		bool LoadImage(std::string fileName);
 

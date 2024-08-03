@@ -8,7 +8,8 @@
 #include "qbLinAlg/qbMatrix.h"
 #include "qbLinAlg/qbVector.h"
 #include "ray.h"
-
+#include "qbLinAlg/qbVector2.hpp"
+#include "qbLinAlg/qbMatrix33.hpp"
 
 
 namespace qbRT::TextureBase
@@ -18,19 +19,19 @@ namespace qbRT::TextureBase
             Texture();
             virtual ~Texture();
 
-            virtual qbVector<double> GetColor(const qbVector<double> &coords);
-            virtual double GetValue(const qbVector<double> &coords);
-            void SetTransform(const qbVector<double> &translation, const double &rotation,
-                const qbVector<double> &scale);
+            virtual qbVector4<double> GetColor(const qbVector2<double> &coords);
+            virtual double GetValue(const qbVector2<double> &coords);
+            void SetTransform(const qbVector3<double> &translation, const double &rotation,
+                const qbVector3<double> &scale);
 
-            qbVector<double> ApplyTransform(const qbVector<double> &vec);
+            qbVector2<double> ApplyTransform(const qbVector2<double> &vec);
 
-            static qbVector<double> BlendColors(const std::vector<qbVector<double>> &colors);
-
-        private:
+            static qbVector3<double> BlendColors(const std::vector<qbVector3<double>> &colors);
 
         private:
-            qbMatrix2<double> m_transform {3, 3, std::vector<double>{1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0}};
+
+        private:
+            qbMatrix33<double> m_transform {std::vector{1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0}};
     };
 }
 

@@ -9,18 +9,18 @@ namespace qbRT::TextureBase
 {
     Flat::Flat()
     {
-        color = qbVector{std::vector{1.0, 0.0, 0.0, 1.0}};
+        color = qbVector4{1.0, 0.0, 0.0, 1.0};
     }
 
     Flat::~Flat()
     = default;
 
-    qbVector<double> Flat::GetColor(const qbVector<double>& uv)
+    qbVector4<double> Flat::GetColor(const qbVector2<double>& uv)
     {
         return color;
     }
 
-    void Flat::SetColor(const qbVector<double>& inpColor)
+    void Flat::SetColor(const qbVector4<double>& inpColor)
     {
         color = inpColor;
     }

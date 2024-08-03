@@ -18,18 +18,18 @@ namespace qbRT::TextureBase
 		}
 	}
 
-	qbVector<double> Image::GetColor(const qbVector<double> &uvCoords)
+	qbVector4<double> Image::GetColor(const qbVector2<double> &uvCoords)
 	{
-		qbVector<double> outputColor;
+		qbVector4<double> outputColor;
 
 		if (!m_imageLoaded)
 		{
-			outputColor = qbVector{std::vector{1.0, 0.0, 1.0, 1.0}};
+			outputColor = qbVector4{1.0, 0.0, 1.0, 1.0};
 		}
 		else
 		{
-			qbVector<double> inputLoc = uvCoords;
-			qbVector<double> newLoc = ApplyTransform(inputLoc);
+			qbVector2<double> inputLoc = uvCoords;
+			qbVector2<double> newLoc = ApplyTransform(inputLoc);
 			double u = newLoc.GetElement(0);
 			double v = newLoc.GetElement(1);
 
