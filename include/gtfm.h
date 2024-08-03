@@ -7,6 +7,9 @@
 
 #include "qbLinAlg/qbMatrix.h"
 #include "qbLinAlg/qbVector.h"
+#include "qbLinAlg/qbVector2.hpp"
+#include "qbLinAlg/qbVector3.hpp"
+#include "qbLinAlg/qbVector4.hpp"
 #include "ray.h"
 #include "qbLinAlg/qbMatrix44.hpp"
 

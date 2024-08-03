@@ -6,6 +6,8 @@
 #define COLORMAP_H
 #include "qbLinAlg/qbVector.h"
 #include "qbLinAlg/qbVector4.hpp"
+#include "qbLinAlg/qbVector3.hpp"
+#include "qbLinAlg/qbVector2.hpp"
 
 
 namespace qbRT::TextureBase

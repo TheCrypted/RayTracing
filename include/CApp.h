@@ -10,6 +10,8 @@
 #include "scene.h"
 #include "camera.h"
 #include "imgText.h"
+#include "qbLinAlg/qbVector3.hpp"
+#include "qbLinAlg/qbVector.h"
 
 class CApp
 {

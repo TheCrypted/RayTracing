@@ -9,7 +9,7 @@ namespace qbRT::TextureBase
 {
     Flat::Flat()
     {
-        color = qbVector4{1.0, 0.0, 0.0, 1.0};
+        color = qbVector4{std::vector<double> {1.0, 0.0, 0.0, 1.0}};
     }
 
     Flat::~Flat()

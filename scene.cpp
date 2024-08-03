@@ -219,13 +219,13 @@ namespace qbRT {
 
         // ******************************************
 
-        objList.push_back(floor);
-        objList.push_back(img);
-        objList.push_back(sphere);
-        objList.push_back(sphere2);
-        objList.push_back(sphere3);
-        objList.push_back(sphere4);
-        objList.push_back(cylinder);
+        // objList.push_back(floor);
+        // objList.push_back(img);
+        // objList.push_back(sphere);
+        // objList.push_back(sphere2);
+        // objList.push_back(sphere3);
+        // objList.push_back(sphere4);
+        // objList.push_back(cylinder);
 
         lightList.push_back(std::make_shared<PointLight>(PointLight()));
         lightList.at(0) -> m_position = qbVector3{std::vector{5.0, -10.0, -5.0}};
@@ -246,9 +246,9 @@ namespace qbRT {
         int ySize = outputImage.GetYSize();
 
         Ray cameraRay;
-        qbVector3<double> intPoint{3};
-        qbVector3<double> localNormal{3};
-        qbVector3<double> localColor{3};
+        qbVector3<double> intPoint;
+        qbVector3<double> localNormal;
+        qbVector3<double> localColor;
         double xFact = 1.0 / (static_cast<double>(xSize)/2.0);
         double yFact = 1.0 / (static_cast<double>(ySize)/2.0);
 

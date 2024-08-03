@@ -9,6 +9,8 @@
 #include "qbLinAlg/qbVector.h"
 #include "ray.h"
 #include "qbLinAlg/qbVector2.hpp"
+#include "qbLinAlg/qbVector3.hpp"
+#include "qbLinAlg/qbVector4.hpp"
 #include "qbLinAlg/qbMatrix33.hpp"
 
 

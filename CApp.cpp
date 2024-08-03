@@ -3,7 +3,6 @@
 //
 
 #include "include/CApp.h"
-#include "include/qbLinAlg/qbVector.h"
 
 CApp::CApp() {
     running = true;

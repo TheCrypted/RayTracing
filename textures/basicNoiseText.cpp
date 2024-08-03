@@ -25,7 +25,7 @@ namespace qbRT::TextureBase
 
         qbVector4<double> locColor;
 
-        if(!hasColorMap) locColor = qbVector4{1.0, 0.0, 1.0, 1.0};
+        if(!hasColorMap) locColor = qbVector4{std::vector{1.0, 0.0, 1.0, 1.0}};
         else
         {
             double mapPos = std::clamp(noiseGen.GetValue(u, v) * amplitude, 0.0, 1.0);

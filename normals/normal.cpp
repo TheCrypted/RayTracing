@@ -61,7 +61,7 @@ namespace qbRT::Normal
         return qbVector2{res.GetElement(0), res.GetElement(1)};
     }
 
-    void NormalBase::SetTransform(const qbVector3<double>& translation, const double rotation, const qbVector3<double>& scale)
+    void NormalBase::SetTransform(const qbVector2<double>& translation, const double rotation, const qbVector2<double>& scale)
     {
         qbMatrix33 rotationMatrix = {std::vector {
             cos(rotation), -sin(rotation), 0.0,

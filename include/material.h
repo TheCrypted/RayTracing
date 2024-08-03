@@ -11,10 +11,12 @@
 #include "normal.h"
 #include "object.h"
 #include "light.h"
-#include "qbLinAlg/qbVector3.hpp"
 #include "ray.h"
 #include "texture.h"
+#include "qbLinAlg/qbVector.h"
 #include "qbLinAlg/qbVector2.hpp"
+#include "qbLinAlg/qbVector3.hpp"
+#include "qbLinAlg/qbVector4.hpp"
 
 
 namespace qbRT

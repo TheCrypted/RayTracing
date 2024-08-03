@@ -10,8 +10,8 @@ namespace qbRT::TextureBase
     {
         Flat loc_color1;
         Flat loc_color2;
-        loc_color1.SetColor(qbVector{std::vector{1.0, 1.0, 1.0, 1.0}});
-        loc_color2.SetColor(qbVector{std::vector{0.2, 0.2, 0.2, 1.0}});
+        loc_color1.SetColor(qbVector4{std::vector{1.0, 1.0, 1.0, 1.0}});
+        loc_color2.SetColor(qbVector4{std::vector{0.2, 0.2, 0.2, 1.0}});
 
         color1 = std::make_shared<Flat>(loc_color1);
         color2 = std::make_shared<Flat>(loc_color2);

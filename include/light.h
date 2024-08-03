@@ -9,6 +9,9 @@
 #include "ray.h"
 #include "object.h"
 #include "qbLinAlg/qbVector.h"
+#include "qbLinAlg/qbVector2.hpp"
+#include "qbLinAlg/qbVector3.hpp"
+#include "qbLinAlg/qbVector4.hpp"
 
 
 namespace qbRT
@@ -24,8 +27,8 @@ namespace qbRT
                     qbVector3<double> &color, double &intensity);
 
         public:
-            qbVector3<double> m_position {3};
-            qbVector3<double> m_color {3};
+            qbVector3<double> m_position;
+            qbVector3<double> m_color;
             double m_intensity;
     };
 }

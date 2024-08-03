@@ -26,12 +26,6 @@ qbRT::GTform::GTform(const qbVector3<double> &translate, const qbVector3<double>
 
 qbRT::GTform::GTform(const qbMatrix44<double> &fwd, const qbMatrix44<double> &bck)
 {
-	if ((fwd.GetNumRows() != 4) || (fwd.GetNumCols() != 4) ||
-		(bck.GetNumRows() != 4) || (bck.GetNumCols() != 4))
-	{
-		throw std::invalid_argument("Cannot construct GTform, inputs are not all 4x4.");
-	}
-
 	m_fwd = fwd;
 	m_bck = bck;
 	UpdateLinTfm();
@@ -120,11 +114,7 @@ qbRT::Ray qbRT::GTform::Apply(const qbRT::Ray &inputRay, bool dirFlag)
 
 qbVector3<double> qbRT::GTform::Apply(const qbVector3<double> &inputVector, bool dirFlag)
 {
-	std::vector tempData {	inputVector.GetElement(0),
-		inputVector.GetElement(1),
-		inputVector.GetElement(2),
-		1.0 };
-	qbVector4 tempVector {tempData};
+	qbVector4 tempVector {inputVector.GetElement(0), inputVector.GetElement(1), inputVector.GetElement(2), 1.0};
 
 	qbVector4<double> resultVector;
 

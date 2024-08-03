@@ -24,8 +24,9 @@ namespace qbRT
 
         if(hasTexture)
         {
+            qbVector3<double> textCol = GetTextureColor(currentObject -> uvCoords);
             difCol = ComputeDiffuseColor(objectList, lightList, currentObject, intPoint, localNormal,
-                textureList.at(0)->GetColor(currentObject -> uvCoords));
+                textCol);
         } else
         {
             difCol = ComputeDiffuseColor(objectList, lightList, currentObject, intPoint, localNormal, baseColor);

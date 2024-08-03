@@ -11,6 +11,8 @@
 #include "qbLinAlg/qbMatrix.h"
 #include "qbLinAlg/qbVector.h"
 #include "qbLinAlg/qbVector2.hpp"
+#include "qbLinAlg/qbVector3.hpp"
+#include "qbLinAlg/qbVector4.hpp"
 #include "qbLinAlg/qbMatrix33.hpp"
 
 
@@ -26,7 +28,7 @@ namespace qbRT::Normal
             qbVector2<double> TextureDiff(const std::shared_ptr<TextureBase::Texture>& inputTexture, const qbVector2<double>& uvCoords);
 
             void SetAmplitude(double in_amp);
-            void SetTransform(const qbVector3<double>& translation, const double rotation, const qbVector3<double>& scale);
+            void SetTransform(const qbVector2<double>& translation, const double rotation, const qbVector2<double>& scale);
             qbVector2<double> ApplyTransform(const qbVector2<double>& inputVec);
 
         public:

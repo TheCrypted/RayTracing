@@ -83,7 +83,7 @@ namespace qbRT
 
         bool intersectionFound = CastRay(reflectionRay, objectList, currentObject, closestObj, closestHitData);
 
-        qbVector3<double> matColor{3};
+        qbVector3<double> matColor;
         if((intersectionFound) && (reflectionRayCount < maxReflectionDepth))
         {
             reflectionRayCount++;
@@ -136,12 +136,12 @@ namespace qbRT
 
                     Ray lightRay = Ray(startPoint, startPoint + lightDir);
 
-                    auto r = lightRay.m_lab - (2 * qbVector<double>::dot(lightRay.m_lab, localNormal) * localNormal);
+                    auto r = lightRay.m_lab - (2 * qbVector3<double>::dot(lightRay.m_lab, localNormal) * localNormal);
 
-                    qbVector<double> v = camRay.m_lab;
+                    qbVector3<double> v = camRay.m_lab;
                     v.Normalize();
 
-                    double dotProd = qbVector<double>::dot(r, v);
+                    double dotProd = qbVector3<double>::dot(r, v);
 
                     if(dotProd > 0.0)
                     {

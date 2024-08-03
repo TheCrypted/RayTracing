@@ -46,9 +46,9 @@ namespace qbRT::Shape
         double yCentre = yLim.GetElement(0) + yDist / 2.0;
         double zCentre = zLim.GetElement(0) + zDist / 2.0;
 
-        boxTransform.SetTransform(qbVector3{xCentre, yCentre, zCentre},
+        boxTransform.SetTransform(qbVector3{std::vector{xCentre, yCentre, zCentre}},
             qbVector3{0.0, 0.0, 0.0},
-            qbVector3{xDist/2.0, yDist/2.0, zDist/2.0}
+            qbVector3{std::vector{xDist/2.0, yDist/2.0, zDist/2.0}}
             );
 
         boundingBox.SetTransform(boxTransform);
@@ -93,9 +93,9 @@ namespace qbRT::Shape
         double yCentre = yLim.GetElement(0) + (yDist / 2.0);
         double zCentre = zLim.GetElement(0) + (zDist / 2.0);
 
-        boxTransform.SetTransform(qbVector3{xCentre, yCentre, zCentre},
+        boxTransform.SetTransform(qbVector3{std::vector{xCentre, yCentre, zCentre}},
             qbVector3{0.0, 0.0, 0.0},
-            qbVector3{xDist/2.0, yDist/2.0, zDist/2.0}
+            qbVector3{std::vector{xDist/2.0, yDist/2.0, zDist/2.0}}
             );
 
         boundingBox.SetTransform(boxTransform);
@@ -174,7 +174,7 @@ namespace qbRT::Shape
                 bool shapeHit = obj -> TestIntersections(bckRay, loc_hitData);
                 if(shapeHit)
                 {
-                    qbVector3 loc_intPoint = m_transform.Apply(loc_hitData.intPoint, FWDTFORM);
+                    qbVector3<double> loc_intPoint = m_transform.Apply(loc_hitData.intPoint, FWDTFORM);
                     double dist = (loc_intPoint - castRay.m_point1).norm();
 
                     if(dist < currDist)
