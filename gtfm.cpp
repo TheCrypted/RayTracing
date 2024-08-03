@@ -17,14 +17,14 @@ qbRT::GTform::~GTform()
 
 }
 
-qbRT::GTform::GTform(const qbVector<double> &translate, const qbVector<double> &rotate, const qbVector<double> &scale)
+qbRT::GTform::GTform(const qbVector3<double> &translate, const qbVector3<double> &rotate, const qbVector3<double> &scale)
 {
 	SetTransform(translate, rotate, scale);
 	UpdateLinTfm();
 }
 
 
-qbRT::GTform::GTform(const qbMatrix2<double> &fwd, const qbMatrix2<double> &bck)
+qbRT::GTform::GTform(const qbMatrix44<double> &fwd, const qbMatrix44<double> &bck)
 {
 	if ((fwd.GetNumRows() != 4) || (fwd.GetNumCols() != 4) ||
 		(bck.GetNumRows() != 4) || (bck.GetNumCols() != 4))
@@ -37,14 +37,14 @@ qbRT::GTform::GTform(const qbMatrix2<double> &fwd, const qbMatrix2<double> &bck)
 	UpdateLinTfm();
 }
 
-void qbRT::GTform::SetTransform(const qbVector<double> &translation, const qbVector<double> &rotation,
-	const qbVector<double> &scale)
+void qbRT::GTform::SetTransform(const qbVector3<double> &translation, const qbVector3<double> &rotation,
+	const qbVector3<double> &scale)
 {
-	qbMatrix2<double> translationMatrix	{4, 4};
-	qbMatrix2<double> rotationMatrixX	{4, 4};
-	qbMatrix2<double>	rotationMatrixY	{4, 4};
-	qbMatrix2<double> rotationMatrixZ	{4, 4};
-	qbMatrix2<double>	scaleMatrix	{4, 4};
+	qbMatrix44<double> translationMatrix;
+	qbMatrix44<double> rotationMatrixX;
+	qbMatrix44<double>	rotationMatrixY;
+	qbMatrix44<double> rotationMatrixZ;
+	qbMatrix44<double>	scaleMatrix;
 
 	translationMatrix.SetToIdentity();
 	rotationMatrixX.SetToIdentity();
@@ -86,7 +86,7 @@ void qbRT::GTform::SetTransform(const qbVector<double> &translation, const qbVec
 
 }
 
-qbMatrix2<double> qbRT::GTform::GetMatrix(bool dir)
+qbMatrix44<double> qbRT::GTform::GetMatrix(bool dir)
 {
 	if(dir)
 	{
@@ -100,7 +100,7 @@ qbMatrix2<double> qbRT::GTform::GetMatrix(bool dir)
 
 qbRT::Ray qbRT::GTform::Apply(const qbRT::Ray &inputRay, bool dirFlag)
 {
-	qbRT::Ray outputRay;
+	Ray outputRay;
 
 	if (dirFlag)
 	{
@@ -118,15 +118,15 @@ qbRT::Ray qbRT::GTform::Apply(const qbRT::Ray &inputRay, bool dirFlag)
 	return outputRay;
 }
 
-qbVector<double> qbRT::GTform::Apply(const qbVector<double> &inputVector, bool dirFlag)
+qbVector3<double> qbRT::GTform::Apply(const qbVector3<double> &inputVector, bool dirFlag)
 {
 	std::vector tempData {	inputVector.GetElement(0),
 		inputVector.GetElement(1),
 		inputVector.GetElement(2),
 		1.0 };
-	qbVector tempVector {tempData};
+	qbVector4 tempVector {tempData};
 
-	qbVector<double> resultVector;
+	qbVector4<double> resultVector;
 
 	if (dirFlag)
 	{
@@ -137,14 +137,14 @@ qbVector<double> qbRT::GTform::Apply(const qbVector<double> &inputVector, bool d
 		resultVector = m_bck * tempVector;
 	}
 
-	qbVector<double> outputVector {std::vector<double> {	resultVector.GetElement(0),
+	qbVector3 outputVector {resultVector.GetElement(0),
 		resultVector.GetElement(1),
-		resultVector.GetElement(2) }};
+		resultVector.GetElement(2)};
 
 	return outputVector;
 }
 
-qbVector<double> qbRT::GTform::ApplyNormal(const qbVector<double> normal)
+qbVector3<double> qbRT::GTform::ApplyNormal(const qbVector3<double> normal)
 {
 	return m_lintfm * normal;
 }
@@ -164,7 +164,7 @@ void qbRT::GTform::UpdateLinTfm()
 	m_lintfm = m_lintfm.Transpose();
 }
 
-qbMatrix2<double> qbRT::GTform::GetNormalTrans()
+qbMatrix33<double> qbRT::GTform::GetNormalTrans()
 {
 	return m_lintfm;
 }
@@ -172,14 +172,14 @@ qbMatrix2<double> qbRT::GTform::GetNormalTrans()
 
 namespace qbRT
 {
-	qbRT::GTform operator* (const qbRT::GTform &lhs, const qbRT::GTform &rhs)
+	GTform operator* (const GTform &lhs, const GTform &rhs)
 	{
-		qbMatrix2<double> fwdResult = lhs.m_fwd * rhs.m_fwd;
+		qbMatrix44<double> fwdResult = lhs.m_fwd * rhs.m_fwd;
 
-		qbMatrix2<double> bckResult = fwdResult;
+		qbMatrix44<double> bckResult = fwdResult;
 		bckResult.Inverse();
 
-		qbRT::GTform finalResult (fwdResult, bckResult);
+		GTform finalResult (fwdResult, bckResult);
 
 		return finalResult;
 	}
@@ -209,10 +209,10 @@ void qbRT::GTform::PrintMatrix(bool dirFlag)
 	}
 }
 
-void qbRT::GTform::Print(const qbMatrix2<double> &matrix)
+void qbRT::GTform::Print(const qbMatrix44<double> &matrix)
 {
-	int nRows = matrix.GetNumRows();
-	int nCols = matrix.GetNumCols();
+	int nRows = 4;
+	int nCols = 4;
 	for (int row = 0; row<nRows; ++row)
 	{
 		for (int col = 0; col<nCols; ++col)
@@ -223,9 +223,9 @@ void qbRT::GTform::Print(const qbMatrix2<double> &matrix)
 	}
 }
 
-void qbRT::GTform::PrintVector(const qbVector<double> &inputVector)
+void qbRT::GTform::PrintVector(const qbVector3<double> &inputVector)
 {
-	int nRows = inputVector.GetNumDims();
+	int nRows = 3;
 	for (int row = 0; row < nRows; ++row)
 	{
 		std::cout << std::fixed << std::setprecision(3) << inputVector.GetElement(row) << std::endl;

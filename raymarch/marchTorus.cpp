@@ -8,16 +8,16 @@ namespace qbRT::RM
 {
     MarchTorus::MarchTorus()
     {
-        std::function f = [=](qbVector<double>* loc, qbVector<double>* parms)
+        std::function f = [=](qbVector3<double>* loc, qbVector3<double>* parms)
         {
             return this -> ObjectFcn(loc, parms);
         };
 
         SetObjectFunction(f);
 
-        boundingBox.SetTransform(GTform{qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{1.3, 1.3, 1.3}}});
+        boundingBox.SetTransform(GTform{qbVector3{0.0, 0.0, 0.0},
+            qbVector3{0.0, 0.0, 0.0},
+            qbVector3{1.3, 1.3, 1.3}});
     }
 
     MarchTorus::~MarchTorus()
@@ -32,14 +32,14 @@ namespace qbRT::RM
 
     void MarchTorus::UpdateBounds()
     {
-        boundingBox.SetTransform(GTform{qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{0.0, 0.0, 0.0}},
-            qbVector{std::vector{r1+r2+0.3, r1+r2+0.3, r2+0.2}}});
+        boundingBox.SetTransform(GTform{qbVector3{0.0, 0.0, 0.0},
+            qbVector3{0.0, 0.0, 0.0},
+            qbVector3{r1+r2+0.3, r1+r2+0.3, r2+0.2}});
     }
 
-    double MarchTorus::ObjectFcn(const qbVector<double>* p, const qbVector<double>* params)
+    double MarchTorus::ObjectFcn(const qbVector3<double>* p, const qbVector3<double>* params)
     {
-        qbVector center = std::vector{0.0, 0.0, 0.0};
+        qbVector3 center = std::vector{0.0, 0.0, 0.0};
         return SDF::Torus(*p, center, *params);
     }
 

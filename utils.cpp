@@ -6,9 +6,9 @@
 
 namespace qbRT::Utils
 {
-    void PrintVector(const qbVector<double>& vec)
+    void PrintVector(const qbVector3<double>& vec)
     {
-        for (int i = 0; i < vec.GetNumDims(); i++)
+        for (int i = 0; i < 3; i++)
         {
             std::cout << vec.GetElement(i) << " ";
         }

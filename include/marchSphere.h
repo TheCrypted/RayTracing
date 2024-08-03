@@ -16,7 +16,7 @@ namespace qbRT::RM
             ~MarchSphere() override;
 
         private:
-            double ObjectFcn(const qbVector<double>* p, const qbVector<double>* params);
+            double ObjectFcn(const qbVector3<double>* p, const qbVector3<double>* params);
 
     };
 }

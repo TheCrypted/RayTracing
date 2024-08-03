@@ -7,6 +7,8 @@
 
 #include <memory>
 #include "qbLinAlg/qbVector.h"
+#include "qbLinAlg/qbVector2.hpp"
+#include "qbLinAlg/qbVector3.hpp"
 
 
 namespace qbRT
@@ -16,18 +18,18 @@ namespace qbRT
     namespace Data
     {
         struct HitData {
-            qbVector<double> intPoint{3};
-            qbVector<double> localNormal{3};
-            qbVector<double> localColor{3};
-            qbVector<double> localIntPoint{3};
-            qbVector<double> uvCoords{2};
+            qbVector3<double> intPoint;
+            qbVector3<double> localNormal;
+            qbVector3<double> localColor;
+            qbVector3<double> localIntPoint;
+            qbVector2<double> uvCoords;
             std::shared_ptr<Object> hitObject;
         };
     }
 
     namespace Utils
     {
-        void PrintVector(const qbVector<double>& vec);
+        void PrintVector(const qbVector3<double>& vec);
     }
 }
 

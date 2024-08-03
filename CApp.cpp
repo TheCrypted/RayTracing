@@ -82,9 +82,9 @@ void CApp::OnExit()
     SDL_Quit();
 }
 
-void CApp::printVec(const qbVector<double> &vector)
+void CApp::printVec(const qbVector3<double> &vector)
 {
-    for (int i = 0; i < vector.GetNumDims(); i++)
+    for (int i = 0; i < 3; i++)
     {
         std::cout << std::fixed << std::setprecision(3) << vector.GetElement(i) << " ";
     }

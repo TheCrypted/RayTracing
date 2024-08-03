@@ -20,24 +20,24 @@ namespace qbRT::RM
 
         bool TestIntersections(const Ray& ray, Data::HitData& hitData) override;
 
-        void SetObjectFunction(std::function<double(qbVector<double>*, qbVector<double>*)> objFunc);
-        double EvaluateSDF(qbVector<double>* location, qbVector<double>* params);
+        void SetObjectFunction(std::function<double(qbVector3<double>*, qbVector3<double>*)> objFunc);
+        double EvaluateSDF(qbVector3<double>* location, qbVector3<double>* params);
 
         public:
             ObjCube boundingBox = ObjCube();
-            qbVector<double> params{3};
+            qbVector3<double> params;
 
         private:
-            std::function<double(qbVector<double>*, qbVector<double>*)> objectFunction;
+            std::function<double(qbVector3<double>*, qbVector3<double>*)> objectFunction;
 
             bool hasObjectFunction = false;
             double epsilon;
             int maxIterations;
 
             const double m_h = 0.001;
-            qbVector<double> m_xDisp {std::vector{m_h, 0.0, 0.0}};
-            qbVector<double> m_yDisp {std::vector{0.0, m_h, 0.0}};
-            qbVector<double> m_zDisp {std::vector{0.0, 0.0, m_h}};
+            qbVector3<double> m_xDisp {m_h, 0.0, 0.0};
+            qbVector3<double> m_yDisp {0.0, m_h, 0.0};
+            qbVector3<double> m_zDisp {0.0, 0.0, m_h};
     };
 }
 

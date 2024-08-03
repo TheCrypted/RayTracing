@@ -23,7 +23,7 @@ namespace qbRT::TextureBase
         return 0.0;
     }
 
-    void Texture::SetTransform(const qbVector3<double>& translation, const double &rotation, const qbVector3<double>& scale)
+    void Texture::SetTransform(const qbVector2<double>& translation, const double &rotation, const qbVector2<double>& scale)
     {
         qbMatrix33 transMat{std::vector{1.0, 0.0, translation.GetElement(0),
             0.0, 1.0, translation.GetElement(1),

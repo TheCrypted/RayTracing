@@ -18,9 +18,9 @@ qbImage::~qbImage()
 
 void qbImage::Initialize(const int xSize, const int ySize, SDL_Renderer *renderer)
 {
-    m_rChannel.resize(xSize, std::vector<double>(ySize, 0.0));
-    m_gChannel.resize(xSize, std::vector<double>(ySize, 0.0));
-    m_bChannel.resize(xSize, std::vector<double>(ySize, 0.0));
+    m_rChannel.resize(xSize, std::vector(ySize, 0.0));
+    m_gChannel.resize(xSize, std::vector(ySize, 0.0));
+    m_bChannel.resize(xSize, std::vector(ySize, 0.0));
 
     m_xSize = xSize;
     m_ySize = ySize;

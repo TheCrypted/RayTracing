@@ -22,7 +22,7 @@ class CApp
         void OnRender();
         void OnExit();
     private:
-        static void printVec(const qbVector<double> &vector);
+        static void printVec(const qbVector3<double> &vector);
 
     private:
         qbImage image;

@@ -21,8 +21,8 @@ namespace qbRT::TextureBase
 
             virtual qbVector4<double> GetColor(const qbVector2<double> &coords);
             virtual double GetValue(const qbVector2<double> &coords);
-            void SetTransform(const qbVector3<double> &translation, const double &rotation,
-                const qbVector3<double> &scale);
+            void SetTransform(const qbVector2<double> &translation, const double &rotation,
+                const qbVector2<double> &scale);
 
             qbVector2<double> ApplyTransform(const qbVector2<double> &vec);
 

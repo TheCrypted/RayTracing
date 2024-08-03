@@ -6,20 +6,21 @@
 #define RAY_H
 
 #include "./qbLinAlg/qbVector.h"
+#include "./qbLinAlg/qbVector3.hpp"
 
 namespace qbRT
 {
     class Ray {
         public:
             Ray();
-            Ray(const qbVector<double> &point1, const qbVector<double> &point2);
+            Ray(const qbVector3<double> &point1, const qbVector3<double> &point2);
 
-            [[nodiscard]] qbVector<double> GetPoint1() const;
-            [[nodiscard]] qbVector<double> GetPoint2() const;
+            [[nodiscard]] qbVector3<double> GetPoint1() const;
+            [[nodiscard]] qbVector3<double> GetPoint2() const;
         public:
-            qbVector<double> m_point1 {3};
-            qbVector<double> m_point2 {3};
-            qbVector<double> m_lab {3};
+            qbVector3<double> m_point1;
+            qbVector3<double> m_point2;
+            qbVector3<double> m_lab;
 
     };
 }

@@ -5,7 +5,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "./qbLinAlg/qbVector.h"
+#include "./qbLinAlg/qbVector3.hpp"
 #include "ray.h"
 #include <cmath>
 
@@ -17,17 +17,17 @@ namespace qbRT
         Camera();
 
         //Setters for camera parameters
-        void set_camera_position(const qbVector<double>& camera_position)
+        void set_camera_position(const qbVector3<double>& camera_position)
         {
             cameraPosition = camera_position;
         }
 
-        void set_camera_look_at(const qbVector<double>& camera_look_at)
+        void set_camera_look_at(const qbVector3<double>& camera_look_at)
         {
             cameraLookAt = camera_look_at;
         }
 
-        void set_camera_up(const qbVector<double>& camera_up)
+        void set_camera_up(const qbVector3<double>& camera_up)
         {
             cameraUp = camera_up;
         }
@@ -49,17 +49,17 @@ namespace qbRT
 
 
         // Getters for camera parameters
-        [[nodiscard]] qbVector<double> camera_position() const
+        [[nodiscard]] qbVector3<double> camera_position() const
         {
             return cameraPosition;
         }
 
-        [[nodiscard]] qbVector<double> camera_look_at() const
+        [[nodiscard]] qbVector3<double> camera_look_at() const
         {
             return cameraLookAt;
         }
 
-        [[nodiscard]] qbVector<double> camera_up() const
+        [[nodiscard]] qbVector3<double> camera_up() const
         {
             return cameraUp;
         }
@@ -79,22 +79,22 @@ namespace qbRT
             return cameraAspRatio;
         }
 
-        [[nodiscard]] qbVector<double> alignment_vector() const
+        [[nodiscard]] qbVector3<double> alignment_vector() const
         {
             return alignmentVector;
         }
 
-        [[nodiscard]] qbVector<double> screen_u() const
+        [[nodiscard]] qbVector3<double> screen_u() const
         {
             return screenU;
         }
 
-        [[nodiscard]] qbVector<double> screen_v() const
+        [[nodiscard]] qbVector3<double> screen_v() const
         {
             return screenV;
         }
 
-        [[nodiscard]] qbVector<double> screen_centre() const
+        [[nodiscard]] qbVector3<double> screen_centre() const
         {
             return screenCentre;
         }
@@ -106,17 +106,17 @@ namespace qbRT
         void UpdateCameraGeometry();
 
     private:
-        qbVector<double> cameraPosition;
-        qbVector<double> cameraLookAt;
-        qbVector<double> cameraUp;
+        qbVector3<double> cameraPosition;
+        qbVector3<double> cameraLookAt;
+        qbVector3<double> cameraUp;
         double cameraLen;
         double cameraHorLen;
         double cameraAspRatio;
 
-        qbVector<double> alignmentVector;
-        qbVector<double> screenU;
-        qbVector<double> screenV;
-        qbVector<double> screenCentre;
+        qbVector3<double> alignmentVector;
+        qbVector3<double> screenU;
+        qbVector3<double> screenV;
+        qbVector3<double> screenCentre;
     };
 }
 
