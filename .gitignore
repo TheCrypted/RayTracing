@@ -1,0 +1,36 @@
+# Build directories
+build/
+Debug/
+Release/
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Compiled executables
+*.exe
+RayTracing
+RayTracing.exe
+
+# Object files
+*.o
+*.obj
+
+# Libraries
+*.a
+*.lib
+
+# Dependencies (to be cloned manually)
+include/qbLinAlg/
+
+# IDEs
+.vscode/
+*.vcxproj*
+*.sln
+*.suo
+
+# OS specific
+.DS_Store
+Thumbs.db
